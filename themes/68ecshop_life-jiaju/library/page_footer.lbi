@@ -1,0 +1,65 @@
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="footer_bg"><img class="imggs" src="themes/68ecshop_life-jiaju/images/footer_bg.png"/>
+	<div class="footer_position">
+    	<img class="imgs" src="../images/footer_logo.png">
+        <p class="footer_text">LifeVC，一个源自欧洲生活灵感的家居品牌，始终坚持品质和舒适实用的设计精神。很多人都会把它的产品，和欧洲清新、健康的生活方式联系在一起。LifeVC的设计师们每天都在倾听各种家庭的需求：从租借了30平米的职场新人，到即将迎接宝宝的幸福夫妻；从正搏击事业的单身白领，到与之偕老的金婚伴侣。无论是日用家居，还是家具家纺，LifeVC希望我们舒适实用的产品，陪你一起走过，人生的每一个美好时刻。人生很短、家最重要，LifeVC，陪你生活一辈子！
+
+</p>
+    </div>
+</div>
+<DIV class=footer>
+<DIV class=helper>
+
+<DIV class="copyright">
+<DIV class=cr_box>
+<P>
+  <!-- {if $navigator_list.bottom} --> 
+  
+  <!-- {foreach name=nav_bottom_list from=$navigator_list.bottom item=nav} --> 
+  <a href="{$nav.url}" <!-- {if $nav.opennew eq 1} --> target="_blank" <!-- {/if} -->>{$nav.name}</a> 
+  <!-- {if !$smarty.foreach.nav_bottom_list.last} --> 
+  | 
+  <!-- {/if} --> 
+  <!-- {/foreach} -->
+
+  <!-- {/if} --> 
+</P>
+<DIV id=copyright_box>
+  {$copyright}
+  {$shop_address} {$shop_postcode} 
+  <!-- 客服电话{if $service_phone} --> 
+  Tel: {$service_phone} 
+  <!-- 结束客服电话{/if} --> 
+  <!-- 邮件{if $service_email} --> 
+  E-mail: {$service_email}<br />
+  <!-- 结束邮件{/if} --> 
+  <!-- QQ 号码 {foreach from=$qq item=im} --> 
+  <!-- {if $im} --> 
+  <a href="http://wpa.qq.com/msgrd?V=1&amp;Uin={$im}&amp;Site={$shop_name}&amp;Menu=yes" target="_blank"></a> 
+  <!-- {/if} --> <!-- {/foreach} 结束QQ号码 --><a href="http://www.68ecshop.com" style="display:none;">68ECSHOP模版中心</a><!-- 淘宝旺旺 {foreach from=$ww item=im} --> <!-- {if $im} --> <a href="http://amos1.taobao.com/msg.ww?v=2&uid={$im|escape:u8_url}&s=2" target="_blank"></a> 
+  <!-- {/if} --> 
+  <!--{/foreach} 结束淘宝旺旺 --> 
+  <!-- Yahoo Messenger {foreach from=$ym item=im} --> 
+  <!-- {if $im} --> 
+  <a href="http://edit.yahoo.com/config/send_webmesg?.target={$im}n&.src=pg" target="_blank"><img src="../images/yahoo.gif" width="18" height="17" border="0" alt="Yahoo Messenger" /> {$im}</a> 
+  <!-- {/if} --> 
+  <!-- {/foreach} 结束Yahoo Messenger --> 
+  <!-- MSN Messenger {foreach from=$msn item=im} --> 
+  <!-- {if $im} --> 
+  <img src="../images/msn.gif" width="18" height="17" border="0" alt="MSN" /> <a href="msnim:chat?contact={$im}">{$im}</a> 
+  <!-- {/if} --> 
+  <!-- {/foreach} 结束MSN Messenger --> 
+  <!-- Skype {foreach from=$skype item=im} --> 
+  <!-- {if $im} --> 
+  <img src="http://mystatus.skype.com/smallclassic/{$im|escape:url}" alt="Skype" /><a href="skype:{$im|escape:url}?call">{$im}</a> 
+  <!-- {/if} --> 
+  <!-- {/foreach} --><br />
+  <div id="footer_ban">
+  <a href="http://www.68ecshop.com" target="_blank">  <img src="images/footer.jpg" alt="68ecshop版权所有" /></a>
+  </div>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+<script type="text/javascript" src="themes/68ecshop_life-jiaju/js/chat.float.min.js"></script>

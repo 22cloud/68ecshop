@@ -1,0 +1,22 @@
+imgUrl1="data/afficheimg/20140916hhftrf.jpg";
+imgtext1="";
+imgLink1=escape("http://www.68ecshop.com/ecshop_topic/szy_ecshop/");
+imgUrl2="data/afficheimg/20140916hdiuvi.jpg";
+imgtext2="";
+imgLink2=escape("http://www.68ecshop.com/ecshop_topic/szy_ecshop/index_dsh.html");
+imgUrl3="data/afficheimg/20140916pinrnx.jpg";
+imgtext3="";
+imgLink3=escape("http://www.68ecshop.com/ecshop_topic/xjd/");
+imgUrl4="data/afficheimg/20140916rznzzn.jpg";
+imgtext4="";
+imgLink4=escape("http://www.68ecshop.com/vecshop.html");
+imgUrl5="data/afficheimg/20140917mwppnq.jpg";
+imgtext5="";
+imgLink5=escape("http://www.68ecshop.com/ecshop_topic/ecshop_about/");
+imgUrl6="data/afficheimg/20140917ivzntq.jpg";
+imgtext6="";
+imgLink6=escape("http://www.68ecshop.com/ecshop_topic/case/");
+
+var pics=imgUrl1+"|"+imgUrl2+"|"+imgUrl3+"|"+imgUrl4+"|"+imgUrl5+"|"+imgUrl6;
+var links=imgLink1+"|"+imgLink2+"|"+imgLink3+"|"+imgLink4+"|"+imgLink5+"|"+imgLink6;
+var texts=imgtext1+"|"+imgtext2+"|"+imgtext3+"|"+imgtext4+"|"+imgtext5+"|"+imgtext6;

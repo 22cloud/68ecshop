@@ -1,0 +1,22 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--{if $top_goods}-->
+	
+
+<div class="mod1 mod2 blank bg" id="topbox" style="border:none;" >
+	<h1 class="left_title" style=" height:25px; line-height:25px; color:#fff; background:#333; font-weight:normal; border:0; font-family:'Microsoft YaHei';">{$lang.top10}</h1>
+	 <ul id="top10" style="border:1px solid #ccc; margin-top:5px;">
+		 <!-- {foreach name=top_goods from=$top_goods item=goods}-->
+		  <li style="overflow:hidden;">
+			 <div class="first" {if $smarty.foreach.top_goods.last} style="border-bottom:0;"{/if} style="height:auto;">
+			  <div>
+				<!--<font style="color:#DD0000; font-weight:bold">{$smarty.foreach.top_goods.iteration}.</font>--> <a href="{$goods.url}" title="{$goods.name|escape:html}"  style="line-height:26px;"><img src="{$goods.goods_thumb}" alt="{$goods.goods_name}" width="237" height="237" /><b class="fr f1">{$goods.price}</b>{$goods.short_name|truncate:15}</a>
+                </div>
+				<div></div>
+			 </div>
+			 
+			</li>
+		 <!--{/foreach} -->	
+		 </ul>
+</div>
+
+<!--{/if}-->

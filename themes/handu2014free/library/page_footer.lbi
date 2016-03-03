@@ -1,0 +1,66 @@
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<DIV class=footer>
+<DIV class=helper>
+
+<DIV class=hl_lnk>
+<DIV class=hll_lf>
+<UL>
+   <!-- {foreach from=$helps item=help_cat name=helps } -->
+  <LI>
+  <P>{$help_cat.cat_name}</P>
+  <!-- {foreach from=$help_cat.article item=item} -->
+  <a href="{$item.url}" target="_blank" title="{$item.title|escape:html}">{$item.short_title}</a><BR>
+ <!-- {/foreach} --> 
+  </LI>
+  <!-- {/foreach} --> 
+</UL></DIV>
+</DIV>
+<DIV class=hl_inr>
+</DIV>
+</DIV>
+<!--{if $img_links  or $txt_links }-->
+
+<!-- {/if} -->
+
+<DIV class=copyright>
+<DIV class=cr_box>
+<P style="background:#393939; height:30px; line-height:30px; margin:5px 0;">
+  <!-- {if $navigator_list.bottom} --> 
+  
+  <!-- {foreach name=nav_bottom_list from=$navigator_list.bottom item=nav} --> 
+  &nbsp;&nbsp;<a href="{$nav.url}" <!-- {if $nav.opennew eq 1} --> target="_blank" <!-- {/if} -->>{$nav.name}</a>&nbsp;&nbsp; 
+  <!-- {if !$smarty.foreach.nav_bottom_list.last} --> 
+  | 
+  <!-- {/if} --> 
+  <!-- {/foreach} -->
+
+  <!-- {/if} --> 
+</P>
+<DIV id="copyright_box" style=" line-height:38px; padding:10px 0;">
+	<span>Copyright © 2005-2014 ECSHOP 版权所有，并保留所有权利。</span>
+    <div>
+    	<img src="../images/zxmbutton02_sy.jpg" width="114" height="38">
+    	<a href="#" target="_blank"><img src="../images/zxmbutton05_sy.jpg" width="103" height="38"></a>
+        <a href="#" target="_blank"><img src="../images/cnnic.png" width="110" height="38"></a>
+        <a href="#" target="_blank"><img src="../images/bottom_small_img.png" width="106" height="38"></a>
+    </div>
+    <div id="friendlink_box">
+    	<span style=" float:left; width:60px; color:#000;">友情链接：</span>
+    	<div style="width:1150px; position:relative;float:left;margin-top: 1px; height:30px; line-height:30px;"> 
+      		<ul class="friendlink" >
+                <li><a href="http://www.hznzcn.com/" target="_blank">女装批发网</a></li>
+                <li><a href="http://www.liebo.com" target="_blank">裂帛女装</a></li>
+                <li><a href="http://www.36588.com.cn/" target="_blank">世纪开元创意礼物</a></li>
+                <li><a href="http://www.17ugo.com/" target="_blank">优购物官网</a></li>
+                <li><a href="http://www.sjq.cn" target="_blank">四季青服装网</a></li>
+                <li><a href="http://www.quanlaoda.com/" target="_blank">优惠券</a></li>
+                <li><a href="http://www.wbiao.cn" target="_blank">手表品牌大全</a></li>
+                <li><a href="http://www.pfwang.com/" target="_blank">服装批发网</a></li>
+                <li><a href="http://www.zhigou.com" target="_blank">网上购物</a></li>
+            </ul>
+    	</div>
+  	</div>
+</div>
+</DIV>
+</DIV>
+<script type="text/javascript" src="themes/handu2014free/js/chat.float.min.js"></script>

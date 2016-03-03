@@ -1,0 +1,157 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+var process_request = "{$lang.process_request}";
+</script>
+<script language="javascript"> 
+<!--
+function killerrors() { 
+return true; 
+} 
+window.onerror = killerrors; 
+//-->
+</script>
+<script type="text/javascript">
+var process_request = "{$lang.process_request}";
+var btn_buy = "{$lang.btn_buy}";
+var is_cancel = "{$lang.is_cancel}";
+var select_spe = "{$lang.select_spe}";
+</script>
+
+<div class="page-header ">
+<div class="top_menu clearfix">
+      <div class="top_nav fl"> 
+      	<span class="current1 fl"><a target="_blank" href="http://www.68ecshop.com" style="color:#f03;"><strong>返回首页</strong></a></span>
+        <span class="current1 fl"><a target="_blank" href="javascript:;">收藏网站</a></span>
+      </div>
+      <div class="top_nav fr"> {insert_scripts files='transport.js,utils.js'} <font id="ECS_MEMBERZONE" > {* ECSHOP 提醒您：根据用户id来调用member_info.lbi显示不同的界面  *}{insert name='member_info'}</font> 
+        <!--{if $navigator_list.top}--> 
+        <!-- {foreach name=nav_top_list from=$navigator_list.top item=nav} --><span class="linetop">|</span><a href="{$nav.url}" <!-- {if $nav.opennew eq 1} --> target="_blank" <!-- {/if} -->>{$nav.name}</a><!-- {/foreach} --><!-- {/if} --> 
+        <span class="linetop">|</span><a href="#" target="_blank">手机端</a>
+        <span class="linetop">|</span><a href="#" target="_blank">在线客服</a>
+        <span class="linetop">|</span><a href="#" target="_blank">帮助中心</a>
+        <span class="linetop">|</span><a href="#" target="_blank">网站导航</a>
+      </div>
+    </div>
+</div>
+<DIV class=zt_header_box>
+<DIV style="HEIGHT: 70px" class="zt_header_sign">
+<img class="fav_dis" title="" style=" float:right;" src="images/icon.png" width="228" height="44" alt="正品保证，无理由退换货">
+<A class="zt_header_logo" href="./"></A>
+<DIV style="Z-INDEX: 9999" class=zt_header_search>
+<DIV 
+style="Z-INDEX: 1; POSITION: relative; MARGIN: -22px 0px 0px -37px; WIDTH: 540px; HEIGHT: 70px"></DIV><!--搜索框外框-->
+<DIV style="Z-INDEX: 2; POSITION: relative; MARGIN: -41px 0px 0px" 
+class=zt_header_search_bg>
+<form id="searchForm" name="searchForm" method="get" action="search.php" onSubmit="return checkSearchForm()">
+<INPUT name="keywords" type="text" class="zt_header_search_input" id="keyword" value="请输入关键词" onclick="javascript:this.value='';"> 
+<INPUT style="FILTER: alpha(opacity=100); BACKGROUND:#C80A28; opacity:1" name="btsearch" type="submit" id="btsearch" value="搜索" class="zt_header_search_btn" > 
+ </form>
+<DIV class=clear></DIV></DIV>
+<P style="Z-INDEX: 3; POSITION: relative" class=zt_header_search_hot>
+{if $searchkeywords}
+{foreach from=$searchkeywords item=val}
+<a href="search.php?keywords={$val|escape:url}" target="_blank">{$val}</a><span class="linetop" style="color:#666;">|</span>
+{/foreach}
+{/if}
+</P></DIV>
+<DIV class=clear></DIV>
+ </DIV>
+<div class="brand-logo">
+<div class="con">
+  <div class="brandColumn_s113">
+    <span></span>
+    <a id="a" href="#" target="_blank"></a>
+    <a id="b" href="#" target="_blank"></a>
+    <a id="c" href="#" target="_blank"></a>
+    <a id="d" href="#" target="_blank"></a>        
+    <a id="e" href="#" target="_blank"></a>
+    <a id="f" href="#" target="_blank"></a>
+    <!--<a id="f" href="http://sulv.handu.com/" target="_blank"></a>-->
+    <a id="g" href="#" target="_blank"></a>
+    <a id="h" href="#" target="_blank"></a>
+    <a id="i" href="#" target="_blank"></a>
+    <a id="j" href="#" target="_blank"></a>
+    <a id="k" href="#" target="_blank"></a>
+    <a id="l" href="#" target="_blank"></a>
+    <a id="m" href="#" target="_blank"></a>
+  </div>
+</div>
+</div>
+<DIV class=zt_header_nav_bg>
+
+<DIV class=zt_header_nav>
+<UL>
+<LI {if $navigator_list.config.index eq 1}class=nav_active {else} onMouseOver="this.className='nav_active'" onMouseOut="this.className=''"{/if}><A href="../index.php">{$lang.home}</A></LI>
+<!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav } --> 
+<LI {if $nav.active eq 1} class="nav_active"{else}onMouseOver="this.className='nav_active'" onMouseOut="this.className=''"{/if}><A href="{$nav.url}" {if $nav.opennew eq 1}target="_blank" {/if} title="{$nav.name}" >{$nav.name}</A></LI>
+<!-- {/foreach} -->
+<li class="news_nav" style="float:right;">
+	<a href="#" target="_blank"><b></b>韩都资讯</a>
+</li>
+<li class="club_nav" style="float:right;">
+	<a href="#" target="_blank"><b></b>会员俱乐部</a>
+</li>
+</UL>
+<UL class=clear></UL></DIV>
+</DIV>
+</DIV>
+
+<div class="blank" style="position:relative; width:1190px; margin:0 auto; z-index:99999;">
+
+<DIV class=fenlei_line >
+<DIV class="new_fenlei_box" onmouseover="showhide('block')" onmouseout="showhide('none')">
+    <DIV class=fenlei_list>
+      <DIV class=fenlei_tit>
+        <H3>{$lang.all_category}</H3>
+        <SPAN></SPAN></DIV>
+</DIV>
+<div id="category_tree" style="	top:33px;left:2px;">
+<div class="clearfix" > 
+<!--{foreach from=get_categories_tree(0) item=cat name=no}-->
+<div  class="dt" onMouseOver="sw_nav2({$smarty.foreach.no.iteration},1);" onMouseOut="sw_nav2({$smarty.foreach.no.iteration},0);">
+      <dl id="HandleLI2_{$smarty.foreach.no.iteration}" {if $smarty.foreach.no.last}style="border:none; padding-top:4px;"{/if}>
+        <dt> <a href="{$cat.url}"> {$cat.name|escape:html} </a> </dt>
+        <!--{foreach from=$cat.cat_id item=child name=name}--> 
+        <!--{if $smarty.foreach.name.iteration lt 7}-->
+        <dd> <a href="{$child.url}">{$child.name|escape:html}</a> </dd>
+        <!--{/if}--> 
+        <!--{/foreach}-->
+        <ul id=DisSub2_{$smarty.foreach.no.iteration} style="display:none">
+          <!--{foreach from=$cat.cat_id item=child name=childs}-->
+          <li {if $smarty.foreach.childs.last} style="border:none;"{/if} style="overflow:hidden;">
+            <div class="fenlei_con_tit"> <a class="over_2" href="{$child.url}">{$child.name|escape:html}</a></div>
+            <div class="fenlei_con_a_list"> 
+              <!--{foreach from=$child.cat_id item=childer}--> 
+              <a href="{$childer.url}" target="_blank">{$childer.name|escape:html}</a> |&nbsp; 
+              <!--{/foreach}--> 
+            </div>
+            <div class="clear"></div>
+          </li>
+          <!--{/foreach}-->
+        </ul>
+      </dl>
+    </div>
+    <!--{/foreach}--> 
+  </div>
+</div>
+</DIV>
+</DIV>
+</div>
+<script type="text/javascript">
+    {literal}
+    <!--
+    function checkSearchForm()
+    {
+        if(document.getElementById('keyword').value)
+        {
+            return true;
+        }
+        else
+        {
+            alert("{$lang.no_keywords}");
+            return false;
+        }
+    }
+    -->
+    {/literal}
+</script>
