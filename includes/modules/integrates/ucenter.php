@@ -124,7 +124,7 @@ class ucenter extends integrate
      *
      * @return void
      */
-    function login($username, $password)
+    function login($username, $password, $remember = NULL)
     {
         list($uid, $uname, $pwd, $email, $repeat) = uc_call("uc_user_login", array($username, $password));
         $uname = addslashes($uname);
