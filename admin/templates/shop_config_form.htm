@@ -31,12 +31,12 @@
             {if $var.code eq 'retain_original_img' and $opt eq 0}
               onclick="return confirm('{$lang.retain_original_confirm}');"
             {/if}
-          />{$var.display_options[$k]}</label>
+          />{$var.display_options.$k}</label>
           {/foreach}
 
           {elseif $var.type eq "options"}
           <select name="value[{$var.id}]" id="value_{$var.id}_{$key}">
-            {html_options options=$lang.cfg_range[$var.code] selected=$var.value}
+            {html_options options=$lang.cfg_range.$var.code selected=$var.value}
           </select>
 
           {elseif $var.type eq "file"}
