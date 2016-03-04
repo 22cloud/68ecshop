@@ -207,7 +207,7 @@ class ucenter extends integrate
     }
 
     /*添加用户*/
-    function add_user($username, $password, $email)
+    function add_user($username, $password, $email, $gender = -1, $bday = 0, $reg_date = 0, $md5password = '')
     {
         /* 检测用户名 */
         if ($this->check_user($username))
@@ -458,7 +458,7 @@ class ucenter extends integrate
      *
      * @return void
      */
-    function set_cookie($username='')
+    function set_cookie($username='', $remember = NULL)
     {
         if (empty($username))
         {
