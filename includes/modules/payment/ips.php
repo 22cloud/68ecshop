@@ -66,6 +66,12 @@ if (isset($set_modules) && $set_modules == TRUE)
 
 class ips
 {
+
+    function __construct()
+    {
+        $this->ips();
+    }
+    
    /**
     * 构造函数
     *
@@ -77,11 +83,6 @@ class ips
     function ips()
     {
 
-    }
-
-    function __construct()
-    {
-        $this->ips();
     }
 
     /**
