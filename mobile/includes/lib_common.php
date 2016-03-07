@@ -2278,7 +2278,7 @@ function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $s
     {
         foreach ($price_list as $value)
         {
-            if ($goods_num >= $value['number'])
+            if ($goods_num == $value['number'])
             {
                 $volume_price = $value['price'];
             }
