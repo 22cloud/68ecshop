@@ -1165,6 +1165,9 @@ height:150px; background:url(images/brandsbg1.gif) repeat-x 0 0; border:#09F sol
 	font-size: 12px;
 	color: #999;
 }
+.Goodpromotion {
+    min-width: 220px;
+}
 .Goodpromotion .goodspice {
 	color: #999;
 	font-size: 12px;
