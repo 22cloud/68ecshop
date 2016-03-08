@@ -2197,7 +2197,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
                 unserialize($shipping['configure']), $total['weight'], $total['amount'], $total['number']);
             $shipping_list[$key]['shipping_fee'] = $shipping_fee;
             $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee);
-            $shipping_list[$key]['free_money'] = price_format($shipping['configure']['free_money']);
+            $shipping_list[$key]['free_money'] = isset($shipping['configure']['free_money']) ? price_format($shipping['configure']['free_money']) : price_format(0.00);
         }
         $smarty->assign('shipping_list', $shipping_list);
     }
