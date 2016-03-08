@@ -778,6 +778,29 @@ function get_group_goods($goods_id)
 }
 
 /**
+ * 获得指定商品的买送 的结果商品
+ *
+ * @access  public
+ * @param   integer $goods_id
+ * @return  array
+ */
+function get_goods_buysend($goods_id)
+{
+    $sql = "SELECT gg.goods_id, CONCAT(g.goods_name, ' -- [', gg.goods_price, ']') AS goods_name " .
+            "FROM " . $GLOBALS['ecs']->table('goods_buysend') . " AS gg, " .
+                $GLOBALS['ecs']->table('goods') . " AS g " .
+            "WHERE gg.parent_id = '$goods_id' " .
+            "AND gg.goods_id = g.goods_id ";
+    if ($goods_id == 0)
+    {
+        $sql .= " AND gg.admin_id = '$_SESSION[admin_id]'";
+    }
+    $row = $GLOBALS['db']->getAll($sql);
+
+    return $row;
+}
+
+/**
  * 获得商品的关联文章
  *
  * @access  public

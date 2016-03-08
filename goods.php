@@ -233,7 +233,8 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
         $smarty->assign('attribute_linked',    get_same_attribute_goods($properties));           // 相同属性的关联商品
         $smarty->assign('related_goods',       $linked_goods);                                   // 关联商品
         $smarty->assign('goods_article_list',  get_linked_articles($goods_id));                  // 关联文章
-        $smarty->assign('fittings',            get_goods_fittings(array($goods_id)));                   // 配件
+        $smarty->assign('fittings',            get_goods_fittings(array($goods_id)));            // 配件
+        $smarty->assign('goods_buysends',      get_goods_buysends(array($goods_id)));            // 买送的结果商品
         $smarty->assign('rank_prices',         get_user_rank_prices($goods_id, $shop_price));    // 会员等级价格
         $smarty->assign('pictures',            get_goods_gallery($goods_id));                    // 商品相册
         $smarty->assign('bought_goods',        get_also_bought($goods_id));                      // 购买了该商品的用户还购买了哪些商品
@@ -250,6 +251,10 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
         assign_dynamic('goods');
         $volume_price_list = get_volume_price_list($goods['goods_id'], '1');
         $smarty->assign('volume_price_list',$volume_price_list);    // 商品优惠价格区间
+
+        // 买送优惠
+        $_LANG['buy_send'] = sprintf($_LANG['buy_send'],$goods['buy_number'] , $goods['send_number']);
+        $smarty->assign('lang',$_LANG); // 将重定义的 买送语言项 加载
     }
 }
 

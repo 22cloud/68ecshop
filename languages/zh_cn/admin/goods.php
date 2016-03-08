@@ -124,6 +124,15 @@ $_LANG['lab_goods_type'] = '商品类型：';
 $_LANG['lab_picture_url'] = '商品图片外部URL';
 $_LANG['lab_thumb_url'] = '商品缩略图外部URL';
 
+/* 新增语言项 start */
+$_LANG['tab_buysend'] = '买送';
+$_LANG['goods_buysend'] = '该商品的买送结果商品';
+$_LANG['lab_buy_number'] = '买送的数量条件：';
+$_LANG['lab_send_number'] = '买送的数量结果：';
+$_LANG['notice_buy_number'] = '买送的数量条件；例如：买二送一，此处填写2。';
+$_LANG['notice_send_number'] = '买送的数量结果；例如：买二送一，此处填写1。';
+/* 新增语言项 end */
+
 $_LANG['lab_goods_weight'] = '商品重量：';
 $_LANG['unit_g'] = '克';
 $_LANG['unit_kg'] = '千克';

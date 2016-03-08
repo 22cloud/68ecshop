@@ -263,6 +263,18 @@
 			<!-- {/if} -->
 			<!-- {/foreach} -->
 			<!-- {* 结束循环可选属性 *} -->
+
+			<!-- 买送 信息 显示 -->
+			<!-- {if $goods.buy_number gt 0 && $goods.send_number gt 0} -->
+			<font class="a">{$lang.buy_send}：</font><br />
+			<!-- {if !empty($goods_buysends)} -->
+			<ul>
+			<!-- {foreach from=$goods_buysends item=value key=key} -->
+				<li><a href="{$value.url}" style="font-size:12px;" target="_blank" >{$value.goods_name} -- {$value.fittings_price}</a></li>
+			<!-- {/foreach} -->
+			</ul>
+			<!-- {/if} -->
+			<!-- {/if} -->
 			</div>
             <div class="Goodpromotion">
             

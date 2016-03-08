@@ -1476,6 +1476,51 @@ function get_goods_fittings($goods_list = array())
 }
 
 /**
+ * 获得购物车中商品的买送商品
+ *
+ * @access  public
+ * @param   array     $goods_list
+ * @return  array
+ */
+function get_goods_buysends($goods_list = array())
+{
+    $temp_index = 0;
+    $arr        = array();
+
+    $sql = 'SELECT gg.parent_id, ggg.goods_name AS parent_name, gg.goods_id, gg.goods_price, g.goods_name, g.goods_thumb, g.goods_img, g.shop_price AS org_price, ' .
+                "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price ".
+            'FROM ' . $GLOBALS['ecs']->table('goods_buysend') . ' AS gg ' .
+            'LEFT JOIN ' . $GLOBALS['ecs']->table('goods') . 'AS g ON g.goods_id = gg.goods_id ' .
+            "LEFT JOIN " . $GLOBALS['ecs']->table('member_price') . " AS mp ".
+                    "ON mp.goods_id = gg.goods_id AND mp.user_rank = '$_SESSION[user_rank]' ".
+            "LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS ggg ON ggg.goods_id = gg.parent_id ".
+            "WHERE gg.parent_id " . db_create_in($goods_list) . " AND g.is_delete = 0 AND g.is_on_sale = 1 ".
+            "ORDER BY gg.parent_id, gg.goods_id";
+
+    $res = $GLOBALS['db']->query($sql);
+
+    while ($row = $GLOBALS['db']->fetchRow($res))
+    {
+        $arr[$temp_index]['parent_id']         = $row['parent_id'];//买送结果商品的基本件ID
+        $arr[$temp_index]['parent_name']       = $row['parent_name'];//买送结果商品的基本件的名称
+        $arr[$temp_index]['parent_short_name'] = $GLOBALS['_CFG']['goods_name_length'] > 0 ?
+            sub_str($row['parent_name'], $GLOBALS['_CFG']['goods_name_length']) : $row['parent_name'];//买送结果商品的基本件显示的名称
+        $arr[$temp_index]['goods_id']          = $row['goods_id'];//买送结果商品的商品ID
+        $arr[$temp_index]['goods_name']        = $row['goods_name'];//买送结果商品的名称
+        $arr[$temp_index]['short_name']        = $GLOBALS['_CFG']['goods_name_length'] > 0 ?
+            sub_str($row['goods_name'], $GLOBALS['_CFG']['goods_name_length']) : $row['goods_name'];//买送结果商品显示的名称
+        $arr[$temp_index]['fittings_price']    = price_format($row['goods_price']);//买送结果商品价格
+        $arr[$temp_index]['shop_price']        = price_format($row['shop_price']);//买送结果商品原价格
+        $arr[$temp_index]['goods_thumb']       = get_image_path($row['goods_id'], $row['goods_thumb'], true);
+        $arr[$temp_index]['goods_img']         = get_image_path($row['goods_id'], $row['goods_img']);
+        $arr[$temp_index]['url']               = build_uri('goods', array('gid'=>$row['goods_id']), $row['goods_name']);
+        $temp_index ++;
+    }
+
+    return $arr;
+}
+
+/**
  * 取指定规格的货品信息
  *
  * @access      public

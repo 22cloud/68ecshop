@@ -140,6 +140,9 @@ $_LANG['volume_price'] = '购买商品达到以下数量区间时可享受的优
 $_LANG['number_to'] = '数量';
 $_LANG['article_list'] = '文章列表';
 
+/* 商品详情 买送 语言项 */
+$_LANG['buy_send'] = '买%s送%s 优惠';
+
 
 /* 商品比较JS语言项 */
 $_LANG['compare_js']['button_compare'] = '比较选定商品';
