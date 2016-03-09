@@ -394,6 +394,34 @@ var flow_no_shipping = "{$lang.flow_no_shipping}";
 		<!-- {/if} -->
 	</table>
 
+<!-- {if $goods_buysends} -->
+<div class="goodsTitle clearfix" style="background:#f6f6f6; border:#E3E3E3 solid 1px; border-bottom:none;">
+<span class="fl">{$lang.goods_buysend}</span>
+</div>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#e3e3e3" class="floatTable">
+		<tr>
+			<th bgcolor="#ffffff">{$lang.goods_name}</th>
+			<th bgcolor="#ffffff">{$lang.goods_attr}</th>
+			<th bgcolor="#ffffff">{$lang.send_number}</th>
+			<th bgcolor="#ffffff">{$lang.subtotal}</th>
+		</tr>
+		<!-- {foreach from=$goods_buysends item=goods} -->
+		<tr>
+			<td bgcolor="#ffffff">
+				<!-- {if $goods.goods_id gt 0} -->
+				<a href="goods.php?id={$goods.goods_id}" target="_blank">{$goods.goods_name}</a>
+					<!-- {if $goods.parent_id > 0} -->
+					<span style="color:#FF0000">（{$lang.largess}）</span>
+					<!-- {/if} -->
+			<!-- {/if} -->
+			</td>
+			<td bgcolor="#ffffff">{$goods.goods_attr|nl2br}</td>
+			<td bgcolor="#ffffff" align="center">{$goods.send_number}</td>
+			<td bgcolor="#ffffff" align="center"  class="price1">{$goods.formated_subtotal}</td>
+		</tr>
+		<!-- {/foreach} -->
+	</table>
+<!-- {/if} -->
 
 <div class="goodsTitle clearfix" style="background:#f6f6f6; border:#E3E3E3 solid 1px; border-bottom:none;">
 <span class="fl" >{$lang.consignee_info}</span><a href="flow.php?step=consignee" class="fr f1">{$lang.modify}</a>

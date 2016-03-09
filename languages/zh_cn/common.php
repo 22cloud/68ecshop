@@ -141,6 +141,8 @@ $_LANG['number_to'] = '数量';
 $_LANG['article_list'] = '文章列表';
 
 /* 商品详情 买送 语言项 */
+$_LANG['send_number'] = '赠送数量';
+$_LANG['goods_buysend'] = '买送赠送商品';
 $_LANG['buy_send'] = '买%s送%s 优惠';
 
 

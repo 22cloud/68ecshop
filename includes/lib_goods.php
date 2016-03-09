@@ -1482,7 +1482,7 @@ function get_goods_fittings($goods_list = array())
  * @param   array     $goods_list
  * @return  array
  */
-function get_goods_buysends($goods_list = array())
+function get_goods_buysends($goods_list = array(), $send_number_list = array())
 {
     $temp_index = 0;
     $arr        = array();
@@ -1514,6 +1514,9 @@ function get_goods_buysends($goods_list = array())
         $arr[$temp_index]['goods_thumb']       = get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $arr[$temp_index]['goods_img']         = get_image_path($row['goods_id'], $row['goods_img']);
         $arr[$temp_index]['url']               = build_uri('goods', array('gid'=>$row['goods_id']), $row['goods_name']);
+        if (!empty($send_number_list) && isset($send_number_list[$row['parent_id']])) {
+            $arr[$temp_index]['send_number']   = $send_number_list[$row['parent_id']];
+        }
         $temp_index ++;
     }
 

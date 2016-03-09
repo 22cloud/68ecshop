@@ -494,6 +494,24 @@ elseif ($_REQUEST['step'] == 'checkout')
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
     $smarty->assign('goods_list', $cart_goods);
 
+    /* 检查产品信息中是否 满足 买送条件的产品 */
+    $cart_buysend_goods = array();
+    $cart_buysend_goods_number = array();
+    foreach ($cart_goods as $key => $value) {
+        $item_buysend_info = array();
+        $item_goods_info = get_goods_info($value['goods_id']);
+        if ($value['goods_number'] == $item_goods_info['buy_number']) {
+            $item_buysend_info['goods_id'] = $value['goods_id'];
+            $item_buysend_info['goods_number'] = $item_goods_info['send_number'];
+
+            array_push($cart_buysend_goods, $item_buysend_info['goods_id']);
+            $cart_buysend_goods_number[$value['goods_id']] = $item_buysend_info['goods_number'];
+        }
+
+    }
+    $goods_buysends = get_goods_buysends($cart_buysend_goods, $cart_buysend_goods_number);
+    $smarty->assign('goods_buysends', $goods_buysends); // 买送结果商品信息 及 数量
+
     /* 对是否允许修改购物车赋值 */
     if ($flow_type != CART_GENERAL_GOODS || $_CFG['one_step_buy'] == '1')
     {
@@ -1660,6 +1678,36 @@ elseif ($_REQUEST['step'] == 'done')
             " FROM " .$ecs->table('cart') .
             " WHERE session_id = '".SESS_ID."' AND rec_type = '$flow_type'";
     $db->query($sql);
+    /* 验证 是否 有 买送 赠送的商品 */
+    $cart_buysend_goods = array();
+    $cart_buysend_goods_number = array();
+    foreach ($cart_goods as $key => $value) {
+        $item_buysend_info = array();
+        $item_goods_info = get_goods_info($value['goods_id']);
+        if ($value['goods_number'] == $item_goods_info['buy_number']) {
+            $item_buysend_info['goods_id'] = $value['goods_id'];
+            $item_buysend_info['goods_number'] = $item_goods_info['send_number'];
+
+            array_push($cart_buysend_goods, $item_buysend_info['goods_id']);
+            $cart_buysend_goods_number[$value['goods_id']] = $item_buysend_info['goods_number'];
+        }
+
+    }
+    $goods_buysends = get_goods_buysends($cart_buysend_goods, $cart_buysend_goods_number);
+    /* 写入 订单商品 */
+    /* 买送 赠送的商品 没有规格 */
+    foreach ($goods_buysends as $key => $value) {
+        $parent_item_goods_info = get_goods_info($value['parent_id']);
+        $item_goods_info = get_goods_info($value['goods_id']);
+        $sql = "INSERT INTO " . $ecs->table('order_goods') . " ( " .
+                "order_id, goods_id, goods_name, goods_sn, goods_number, market_price, ".
+                "goods_price, is_real, parent_id, is_gift) ".
+            " VALUES ('".$new_order_id."', '".$value['goods_id']."', '".$value['goods_name']."', '".$item_goods_info['goods_sn']."', ".
+            "'".$parent_item_goods_info['send_number']."', '".$item_goods_info['market_price']."', '".$item_goods_info['goods_price']."', ".
+            "'".$item_goods_info['is_real']."', '".$value['parent_id']."', 1 )";
+        $db->query($sql);
+    }
+
     /* 修改拍卖活动状态 */
     if ($order['extension_code']=='auction')
     {
