@@ -205,7 +205,7 @@
     {$lang.goods_brief}{$goods.goods_brief}<br />
     <!-- {/if} -->
     </li>
-    <li>
+    <li style="width: 200px;">
 
   
     <font class="market">{$lang.market_price}{$goods.market_price}</font><br />
@@ -216,6 +216,14 @@
     <font class="price">{$lang.shop_price}{$goods.shop_price}</font><br />
     <!--{/if}-->
     </li>
+
+    <!--{if $goods.gmt_end_time } 促销时间-->
+    <li>
+        <a style="font-size:12px;">
+        {$lang.residual_time} <font class="a leftTimeAll" time="{$goods.gmt_end_time}" id="leftTime_{$goods.goods_id}">{$lang.please_waiting}</font></a>
+    </li>
+    <!--{/if}-->
+
     <li class="action">
 		<a href="javascript:addToCart({$goods.goods_id})">购买</a> | 
 		<a href="javascript:collect({$goods.goods_id})">收藏</a> |  
@@ -232,7 +240,12 @@
            <div class="imgbox1"><a href="{$goods.url}"><img src="{$goods.goods_thumb}" alt="{$goods.goods_name}" /></a></div>
             <a href="{$goods.url}" title="{$goods.name|escape:html}" class="show68ecshop">{$goods.goods_name}</a><br />
               <p>{$lang.market_price}<font class="goodspice market">{$goods.market_price}</font></p>
-                 
+       
+        <!--{if $goods.gmt_end_time } 促销时间-->
+        <font style="font-size:12px;">
+        {$lang.residual_time} <font class="a leftTimeAll" time="{$goods.gmt_end_time}" id="leftTime_{$goods.goods_id}">{$lang.please_waiting}</font></font><br />
+        <!--{/if}-->
+
 			 <!-- {if $goods.promote_price neq ""} -->
 			   <p>{$lang.promote_price}<b class="f1">{$goods.promote_price}</b></p>
 			 <!-- {else}-->
@@ -260,7 +273,7 @@
     {$lang.goods_brief}{$goods.goods_brief}<br />
     <!-- {/if} -->
     </li>
-    <li>
+    <li style="width: 200px;">
     
     <font class="market">{$lang.market_price}{$goods.market_price}</font><br />
    
@@ -270,6 +283,14 @@
     <font class="price">{$lang.shop_price}{$goods.shop_price}</font><br />
     <!--{/if}-->
     </li>
+
+    <!--{if $goods.gmt_end_time } 促销时间-->
+    <li>
+        <a style="font-size:12px;">
+        {$lang.residual_time} <font class="a leftTimeAll" time="{$goods.gmt_end_time}" id="leftTime_{$goods.goods_id}">{$lang.please_waiting}</font></a>
+    </li>
+    <!--{/if}-->
+    
     <li class="action">
 		<a href="javascript:addToCart({$goods.goods_id})">购买</a> | 
 		<a href="javascript:collect({$goods.goods_id})">收藏</a> |  
@@ -280,7 +301,9 @@
     </div>
 					<!-- {/if} -->
           </form>
+          {insert_scripts files='lefttime_all.js'}
           <script type="text/javascript">
+          var showClassTime = 'leftTimeAll';
         {foreach from=$lang.compare_js item=item key=key}
         var {$key} = "{$item}";
         {/foreach}
@@ -292,13 +315,17 @@
         var button_compare = '';
         {/if}
         {/foreach}
-				
+
+        {foreach from=$lang.goods_js item=item key=key}
+        var {$key} = "{$item}";
+        {/foreach}
 				
         var compare_no_goods = "{$lang.compare_no_goods}";
         window.onload = function()
         {
           Compare.init();
           fixpng();
+          onload_leftTime_All();
         }
 				var btn_buy = "{$lang.btn_buy}";
         var is_cancel = "{$lang.is_cancel}";

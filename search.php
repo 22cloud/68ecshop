@@ -447,6 +447,11 @@ else
         $arr[$row['goods_id']]['goods_thumb']   = get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $arr[$row['goods_id']]['goods_img']     = get_image_path($row['goods_id'], $row['goods_img']);
         $arr[$row['goods_id']]['url']           = build_uri('goods', array('gid' => $row['goods_id']), $row['goods_name']);
+
+        if ($intromode == 'promotion') {
+            // 追加 促销 结束时间
+            $arr[$row['goods_id']]['gmt_end_time']      = $row['promote_end_date'];
+        }
     }
 
     if($display == 'grid')
