@@ -2926,6 +2926,9 @@ BORDER-BOTTOM: #ededed 1px solid; PADDING-BOTTOM: 20px; PADDING-LEFT: 0px; PADDI
 .zt_header_nav .ty_right {
 	TEXT-ALIGN: center; PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; WIDTH: 190px; PADDING-RIGHT: 0px; BACKGROUND: #bb0b19; FLOAT: right; FONT-WEIGHT: bold; PADDING-TOP: 0px
 }
+.zt_header_nav .ty_right a {
+	padding: 7px 58px;
+}
 
 .zt_header_nav .nav_hot {
 	BACKGROUND: #bb0b19
@@ -2940,7 +2943,7 @@ BORDER-BOTTOM: #ededed 1px solid; PADDING-BOTTOM: 20px; PADDING-LEFT: 0px; PADDI
 	COLOR: #fff; FONT-SIZE: 14px; TEXT-DECORATION: none
 }
 .zt_header_nav li A {
-	padding:4px 14px;
+	padding:7px 14px;
 }
 .fenlei_line {
 	POSITION: relative; MARGIN: 0px auto; WIDTH: 1210px; HEIGHT: 0px
