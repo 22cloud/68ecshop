@@ -83,7 +83,7 @@ $_LANG['goods_price_ladder'] = '价格阶梯';
 $_LANG['ladder_price'] = '批发价格';
 $_LANG['shop_prices'] = '本店价';
 $_LANG['market_prices'] = '市场价';
-$_LANG['deposit'] = '团购保证金';
+$_LANG['deposit'] = '产地预售保证金'; //团购改为产地预售
 $_LANG['amount'] = '商品总价';
 $_LANG['number'] = '购买数量';
 $_LANG['handle'] = '操作';
@@ -395,16 +395,16 @@ $_LANG['goods_js']['end'] = '结束';
 $_LANG['favourable'] = '优惠活动';
 
 /* 团购部分语言项 */
-$_LANG['group_buy'] = '团购活动';
-$_LANG['group_buy_goods'] = '团购商品';
-$_LANG['gb_goods_name'] = '团购商品：';
+$_LANG['group_buy'] = '产地预售'; //团购活动改为产地预售
+$_LANG['group_buy_goods'] = '产地预售'; // 团购商品改为产地预售
+$_LANG['gb_goods_name'] = '产地预售：'; // 团购商品改为产地预售
 $_LANG['gb_start_date'] = '开始时间：';
 $_LANG['gb_end_date'] = '结束时间：';
-$_LANG['gbs_pre_start'] = '该团购活动尚未开始，请继续关注。';
-$_LANG['gbs_under_way'] = '该团购活动正在火热进行中，距离结束时间还有：';
-$_LANG['gbs_finished'] = '该团购活动已结束，正在等待处理...';
-$_LANG['gbs_succeed'] = '该团购活动已成功结束！';
-$_LANG['gbs_fail'] = '该团购活动已结束，没有成功。';
+$_LANG['gbs_pre_start'] = '该产地预售尚未开始，请继续关注。'; // 团购活动改为产地预售
+$_LANG['gbs_under_way'] = '该产地预售正在火热进行中，距离结束时间还有：'; // 团购活动改为产地预售
+$_LANG['gbs_finished'] = '该产地预售已结束，正在等待处理...'; // 团购活动改为产地预售
+$_LANG['gbs_succeed'] = '该产地预售已成功结束！'; // 团购活动改为产地预售
+$_LANG['gbs_fail'] = '该产地预售已结束，没有成功。'; // 团购活动改为产地预售
 $_LANG['gb_price_ladder'] = '价格阶梯：';
 $_LANG['gb_ladder_amount'] = '数量';
 $_LANG['gb_ladder_price'] = '价格';
@@ -415,11 +415,11 @@ $_LANG['gb_cur_price'] = '当前价格：';
 $_LANG['gb_valid_goods'] = '当前定购数量：';
 $_LANG['gb_final_price'] = '成交价格：';
 $_LANG['gb_final_amount'] = '成交数量：';
-$_LANG['gb_notice_login'] = '提示：您需要先注册成为本站会员并且登录后，才能参加商品团购!';
+$_LANG['gb_notice_login'] = '提示：您需要先注册成为本站会员并且登录后，才能参加产地预售!';// 商品团购改为产地预售
 $_LANG['gb_error_goods_lacking'] = '对不起，商品库存不足，请您修改数量！';
-$_LANG['gb_error_status'] = '对不起，该团购活动已经结束或尚未开始，现在不能参加！';
-$_LANG['gb_error_login'] = '对不起，您没有登录，不能参加团购，请您先登录！';
-$_LANG['group_goods_empty'] = '当前没有团购活动';
+$_LANG['gb_error_status'] = '对不起，该产地预售已经结束或尚未开始，现在不能参加！'; //团购活动改为产地预售
+$_LANG['gb_error_login'] = '对不起，您没有登录，不能参加产地预售，请您先登录！';// 商品团购改为产地预售
+$_LANG['group_goods_empty'] = '当前没有产地预售'; //团购活动改为产地预售
 
 /* 拍卖部分语言项 */
 $_LANG['auction'] = '拍卖活动';
@@ -600,7 +600,7 @@ $_LANG['please_select_attr'] = "你加入购物车的商品有不同型号可选
 
 /* 促销信息栏 */
 $_LANG['snatch_promotion'] = '[夺宝]';
-$_LANG['group_promotion'] = '[团购]';
+$_LANG['group_promotion'] = '[产地预售]'; // 团购改为产地预售
 $_LANG['auction_promotion'] = '[拍卖]';
 $_LANG['favourable_promotion'] = '[优惠]';
 $_LANG['wholesale_promotion'] = '[批发]';
@@ -697,8 +697,8 @@ $_LANG['shipping_method'] = '配送方式';
 $_LANG['payment_method'] = '支付方式';
 $_LANG['goods_package'] = '商品包装';
 $_LANG['goods_card'] = '祝福贺卡';
-$_LANG['groupbuy_intro'] = '团购说明';
-$_LANG['groupbuy_goods_info'] = '团购商品详情';
+$_LANG['groupbuy_intro'] = '产地预售说明'; //团购说明改为产地预售说明
+$_LANG['groupbuy_goods_info'] = '产地预售详情'; //团购商品改为产地预售
 $_LANG['act_time'] = '起止时间';
 $_LANG['top10'] = '销售排行';
 
