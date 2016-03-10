@@ -2921,7 +2921,7 @@ BORDER-BOTTOM: #ededed 1px solid; PADDING-BOTTOM: 20px; PADDING-LEFT: 0px; PADDI
 	PADDING-LEFT: 253px
 }
 .zt_header_nav LI {
-	POSITION: relative; PADDING-BOTTOM: 0px; LINE-HEIGHT: 32px; PADDING-LEFT: 14px; PADDING-RIGHT: 14px; FLOAT: left; HEIGHT: 32px; COLOR: #fff; FONT-SIZE: 14px; CURSOR: pointer; TEXT-DECORATION: none; PADDING-TOP: 0px;
+	POSITION: relative; PADDING-BOTTOM: 0px; LINE-HEIGHT: 32px; FLOAT: left; HEIGHT: 32px; COLOR: #fff; FONT-SIZE: 14px; CURSOR: pointer; TEXT-DECORATION: none; PADDING-TOP: 0px;
 }
 .zt_header_nav .ty_right {
 	TEXT-ALIGN: center; PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; WIDTH: 190px; PADDING-RIGHT: 0px; BACKGROUND: #bb0b19; FLOAT: right; FONT-WEIGHT: bold; PADDING-TOP: 0px
@@ -2938,6 +2938,9 @@ BORDER-BOTTOM: #ededed 1px solid; PADDING-BOTTOM: 20px; PADDING-LEFT: 0px; PADDI
 }
 .zt_header_nav A:visited {
 	COLOR: #fff; FONT-SIZE: 14px; TEXT-DECORATION: none
+}
+.zt_header_nav li A {
+	padding:4px 14px;
 }
 .fenlei_line {
 	POSITION: relative; MARGIN: 0px auto; WIDTH: 1210px; HEIGHT: 0px
