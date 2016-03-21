@@ -19,7 +19,7 @@ var select_spe = "{$lang.select_spe}";
 
 <div class="page-header ">
 <div class="top_menu clearfix">
-      <div class="top_nav fl"> <span class="current1 fl"><a target="_blank" href="http://www.68ecshop.com">68ecshop官网&nbsp;</a></span>
+      <div class="top_nav fl"> <span class="current1 fl"><a target="_blank" href="http://www.gongye71.com">艾盛工业网&nbsp;</a></span>
         <div class="t_tdcode" style="z-index:9999999;" onmouseover="this.className='t_tdcode tdcode_show'" onmouseout="this.className='t_tdcode'">
           <div class="tdcode_outter">
             <div class="tdcode_inner"> <i class="arrow_outter">◆</i><i class="arrow_inner">◆</i>
@@ -28,7 +28,7 @@ var select_spe = "{$lang.select_spe}";
             </div>
           </div>
         </div>
-        <a target="_blank" href="http://e.t.qq.com/ecshop_moban" class="t_qq" title="关注68ecshop官方腾讯微博"><span class="hide_clip">腾讯微博</span> </a> <a target="_blank" href="http://e.weibo.com/68ecshopcom" class="t_sina" title="关注68ecshop官方新浪微博"><span class="hide_clip">新浪微博</span></a> </div>
+        <!-- <a target="_blank" href="http://e.t.qq.com/ecshop_moban" class="t_qq" title="关注68ecshop官方腾讯微博"><span class="hide_clip">腾讯微博</span> </a> <a target="_blank" href="http://e.weibo.com/68ecshopcom" class="t_sina" title="关注68ecshop官方新浪微博"><span class="hide_clip">新浪微博</span></a> --> </div>
       <div class="top_nav fr"> {insert_scripts files='transport.js,utils.js'} <font id="ECS_MEMBERZONE" > {* ECSHOP 提醒您：根据用户id来调用member_info.lbi显示不同的界面  *}{insert name='member_info'}</font> 
         <!--{if $navigator_list.top}--> 
         <!-- {foreach name=nav_top_list from=$navigator_list.top item=nav} --><span class="linetop">|</span><a href="{$nav.url}" <!-- {if $nav.opennew eq 1} --> target="_blank" <!-- {/if} -->>{$nav.name}</a><!-- {/foreach} --><!-- {/if} --> 

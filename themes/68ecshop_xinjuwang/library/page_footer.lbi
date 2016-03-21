@@ -111,9 +111,9 @@ target=_blank><SPAN class=icon03></SPAN>
   <!-- ICP 证书{if $icp_number} --> 
   {$lang.icp_number}:<a href="http://www.miibeian.gov.cn/" target="_blank">{$icp_number}</a><br />
   <!-- 结束ICP 证书{/if} --> 
-  <div id="footer_ban">
+  <!-- <div id="footer_ban">
   <a href="http://www.68ecshop.com" target="_blank">  <img src="images/footer.jpg" alt="68ecshop版权所有" /></a>
   <a href="http://www.68ecshop.com" target="_blank"><p>68ecshop模板</p></a>
-  </div>
+  </div> -->
 
 <script type="text/javascript" src="themes/68ecshop_xinjuwang/js/chat.float.min.js"></script>

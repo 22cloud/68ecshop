@@ -2554,7 +2554,7 @@ height:100px;
 	z-index: 999999;
 }
 .t_tdcode .tdcode_outter .pic {
-	background: url(images/weixin.gif) top center no-repeat;
+	/*background: url(images/weixin.gif) top center no-repeat;*/
 	display: block;
 	width: 216px;
 	height: 216px;
