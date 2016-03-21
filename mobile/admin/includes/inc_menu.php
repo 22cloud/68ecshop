@@ -131,12 +131,12 @@ $modules['13_backup']['03_db_optimize']             = 'database.php?act=optimize
 $modules['13_backup']['04_sql_query']               = 'sql.php?act=main';
 $modules['13_backup']['convert']                    = 'convert.php?act=main';
 
-$modules['14_school']['01_school']       = 'http://www.68ecshop.com/study/index.htm';
+// $modules['14_school']['01_school']       = 'http://www.68ecshop.com/study/index.htm';
 $modules['14_sms']['03_sms_send']                   = 'sms.php?act=display_send_ui';
 $modules['14_sms']['04_sms_sign']                   = 'sms.php?act=sms_sign';
-$modules['14_school']['02_school_a']     = 'http://www.68ecshop.com/article_cat-26.html';
-$modules['14_school']['03_school_b']      = 'http://www.68ecshop.com/article_cat-31.html';
-$modules['14_school']['04_school_c']      = 'http://bbs.68ecshop.com/forum.php';
+// $modules['14_school']['02_school_a']     = 'http://www.68ecshop.com/article_cat-26.html';
+// $modules['14_school']['03_school_b']      = 'http://www.68ecshop.com/article_cat-31.html';
+// $modules['14_school']['04_school_c']      = 'http://bbs.68ecshop.com/forum.php';
 
 $modules['15_rec']['affiliate']                     = 'affiliate.php?act=list';
 $modules['15_rec']['affiliate_ck']                  = 'affiliate_ck.php?act=list';

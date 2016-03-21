@@ -131,10 +131,10 @@ $modules['13_backup']['04_sql_query']               = 'sql.php?act=main';
 //$modules['13_backup']['05_synchronous']             = 'integrate.php?act=sync';
 $modules['13_backup']['convert']                    = 'convert.php?act=main';
 
-$modules['14_school']['01_school']       = 'http://www.68ecshop.com/study/index.htm';
-$modules['14_school']['02_school_a']     = 'http://www.68ecshop.com/article_cat-26.html';
-$modules['14_school']['03_school_b']      = 'http://www.68ecshop.com/article_cat-31.html';
-$modules['14_school']['04_school_c']      = 'http://bbs.68ecshop.com/forum.php';
+// $modules['14_school']['01_school']       = 'http://www.68ecshop.com/study/index.htm';
+// $modules['14_school']['02_school_a']     = 'http://www.68ecshop.com/article_cat-26.html';
+// $modules['14_school']['03_school_b']      = 'http://www.68ecshop.com/article_cat-31.html';
+// $modules['14_school']['04_school_c']      = 'http://bbs.68ecshop.com/forum.php';
 
 //$modules['15_sms']['02_sms_my_info']                = 'sms.php?act=display_my_info';
 $modules['15_sms']['03_sms_send']                   = 'sms.php?act=display_send_ui';

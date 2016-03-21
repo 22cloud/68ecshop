@@ -13,9 +13,9 @@
  * $Id: common.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
-$_LANG['app_name'] = 'ECSHOP';
-$_LANG['cp_home'] = '商之翼 管理中心';
-$_LANG['copyright'] = '&copy; 2005-2015 ECSHOP 版权所有，并保留所有权利。';
+// $_LANG['app_name'] = 'ECSHOP';
+// $_LANG['cp_home'] = '商之翼 管理中心';
+// $_LANG['copyright'] = '&copy; 2005-2015 ECSHOP 版权所有，并保留所有权利。';
 $_LANG['query_info'] = '共执行 %d 个查询，用时 %s 秒';
 $_LANG['memory_info'] = '，内存占用 %0.3f MB';
 $_LANG['gzip_enabled'] = '，Gzip 已启用';
@@ -146,7 +146,7 @@ $_LANG['10_priv_admin'] = '权限管理';
 $_LANG['11_system'] = '系统设置';
 $_LANG['12_template'] = '模板管理';
 $_LANG['13_backup'] = '数据库管理';
-$_LANG['14_school'] = '商之翼学院';
+// $_LANG['14_school'] = '商之翼学院';
 $_LANG['15_sms'] = '短信管理';
 $_LANG['16_rec'] = '推荐管理';
 $_LANG['17_email_manage'] = '邮件群发管理';
