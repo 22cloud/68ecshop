@@ -235,7 +235,8 @@ elseif ($_REQUEST['act'] == 'edit')
             {
                 $name .= chr(mt_rand(97, 122));
             }
-            $name .= '.' . end(explode('.', $_FILES['img_file_src']['name']));
+            $newArr = explode('.', $_FILES['img_file_src']['name']);
+            $name .= '.' . end($newArr);
             $target = ROOT_PATH . DATA_DIR . '/afficheimg/' . $name;
 
             if (move_upload_file($_FILES['img_file_src']['tmp_name'], $target))
@@ -282,7 +283,8 @@ elseif ($_REQUEST['act'] == 'edit')
         unset($flashdb, $flashdb_sort);
 
         put_flash_xml($_flashdb);
-        set_flash_data($_CFG['flash_theme'], $error_msg = '');
+        $error_msg = '';
+        set_flash_data($_CFG['flash_theme'], $error_msg);
         $links[] = array('text' => $_LANG['go_url'], 'href' => 'flashplay.php?act=list');
         sys_msg($_LANG['edit_ok'], 0, $links);
     }
