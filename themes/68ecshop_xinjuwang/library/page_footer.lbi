@@ -49,9 +49,9 @@ target=_blank><SPAN class=icon03></SPAN>
        
         <!--结束图片类型的友情链接{/foreach}-->
         <div class="clear"></div>
-        <a href="http://www.68ecshop.com" target="_blank">68ecshop</a> | 
+        <!-- <a href="http://www.68ecshop.com" target="_blank">68ecshop</a> | 
         <a href="http://www.68ecshop.com/category-33-b0.html" target="_blank">68ecshop模板中心</a> | 
-        <a href="http://bbs.68ecshop.com" target="_blank">68ecshop论坛</a> | 
+        <a href="http://bbs.68ecshop.com" target="_blank">68ecshop论坛</a> | -->
         <!-- {if $txt_links} -->
         <!--开始文字类型的友情链接{foreach from=$txt_links item=link name=name}-->
         <a href="{$link.url}" target="_blank" title="{$link.name}">{$link.name}</a> {if !$smarty.foreach.name.last}|{/if} 
