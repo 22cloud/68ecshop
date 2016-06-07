@@ -223,7 +223,7 @@ input[type="submit"], input[type="reset"], input[type="button"], button { -webki
 .header .left .home { display: inline-block; padding: .8em 1.5em }
 .header .left .home span { padding: .2em 0; display: inline-block; font-size: 2em; color: #464646 }
 .header .left .home .icon-home { padding: 0; font-size: 2.8em }
-.header .nav { float: right; position: absolute; top: 0; right: 0.5em }
+.header .nav { float: right; position: absolute; top: 0; right: 0.5em;display: none; }
 .header .nav ul li a { display: block; width: 3em; height: 4.85em; padding: 0 1em; text-indent: -999em; overflow: hidden }
 .header.nav ul li.cart { position: relative }
 .footer { padding: 2.2em 0 0; text-align: center; }
