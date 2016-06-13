@@ -19,7 +19,7 @@ var select_spe = "{$lang.select_spe}";
 
 <div class="page-header ">
 <div class="top_menu clearfix">
-      <div class="top_nav fl"> <span class="current1 fl"><a target="_blank" href="http://www.gongye71.com">艾盛工业网&nbsp;</a></span>
+      <div class="top_nav fl"> <span class="current1 fl"><a target="_blank" href="/">生活惠&nbsp;</a></span>
         <div class="t_tdcode" style="z-index:9999999;" onmouseover="this.className='t_tdcode tdcode_show'" onmouseout="this.className='t_tdcode'">
           <div class="tdcode_outter">
             <div class="tdcode_inner"> <i class="arrow_outter">◆</i><i class="arrow_inner">◆</i>
