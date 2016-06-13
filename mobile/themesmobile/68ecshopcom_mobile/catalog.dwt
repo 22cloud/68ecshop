@@ -14,7 +14,7 @@
 <div id="wrapper">
   <div class="page-category" >
     <div class="header">
-          <!-- <a href="./" class="top_home fl"></a> -->
+          <a href="./" class="top_home fl"></a>
       <div class="tit">
         <h2 ><span class="title">{$lang.goods_category}</span></h2>
       </div>

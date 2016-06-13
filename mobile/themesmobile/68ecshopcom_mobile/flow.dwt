@@ -20,7 +20,7 @@
 <body style="background: rgb(235, 236, 237); padding-bottom:6em">
 <div id="Cheader">
   <div id="header" class="header_03">
-    <!-- <div class="back"> <a href="./" class="arrow">首页</a> </div> -->
+    <div class="back"> <a href="./" class="arrow">首页</a> </div>
     <div class="tit">
       <h3>{if $step eq 'cart'}购物车{elseif $step eq 'login'}登录{elseif $step eq 'consignee'}填写收货地址{elseif $step eq 'checkout'}确认订单{elseif $step eq 'done'}提交订单{/if}</h3>
     </div>
