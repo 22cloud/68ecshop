@@ -16,19 +16,6 @@
 	</head>
 <body >
 <div class="page-service-exchange">
-<div id="Cheader" style="">
-  <div id="header" class="header_03">
-    <div class="back"> <a href="./" class="arrow">首页</a> </div>
-    <div class="tit" style="">
-      <h3>{$lang.article_detail}</h3>
-    </div>
-    <div class="nav">
-      <ul>
-        <li class="cart"> <a href="flow.php">购物车</a> <span id="ECS_CARTINFO" class="ECS_CARTINFO">{insert name='cart_info'}</span> </li>
-      </ul>
-    </div>
-  </div>
-</div>
 
 <div class="backlist"><a href="javascript:void(0)" class="b"><span>{$article.title|escape:html} </span></a></div>
 <div class="pagecontent">
