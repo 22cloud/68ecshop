@@ -70,8 +70,8 @@
 				<tr>
 					<td width="28%" align="right" bgcolor="#FFFFFF">{$lang.sex}： </td>
 					<td width="72%" align="left" bgcolor="#FFFFFF">
-					  <input type="radio" name="sex" value="0" {if $profile.sex==0}checked="checked"{/if} />
-						{$lang.secrecy}&nbsp;&nbsp;
+					  <!-- <input type="radio" name="sex" value="0" {if $profile.sex==0}checked="checked"{/if} />
+						{$lang.secrecy}&nbsp;&nbsp; -->
 						<input type="radio" name="sex" value="1" {if $profile.sex==1}checked="checked"{/if} />
 						{$lang.male}&nbsp;&nbsp;
 						<input type="radio" name="sex" value="2" {if $profile.sex==2}checked="checked"{/if} />
