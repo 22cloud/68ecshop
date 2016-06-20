@@ -219,41 +219,7 @@
 	 </table>
   </div>
   <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
-  <div class="us_contentBox mod1 mod2">
-  
-  <h6>{$lang.merge_order}</h6>
-	<script type="text/javascript">
-	{foreach from=$lang.merge_order_js item=item key=key}
-		var {$key} = "{$item}";
-	{/foreach}
-	</script>
-  <form action="user.php" method="post" name="formOrder" onsubmit="return mergeOrder()">
-          <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
-            <tr>
-              <td width="22%" align="right" bgcolor="#ffffff">{$lang.first_order}:</td>
-              <td width="12%" align="left" bgcolor="#ffffff"><select name="to_order">
-              <option value="0">{$lang.select}</option>
-
-                  {html_options options=$merge}
-
-                </select></td>
-              <td width="19%" align="right" bgcolor="#ffffff">{$lang.second_order}:</td>
-              <td width="11%" align="left" bgcolor="#ffffff"><select name="from_order">
-              <option value="0">{$lang.select}</option>
-
-                  {html_options options=$merge}
-
-                </select></td>
-              <td width="36%" bgcolor="#ffffff">&nbsp;<input name="act" value="merge_order" type="hidden" />
-              <input type="submit" name="Submit"  class="bnt_number4" style="border:none;"  value="{$lang.merge_order}" /></td>
-            </tr>
-            <tr>
-              <td bgcolor="#ffffff">&nbsp;</td>
-              <td colspan="4" align="left" bgcolor="#ffffff" class="f1">{$lang.merge_order_notice}</td>
-            </tr>
-          </table>
-        </form>
-	</div>
+ 
   <!--{/if}-->
  <!--#订单列表界面 end-->
  
