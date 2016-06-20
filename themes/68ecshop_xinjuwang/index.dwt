@@ -62,30 +62,6 @@ window.onerror = killerrors;
 <div style=" height:10px; line-height:10px; clear:both;"></div>
 <div class="block1 ">
 <div id="pageLeft" class="fl">
-    <div class="bg blank12">
-      <div class="mod1" >
-        <h1 class="mod1tit">{$lang.shop_notice}</h1>
-        <div class="mod1con shop_notice"> <!-- TemplateBeginEditable name="商店公告" -->
-<!-- #BeginLibraryItem "/library/cat_articles.lbi" -->
-
-
-<h1 class="mod2tit" style="height:0"><a href="{$articles_cat.url}" class="more" style="margin-top:3px;">更多</a></h1>
-<div class="mod2con clearfix">
-    <ul>
-     <!--{foreach from=$articles item=article_item}-->
-    <li style="width:250px; margin-right:20px; display:inline; height:25px; line-height:25px;" class="fl"><a href="{$article_item.url}" title="{$article_item.title|escape:html}" class="txtdot">{$article_item.short_title}</a></li>
-    <!--{/foreach}-->
-    <ul>
-</div>
-
-<script type="text/javascript">divheight("catArticles");</script>
- <!-- #EndLibraryItem -->
-<!-- TemplateEndEditable --> 
-</div>
-
-      </div>
-      <script type="text/javascript">divheight("mod1");</script> 
-    </div>
 
     <!-- TemplateBeginEditable name="首页公告下广告" -->
 <!-- #BeginLibraryItem "/library/ad_position.lbi" -->
