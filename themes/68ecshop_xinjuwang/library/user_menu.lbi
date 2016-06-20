@@ -20,7 +20,6 @@
 		<li><a href="user.php?act=comment_list"{if $action eq 'comment_list'}class="curs"{/if}> {$lang.label_comment}</a></li>
 		<!--<li><a href="user.php?act=group_buy">{$lang.label_group_buy}</a></li>-->
 		<li><a href="user.php?act=track_packages"{if $action eq 'track_packages'}class="curs"{/if}> {$lang.label_track_packages}</a></li>
-		<li><a href="user.php?act=account_log"{if $action eq 'account_log'}class="curs"{/if}> {$lang.label_user_surplus}</a></li>
 		<!--{if $show_transform_points}-->
 		<li><a href="user.php?act=transform_points"{if $action eq 'transform_points'}class="curs"{/if}> {$lang.label_transform_points}</a></li>
 		<!--{/if}-->
