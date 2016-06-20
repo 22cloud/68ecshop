@@ -7,22 +7,12 @@
   <tr>
     <td bgcolor="#ffffff">{$lang.country_province}:</td>
     <td colspan="3" bgcolor="#ffffff">
-    <select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')"  class="InputBorder">
-        <option value="0">{$lang.please_select}{$name_of_region[0]}</option>
-        <!-- {foreach from=$country_list item=country} -->
-        <option value="{$country.region_id}" {if $consignee.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
-        <!-- {/foreach} -->
-      </select>
-      <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')"  class="InputBorder">
-        <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
-        <!-- {foreach from=$province_list.$sn item=province} -->
-        <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
-        <!-- {/foreach} -->
-      </select>
+      <input type="hidden" name="country" value="{$shop_country}">
+      <input type="hidden" name="province" value="{$shop_province}">
       <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')"  class="InputBorder">
         <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
         <!-- {foreach from=$city_list.$sn item=city} -->
-        <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+        <option value="{$city.region_id}" {if $shop_city eq $city.region_id}selected{/if}>{$city.region_name}</option>
         <!-- {/foreach} -->
       </select>
       <select name="district" id="selDistricts_{$sn}" {if !$district_list.$sn}style="display:none"{/if}  class="InputBorder">
@@ -56,18 +46,9 @@
     <td bgcolor="#ffffff">{$lang.phone}:</td>
     <td bgcolor="#ffffff"><input name="tel" type="text" class="InputBorder"  id="tel_{$sn}" value="{$consignee.tel|escape}" />
     {$lang.require_field}</td>
-    <td bgcolor="#ffffff">{$lang.backup_phone}:</td>
-    <td bgcolor="#ffffff"><input name="mobile" type="text" class="InputBorder"  id="mobile_{$sn}" value="{$consignee.mobile|escape}" /></td>
+    <td bgcolor="#ffffff"></td>
+    <td bgcolor="#ffffff"></td>
   </tr>
-  <!-- {if $real_goods_count gt 0} -->
-  <!-- 购物车中存在实体商品显示最佳送货时间及标志行建筑 -->
-  <tr>
-    <td bgcolor="#ffffff">{$lang.sign_building}:</td>
-    <td bgcolor="#ffffff"><input name="sign_building" type="text" class="InputBorder"  id="sign_building_{$sn}" value="{$consignee.sign_building|escape}" /></td>
-    <td bgcolor="#ffffff">{$lang.deliver_goods_time}:</td>
-    <td bgcolor="#ffffff"><input name="best_time" type="text"  class="InputBorder" id="best_time_{$sn}" value="{$consignee.best_time|escape}" /></td>
-  </tr>
-  <!-- {/if} -->
   <tr>
     <td colspan="4" align="center" bgcolor="#ffffff">
     <input type="submit" name="Submit" class="bnt_number8" value="{$lang.shipping_address}" />

@@ -444,17 +444,9 @@ var flow_no_shipping = "{$lang.flow_no_shipping}";
 		<tr>
 			<td bgcolor="#ffffff">{$lang.phone}:</td>
 			<td bgcolor="#ffffff">{$consignee.tel} </td>
-			<td bgcolor="#ffffff">{$lang.backup_phone}:</td>
-			<td bgcolor="#ffffff">{$consignee.mobile|escape}</td>
+			<td bgcolor="#ffffff"></td>
+			<td bgcolor="#ffffff"></td>
 		</tr>
-		 <!-- {if $total.real_goods_count gt 0} -->
-		<tr>
-			<td bgcolor="#ffffff">{$lang.sign_building}:</td>
-			<td bgcolor="#ffffff">{$consignee.sign_building|escape} </td>
-			<td bgcolor="#ffffff">{$lang.deliver_goods_time}:</td>
-			<td bgcolor="#ffffff">{$consignee.best_time|escape}</td>
-		</tr>
-		<!-- {/if} -->
 	</table>
 
 

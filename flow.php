@@ -326,6 +326,8 @@ elseif ($_REQUEST['step'] == 'consignee')
         /* 取得国家列表、商店所在国家、商店所在国家的省列表 */
         $smarty->assign('country_list',       get_regions());
         $smarty->assign('shop_country',       $_CFG['shop_country']);
+        $smarty->assign('shop_province',       $_CFG['shop_province']);
+        $smarty->assign('shop_city',       $_CFG['shop_city']);
         $smarty->assign('shop_province_list', get_regions(1, $_CFG['shop_country']));
 
         /* 获得用户所有的收货人信息 */
@@ -336,7 +338,7 @@ elseif ($_REQUEST['step'] == 'consignee')
             if (count($consignee_list) < 5)
             {
                 /* 如果用户收货人信息的总数小于 5 则增加一个新的收货人信息 */
-                $consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
+                $consignee_list[] = array('country' => $_CFG['shop_country'], 'province' => $_CFG['shop_province'], 'city' => $_CFG['shop_city'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
             }
         }
         else
@@ -346,7 +348,7 @@ elseif ($_REQUEST['step'] == 'consignee')
             }
             else
             {
-                $consignee_list[] = array('country' => $_CFG['shop_country']);
+                $consignee_list[] = array('country' => $_CFG['shop_country'], 'province' => $_CFG['shop_province'], 'city' => $_CFG['shop_city']);
             }
         }
         $smarty->assign('name_of_region',   array($_CFG['name_of_region_1'], $_CFG['name_of_region_2'], $_CFG['name_of_region_3'], $_CFG['name_of_region_4']));
@@ -366,6 +368,7 @@ elseif ($_REQUEST['step'] == 'consignee')
             $city_list[$region_id]     = get_regions(2, $consignee['province']);
             $district_list[$region_id] = get_regions(3, $consignee['city']);
         }
+
         $smarty->assign('province_list', $province_list);
         $smarty->assign('city_list',     $city_list);
         $smarty->assign('district_list', $district_list);

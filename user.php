@@ -926,7 +926,7 @@ elseif ($action == 'address_list')
     if (count($consignee_list) < 5 && $_SESSION['user_id'] > 0)
     {
         /* 如果用户收货人信息的总数小于5 则增加一个新的收货人信息 */
-        $consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
+        $consignee_list[] = array('country' => $_CFG['shop_country'], 'province' => $_CFG['shop_province'], 'city' => $_CFG['shop_city'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
     }
 
     $smarty->assign('consignee_list', $consignee_list);

@@ -812,18 +812,8 @@
 				<tr>
 					<td align="right" bgcolor="#ffffff">{$lang.country_province}：</td>
 					<td colspan="3" align="left" bgcolor="#ffffff">
-					<select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')" class="InputBorder">
-							<option value="0">{$lang.please_select}{$name_of_region[0]}</option>
-							<!-- {foreach from=$country_list item=country} -->
-							<option value="{$country.region_id}" {if $consignee.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
-							<!-- {/foreach} -->
-						</select>
-						<select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')"  class="InputBorder">
-							<option value="0">{$lang.please_select}{$name_of_region[1]}</option>
-							<!-- {foreach from=$province_list.$sn item=province} -->
-							<option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
-							<!-- {/foreach} -->
-						</select>
+						<input type="hidden" name="country" value="{$consignee.country}">
+						<input type="hidden" name="province" value="{$consignee.province}">
 						<select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" class="InputBorder">
 							<option value="0">{$lang.please_select}{$name_of_region[2]}</option>
 							<!-- {foreach from=$city_list.$sn item=city} -->
@@ -857,14 +847,8 @@
 					<td align="right" bgcolor="#ffffff">{$lang.phone}：</td>
 					<td align="left" bgcolor="#ffffff"><input name="tel" type="text" class="InputBorder" id="tel_{$sn}" value="{$consignee.tel|escape}" />
 					{$lang.require_field}</td>
-					<td align="right" bgcolor="#ffffff">{$lang.backup_phone}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="mobile" type="text" class="InputBorder" id="mobile_{$sn}" value="{$consignee.mobile|escape}" /></td>
-				</tr>
-				<tr>
-					<td align="right" bgcolor="#ffffff">{$lang.sign_building}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="sign_building" type="text" class="InputBorder" id="sign_building_{$sn}" value="{$consignee.sign_building|escape}" /></td>
-					<td align="right" bgcolor="#ffffff">{$lang.deliver_goods_time}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="best_time" type="text"  class="InputBorder" id="best_time_{$sn}" value="{$consignee.best_time|escape}" /></td>
+					<td align="right" bgcolor="#ffffff"></td>
+					<td align="left" bgcolor="#ffffff"></td>
 				</tr>
 				<tr>
 					<td align="right" bgcolor="#ffffff">&nbsp;</td>
