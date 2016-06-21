@@ -286,7 +286,7 @@
             <td>
               {foreach from=$img_list item=img key=i}
               <div id="gallery_{$img.img_id}" style="float:left; text-align:center; border: 1px solid #DADADA; margin: 4px; padding:2px;">
-                <a href="javascript:;" onclick="if (confirm('{$lang.drop_img_confirm}')) dropImg('{$img.img_id}')">[-]</a><br />
+                <a href="javascript:;" onclick="if (confirm('{$lang.drop_img_confirm}')) dropImg('{$img.img_id}')">[删除]</a><br />
                 <a href="goods.php?act=show_image&img_url={$img.img_url}" target="_blank">
                 <img src="../{if $img.thumb_url}{$img.thumb_url}{else}{$img.img_url}{/if}" {if $thumb_width neq 0}width="{$thumb_width}"{/if} {if $thumb_height neq 0}height="{$thumb_height}"{/if} border="0" />
                 </a><br />
@@ -299,7 +299,7 @@
           <!-- 涓婁紶鍥剧墖 -->
           <tr>
             <td>
-              <a href="javascript:;" onclick="addImg(this)">[+]</a>
+              <a href="javascript:;" onclick="addImg(this)">[添加]</a>
               {$lang.img_desc} <input type="text" name="img_desc[]" size="20" />
               {$lang.img_url} <input type="file" name="img_url[]" />
               <input type="text" size="40" value="{$lang.img_file}" style="color:#aaa;" onfocus="if (this.value == '{$lang.img_file}'){this.value='http://';this.style.color='#000';}" name="img_file[]"/>
