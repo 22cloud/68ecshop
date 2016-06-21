@@ -676,14 +676,14 @@ elseif ($_REQUEST['step'] == 'checkout')
     if ($total['real_goods_count'] > 0)
     {
         /* 只有有实体商品,才要判断包装和贺卡 */
-        if (!isset($_CFG['use_package']) || $_CFG['use_package'] == '1')
+        if (isset($_CFG['use_package']) || $_CFG['use_package'] == '1')
         {
             /* 如果使用包装，取得包装列表及用户选择的包装 */
             $smarty->assign('pack_list', pack_list());
         }
 
         /* 如果使用贺卡，取得贺卡列表及用户选择的贺卡 */
-        if (!isset($_CFG['use_card']) || $_CFG['use_card'] == '1')
+        if (isset($_CFG['use_card']) || $_CFG['use_card'] == '1')
         {
             $smarty->assign('card_list', card_list());
         }
