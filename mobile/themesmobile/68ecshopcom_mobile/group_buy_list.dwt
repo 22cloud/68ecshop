@@ -44,7 +44,7 @@ $("#sortbtn_adapt").removeClass("active on");
 }); 
 </script>
 </head>
-<body style="background:#EEF0F3; padding-top:57px;">
+<body style="background:#EEF0F3;">
 <header class="nav">
     <div class="nav__nav-wrap">
          <div class="nav__nav-item">

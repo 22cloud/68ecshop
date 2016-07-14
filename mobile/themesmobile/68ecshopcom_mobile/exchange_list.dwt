@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="themesmobile/68ecshopcom_mobile/css/category.css"/>
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
 </head>
-<body style="background: rgb(235, 236, 237); padding-top:57px;">
+<body style="background: rgb(235, 236, 237);">
 <div id="Cheader" style="">
 <header class="nav">
     <div class="nav__nav-wrap">

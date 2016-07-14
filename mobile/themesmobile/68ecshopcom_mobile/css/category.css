@@ -1218,7 +1218,7 @@ ul.text_list li { padding: 5px; text-align: left }
 .info-nr-phone>div a.icon-message { background: url(../img/message.png) no-repeat; -webkit-background-size: 65% auto; background-size: 70% auto; background-position: center center; }
 .info-nr-phone>div a.icon-share { background: url(../img/share.png) no-repeat; -webkit-background-size: 65% auto; background-size: 70% auto; background-position: center center; }
 .nav { width: 100%; position: fixed; top: 0px; z-index: 1000 }
-.nav__nav-wrap { display: flex; flex: 1 1 0%; height: 57px; border-top: 1px solid #E5E5E5; }
+.nav__nav-wrap { display: none; flex: 1 1 0%; height: 57px; border-top: 1px solid #E5E5E5; }
 .nav__nav-item { width: 25%; text-align: center; overflow: hidden; float: left; }
 .nav__nav-link { position: relative; display: block; height: 50px; line-height: 24px; padding-top: 7px; text-align: center; white-space: nowrap; color: #999; }
 .nav__iconfont { font-family: "global-nav__iconfont"; font-size: 24px; font-style: normal; }
