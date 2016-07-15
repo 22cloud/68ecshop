@@ -401,7 +401,7 @@ background:url(images/bg.gif) no-repeat -14px -6px; right:-1px; bottom:-1px;
 	padding:0px;
 }
 .goodsbox1 p{ color:#808080; line-height:20px;}
-
+.goodsbox1 .imgbox1 img{width: 100%}
 /* ====================页面布局==================== */
 #pageLeft {
 	width: 255px;
