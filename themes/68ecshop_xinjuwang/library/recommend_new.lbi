@@ -26,7 +26,9 @@
 <div class="goodsbox1">
 				<div class="imgbox1"><a href="{$goods.url}"><img src="{$goods.thumb}" alt="{$goods.name|escape:html}" /></a></div>
 			 <a href="{$goods.url}" title="{$goods.name|escape:html}" class="show68ecshop">{$goods.short_style_name}</a><br />
+			 <!-- {if $cfg.show_marketprice} 市场价格-->
                <p>{$lang.market_price}<font class="goodspice market">{$goods.market_price}</font></p>
+             <!--{/if}-->
                  
 			 <!-- {if $goods.promote_price neq ""} -->
 			   <p>{$lang.promote_price}<b class="f1">{$goods.promote_price}</b></p>
