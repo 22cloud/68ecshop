@@ -1071,6 +1071,16 @@ elseif ($action == 'order_detail')
         $smarty->assign('payment_list', $payment_list);
     }
 
+    $payment_old = payment_info($order['pay_id']);
+
+    include_once(ROOT_PATH . 'includes/modules/payment/' . $payment_old['pay_code'] . '.php');
+
+    $pay_obj    = new $payment_old['pay_code'];
+
+    $pay_online = $pay_obj->get_code($order, unserialize_config($payment_old['pay_config']));
+    
+    $smarty->assign('pay_online',      $pay_online);
+
     /* 订单 支付 配送 状态语言项 */
     $order['order_status'] = $_LANG['os'][$order['order_status']];
     $order['pay_status'] = $_LANG['ps'][$order['pay_status']];

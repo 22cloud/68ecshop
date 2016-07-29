@@ -32,7 +32,7 @@
 				</tr>
 				<tr class="odd">
 					<th>{$lang.detail_pay_status}{$lang.colon}</th>
-					<td class="last"><span class="status">{$order.pay_status}</span>{if $order.order_amount gt 0}<a href="././pay/alipayapi.php?out_trade_no={$order.order_sn}&total_fee={$order.formated_order_amount_wap}" style="display:block; width:100%; height:28px; line-height:28px; border-radius:5px; text-align:center; font-weight:normal; font-size:14px; color:#ffffff; background:#FF6600">去支付宝支付</a>{/if}<span class="time">{$order.pay_time}</span></td>
+					<td class="last"><span class="status">{$order.pay_status}</span>{if $order.order_amount gt 0}{$pay_online}{/if}<span class="time">{$order.pay_time}</span></td>
 				</tr>
 				<tr class="even{if !$order.invoice_no and !$order.to_buyer and !$virtual_card} last{/if}">
 					<th>{$lang.detail_shipping_status}{$lang.colon}</th>
