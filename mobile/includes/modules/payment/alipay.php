@@ -151,6 +151,9 @@ class alipay
             case '2':
                 $service = 'create_direct_pay_by_user';
                 break;
+            case '3':
+                $service = 'alipay.wap.create.direct.pay.by.user';
+                break;
         }
 
         $extend_param = 'isv^sh22';
@@ -159,16 +162,19 @@ class alipay
             'extend_param'      => $extend_param,
             'service'           => $service,
             'partner'           => $payment['alipay_partner'],
+            'seller_id'           => $payment['alipay_partner'],
             //'partner'           => ALIPAY_ID,
             '_input_charset'    => $charset,
             'notify_url'        => return_url(basename(__FILE__, '.php')),
             'return_url'        => return_url(basename(__FILE__, '.php')),
+            'show_url'          => 'http://bxshenghuohui.com',
             /* 业务参数 */
             'subject'           => $order['order_sn'],
             'out_trade_no'      => $order['order_sn'] . $order['log_id'],
-            'price'             => $order['order_amount'],
+            'total_fee'             => $order['order_amount'],
             'quantity'          => 1,
-            'payment_type'      => 1,
+            'payment_type'      => '1',
+            "app_pay"   => "Y",//启用此参数能唤起钱包APP支付宝
             /* 物流参数 */
             'logistics_type'    => 'EXPRESS',
             'logistics_fee'     => 0,
@@ -193,7 +199,7 @@ class alipay
         $sign  = substr($sign, 0, -1). $payment['alipay_key'];
         //$sign  = substr($sign, 0, -1). ALIPAY_AUTH;
 
-        $button = '<div style="text-align:center"><input type="button" onclick="window.open(\'https://www.alipay.com/cooperate/gateway.do?'.$param. '&sign='.md5($sign).'&sign_type=MD5\')" value="' .$GLOBALS['_LANG']['pay_button']. '" /></div>';
+        $button = '<div class="pay-btn" style="text-align:center"><input type="button" class="sub-btn btnRadius" onclick="window.open(\'https://www.alipay.com/cooperate/gateway.do?'.$param. '&sign='.md5($sign).'&sign_type=MD5\')" value="' .$GLOBALS['_LANG']['pay_button']. '" /></div>';
 
         return $button;
     }

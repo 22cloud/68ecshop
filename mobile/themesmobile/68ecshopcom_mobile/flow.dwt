@@ -883,10 +883,12 @@ var {$key} = "{$item}";
         {if $order.pay_id == 4}
        <div class="pay-btn"><a href="weixinpay.php?oid={$order.order_id}" class="sub-btn btnRadius">微支付</a></div>
        {else}
-			<div class="pay-btn"><a href="./pay/alipayapi.php?out_trade_no={$order.order_sn}&total_fee={$total.amount_formated_wap}" class="sub-btn btnRadius">去支付宝支付</a></div>
+       {$pay_online}
+			<!-- <div class="pay-btn"><a href="./pay/alipayapi.php?out_trade_no={$order.order_sn}&total_fee={$total.amount_formated}" class="sub-btn btnRadius">去支付宝支付</a></div> -->
        {/if}
 		{else}
-           	<div class="pay-btn"><a href="./pay/alipayapi.php?out_trade_no={$order.order_sn}&total_fee={$total.amount_formated_wap}" class="sub-btn btnRadius">去支付宝支付</a></div>
+    {$pay_online}
+           	<!-- <div class="pay-btn"><a href="./pay/alipayapi.php?out_trade_no={$order.order_sn}&total_fee={$total.amount_formated}" class="sub-btn btnRadius">去支付宝支付</a></div> -->
             {/if}
 			{/if}
 
