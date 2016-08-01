@@ -249,6 +249,14 @@ function assign_ur_here($cat = 0, $str = '')
                                 $GLOBALS['_LANG']['exchange'] . '</a>';
             }
             /* 其他的在这里补充 */
+            /* 限时秒杀 */
+            elseif ('promotion_goods' == $filename)
+            {
+                $page_title = $GLOBALS['_LANG']['promotion_goods'] . '_' . $page_title;
+                $args       = array('wsid' => '0');
+                $ur_here   .= ' <code>&gt;</code> <a href="promotion_goods.php">' .
+                                $GLOBALS['_LANG']['promotion_goods'] . '</a>';
+            }
         }
     }
 
