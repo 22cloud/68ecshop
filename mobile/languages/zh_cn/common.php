@@ -415,6 +415,7 @@ $_LANG['gb_error_goods_lacking'] = '对不起，商品库存不足，请您修�
 $_LANG['gb_error_status'] = '对不起，该团购活动已经结束或尚未开始，现在不能参加！';
 $_LANG['gb_error_login'] = '对不起，您没有登录，不能参加团购，请您先登录！';
 $_LANG['group_goods_empty'] = '当前没有团购活动';
+$_LANG['favourable_goods_empty'] = '当前没有优惠活动';
 
 /* 拍卖部分语言项 */
 $_LANG['auction'] = '拍卖活动';

@@ -179,7 +179,7 @@ $("#sortbtn_adapt").removeClass("active on");
     <!--{/foreach}-->  
   </div>
    <!-- {else} -->
-       <span style="margin:2px 10px; font-size:14px; line-height:36px;">{$lang.group_goods_empty}</span>
+       <span style="margin:2px 10px; font-size:14px; line-height:36px;">{$lang.favourable_goods_empty}</span>
       <!-- {/if} -->
 </div>
 <div id="adapt_panel" class="overlay_adapt_panel" >
