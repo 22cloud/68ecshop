@@ -257,6 +257,14 @@ function assign_ur_here($cat = 0, $str = '')
                 $ur_here   .= ' <code>&gt;</code> <a href="promotion_goods.php">' .
                                 $GLOBALS['_LANG']['promotion_goods'] . '</a>';
             }
+            /* 优惠活动 */
+            elseif ('favourable' == $filename)
+            {
+                $page_title = $GLOBALS['_LANG']['favourable'] . '_' . $page_title;
+                $args       = array('wsid' => '0');
+                $ur_here   .= ' <code>&gt;</code> <a href="favourable.php">' .
+                                $GLOBALS['_LANG']['favourable'] . '</a>';
+            }
         }
     }
 

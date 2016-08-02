@@ -16,6 +16,7 @@
 define('IN_ECS', true);
 require(dirname(__FILE__) . '/includes/init.php');
 require(ROOT_PATH . 'includes/lib_goods.php');
+require_once(ROOT_PATH . "includes/fckeditor/fckeditor.php");
 
 $exc = new exchange($ecs->table('favourable_activity'), $db, 'act_id', 'act_name');
 
@@ -177,7 +178,9 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
             'max_amount'    => 0,
             'act_type'      => FAT_GOODS,
             'act_type_ext'  => 0,
-            'gift'          => array()
+            'gift'          => array(),
+            'thumb'         => '',
+            'content'       => ''
         );
     }
     else
@@ -194,6 +197,9 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
         }
     }
     $smarty->assign('favourable', $favourable);
+
+    /* 创建 html editor */
+    create_html_editor('FCKeditor', $favourable['content']);
 
     /* 取得用户等级 */
     $user_rank_list = array();
@@ -345,6 +351,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         'act_type_ext'  => floatval($_POST['act_type_ext']),
         'gift'          => serialize($gift),
         'thumb'         => $title_pic,
+        'content'       => $_POST['FCKeditor']
     );
     if ($favourable['act_type'] == FAT_GOODS)
     {
