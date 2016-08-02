@@ -305,6 +305,31 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         }
     }
 
+    // 标题图上传
+    if ($_FILES['title_pic']['name'] && $_FILES['title_pic']['size'] > 0)
+    {
+        /* 检查文件合法性 */
+        if(!get_file_suffix($_FILES['title_pic']['name'], $allow_suffix))
+        {
+            sys_msg($_LANG['invalid_type']);
+        }
+
+        /* 处理 */
+        $name = date('Ymd');
+        for ($i = 0; $i < 6; $i++)
+        {
+            $name .= chr(mt_rand(97, 122));
+        }
+        $name .= '.' . end(explode('.', $_FILES['title_pic']['name']));
+        $target = ROOT_PATH . DATA_DIR . '/afficheimg/' . $name;
+
+        if (move_upload_file($_FILES['title_pic']['tmp_name'], $target))
+        {
+            $title_pic = DATA_DIR . '/afficheimg/' . $name;
+        }
+    }
+    $title_pic = empty($title_pic) ? $_POST['title_pic_img'] : $title_pic;
+
     /* 提交值 */
     $favourable = array(
         'act_id'        => intval($_POST['id']),
@@ -318,7 +343,8 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         'max_amount'    => floatval($_POST['max_amount']),
         'act_type'      => intval($_POST['act_type']),
         'act_type_ext'  => floatval($_POST['act_type_ext']),
-        'gift'          => serialize($gift)
+        'gift'          => serialize($gift),
+        'thumb'         => $title_pic,
     );
     if ($favourable['act_type'] == FAT_GOODS)
     {
