@@ -24,9 +24,6 @@
             <li class="items"><a class="lnk" href="user.php?act=collection_list">
               <div class="un un_14">我的收藏</div>
               </a></li>
-             <li class="items"><a class="lnk" href="user.php?act=account_detail">
-             <div class="un un_02">资金管理</div>
-              </a></li>
           </ul>
           <ul>
           <li class="items"><a class="lnk" href="user.php?act=profile" >
@@ -40,9 +37,6 @@
               </a></li>
             <li class="items"><a class="lnk" href="user.php?act=affiliate">
               <div class="un un_16">我的推荐</div>
-              </a></li>
-            <li class="items"><a class="lnk" href="user.php?act=booking_list">
-              <div class="un un_15">缺货登记</div>
               </a></li>
           </ul>
           <ul>
