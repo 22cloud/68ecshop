@@ -3,12 +3,12 @@
   <div id="slider" class="slider" style="overflow: hidden; visibility: visible; list-style: none; position: relative;">
     <ul id="sliderlist" class="sliderlist" style="position: relative; overflow: hidden; transition: left 600ms ease; -webkit-transition: left 600ms ease; width: 2400px; left: -600px;">
        <!-- {foreach from=$pictures item=picture}-->
-      <li style="float: left; display: block; width: 600px;"><span><a  href="javacript:void(0)"><img title="" width="100%" src="{if $picture.thumb_url}{$picture.img_url}{else}{$picture.img_url}{/if}"></a></span></li>
+      <li style="float: left; display: block; width: 600px;"><span><a><img title="" width="100%" src="{if $picture.thumb_url}{$picture.img_url}{else}{$picture.img_url}{/if}"></a></span></li>
        <!--{/foreach}-->
     </ul>
     <div id="pagenavi">
     <!-- {foreach from=$pictures item=picture name=indexname}-->
-    <a href="javascript:void(0);" {if $smarty.foreach.indexname.first}class="active"{/if}></a>
+    <a {if $smarty.foreach.indexname.first}class="active"{/if}></a>
      <!--{/foreach}-->
 </div>
   </div>
