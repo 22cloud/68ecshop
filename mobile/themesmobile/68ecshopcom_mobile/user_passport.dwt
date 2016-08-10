@@ -73,7 +73,7 @@
                <a class="login_ffleft" href="user.php?act=get_password">{$lang.get_password}</a>
           
           <div style="height:20px; line-height:20px; clear:both"></div>
-  <div class="field">
+ <!--  <div class="field">
 
            	使用合作网站账号登录：
            </div>
@@ -89,7 +89,7 @@
                         <a href="user.php?act=oath&type=weibo"><div class="btn_weibo"></div></a>
                     </li>
                    </ul>
-		</div>
+		</div> -->
            </div>
            
         </fieldset>
