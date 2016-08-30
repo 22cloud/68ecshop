@@ -353,7 +353,7 @@ body { background-color: #ffffff !important; }</style>
             
            </div>{/if}
 <div style="height:20px; line-height:20px; clear:both"></div>
-  <div class="field">
+  <!-- <div class="field">
 
           <div style="height:10px; line-height:10px; clear:both"></div>
            	使用合作网站账号登录：
@@ -372,7 +372,7 @@ body { background-color: #ffffff !important; }</style>
                     </li>
                  
                    </ul>
-		</div>
+		</div> -->
         
             <input name="act" type="hidden" value="signin" />
         </fieldset>
