@@ -45,7 +45,19 @@ $("#sortbtn_adapt").removeClass("active on");
 </script>
 </head>
 <body style="background:#EEF0F3;">
-<header class="nav">
+
+  <div id="header" class="header_03">
+    <div class=""> <a href="./" class="top_home fl">首页</a> </div>
+    <div class="tit" style="">
+      <h3>优惠活动</h3>
+    </div>
+    <div class="nav" style="display: block;">
+      <ul>
+        <li class="cart"> <a href="flow.php">购物车</a> <span id="ECS_CARTINFO" class="ECS_CARTINFO">{insert name='cart_info'}</span> </li>
+      </ul>
+    </div>
+  </div>
+<!-- <header class="nav">
     <div class="nav__nav-wrap">
          <div class="nav__nav-item">
             <a href="index.php" class="nav__nav-link">
@@ -73,7 +85,7 @@ $("#sortbtn_adapt").removeClass("active on");
             </a>
         </div>
     </div>
-</header>
+</header> -->
 <div id="wrapper" class="xm_app">
   <div id="viewport" class="viewport" style="display: block; background: transparent;">
     <div class="product_sorting" style="display:none">
@@ -102,13 +114,13 @@ $("#sortbtn_adapt").removeClass("active on");
         <div class="info">
           <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#e2e2e2" class="favourable_table blank" >
     <tr>
-      <th bgcolor="#ffffff">{$lang.label_act_name}</th>
+      <th width="200" bgcolor="#ffffff">{$lang.label_act_name}</th>
       <td colspan="3" bgcolor="#ffffff">{$val.act_name}</td>
     </tr>
     <tr>
       <th bgcolor="#ffffff">{$lang.label_start_time}</th>
       <td width="200" bgcolor="#ffffff">{$val.start_time}</td>
-      <th bgcolor="#ffffff">{$lang.label_max_amount}</th>
+      <th width="200" bgcolor="#ffffff">{$lang.label_max_amount}</th>
       <td bgcolor="#ffffff">
         <!-- {if $val.max_amount > 0} -->
         {$val.max_amount}

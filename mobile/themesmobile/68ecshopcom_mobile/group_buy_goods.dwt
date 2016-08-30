@@ -16,7 +16,7 @@
 <body style="background: rgb(255, 255, 255);">
 <div id="Cheader" style="">
   <div id="header" class="header_03">
-    <a href="./" class="arrow">首页</a>
+    <a href="{$last_url}" class="arrow">首页</a>
     <div class="tit" style="">
       <h3>{$lang.groupbuy_goods_info}</h3>
     </div>

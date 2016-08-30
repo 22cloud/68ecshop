@@ -10,9 +10,20 @@
 <link rel="stylesheet" type="text/css" href="themesmobile/68ecshopcom_mobile/css/category.css"/>
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
 </head>
-<body style="background: rgb(235, 236, 237); padding-top:57px;">
+<body style="background: rgb(235, 236, 237);">
 <div id="Cheader" style="">
-<header class="nav">
+  <div id="header" class="header_03">
+    <div class=""> <a href="javascript:history.go(-1);" class="top_home fl">首页</a> </div>
+    <div class="tit" style="">
+      <h3>积分商城</h3>
+    </div>
+    <div class="nav" style="display: block;">
+      <ul>
+        <li class="cart"> <a href="flow.php">购物车</a> <span id="ECS_CARTINFO" class="ECS_CARTINFO">{insert name='cart_info'}</span> </li>
+      </ul>
+    </div>
+  </div>
+<!-- <header class="nav">
     <div class="nav__nav-wrap">
          <div class="nav__nav-item">
             <a href="index.php" class="nav__nav-link">
@@ -40,7 +51,7 @@
             </a>
         </div>
     </div>
-</header>
+</header> -->
 <div id="wrapper" class="xm_app">
   <div id="viewport" class="viewport" style="display: block; background: transparent;">
     <div class="product_sorting">

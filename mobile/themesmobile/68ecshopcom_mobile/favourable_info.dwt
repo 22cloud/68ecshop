@@ -45,7 +45,19 @@ $("#sortbtn_adapt").removeClass("active on");
 </script>
 </head>
 <body style="background:#EEF0F3;">
-<header class="nav">
+
+  <div id="header" class="header_03">
+    <div class=""> <a href="./" class="top_home fl">首页</a> </div>
+    <div class="tit" style="">
+      <h3>优惠活动</h3>
+    </div>
+    <div class="nav" style="display: block;">
+      <ul>
+        <li class="cart"> <a href="flow.php">购物车</a> <span id="ECS_CARTINFO" class="ECS_CARTINFO">{insert name='cart_info'}</span> </li>
+      </ul>
+    </div>
+  </div>
+<!-- <header class="nav">
     <div class="nav__nav-wrap">
          <div class="nav__nav-item">
             <a href="index.php" class="nav__nav-link">
@@ -73,7 +85,7 @@ $("#sortbtn_adapt").removeClass("active on");
             </a>
         </div>
     </div>
-</header>
+</header> -->
 <div id="wrapper" class="xm_app">
   <div id="viewport" class="viewport" style="display: block; background: transparent;">
     <div class="product_sorting" style="display:none">

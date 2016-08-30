@@ -326,7 +326,7 @@ function get_recommend_goods($type = '', $cats = '')
             $goods[$idx]['shop_price']   = price_format($row['shop_price']);
             $goods[$idx]['thumb']        = '../'. get_image_path($row['goods_id'], $row['goods_thumb'], true);
             $goods[$idx]['goods_img']    = '../'. get_image_path($row['goods_id'], $row['goods_img']);
-            $goods[$idx]['url']          = build_uri('goods', array('gid' => $row['goods_id']), $row['goods_name']);
+            $goods[$idx]['url']          = build_uri('goods', array('gid' => $row['goods_id'],'redirect' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']), $row['goods_name']);
 			$goods[$idx]['sell_count']   =selled_count($row['goods_id']);
 			$goods[$idx]['pinglun']   =get_evaluation_sum($row['goods_id']);
 			$goods[$idx]['count'] = selled_count($row['goods_id']);

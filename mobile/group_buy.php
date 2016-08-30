@@ -100,6 +100,7 @@ elseif ($_REQUEST['act'] == 'view')
 {
     /* 取得参数：团购活动id */
     $group_buy_id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+    $last_url = isset($_REQUEST['redirect'])  ? ($_REQUEST['redirect']) : './';
     if ($group_buy_id <= 0)
     {
         ecs_header("Location: ./\n");
@@ -163,6 +164,7 @@ elseif ($_REQUEST['act'] == 'view')
         $smarty->assign('promotion_info', get_promotion_info());
         assign_dynamic('group_buy_goods');
     }
+    $smarty->assign('last_url',$last_url);
     $smarty->assign('now_time',  gmtime());           // 当前系统时间
     $smarty->display('group_buy_goods.dwt', $cache_id);
 }
@@ -361,7 +363,7 @@ function group_buy_list($size, $page)
             $group_buy['goods_thumb'] = get_image_path($group_buy['goods_id'], $group_buy['goods_thumb'], true);
         }
         /* 处理链接 */
-        $group_buy['url'] =build_uri('group_buy', array('gbid'=>$group_buy['group_buy_id']));
+        $group_buy['url'] =build_uri('group_buy', array('gbid'=>$group_buy['group_buy_id'],'redirect' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']));
         /* 加入数组 */
         $gb_list[] = $group_buy;
     }

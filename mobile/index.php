@@ -288,7 +288,7 @@ function index_get_group_buy()
             }
             ksort($price_ladder);
             $row['last_price'] = price_format(end($price_ladder));
-            $row['url'] = build_uri('group_buy', array('gbid' => $row['group_buy_id']));
+            $row['url'] = build_uri('group_buy', array('gbid' => $row['group_buy_id'],'redirect' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']));
             $row['short_name']   = $GLOBALS['_CFG']['goods_name_length'] > 0 ?
                                            sub_str($row['goods_name'], $GLOBALS['_CFG']['goods_name_length']) : $row['goods_name'];
             $row['short_style_name']   = add_style($row['short_name'],'');
@@ -331,7 +331,7 @@ function index_get_auction()
         $arr['formated_start_price'] = price_format($arr['start_price']);
         $arr['formated_end_price'] = price_format($arr['end_price']);
         $arr['thumb'] = get_image_path($row['goods_id'], $row['goods_thumb'], true);
-        $arr['url'] = build_uri('auction', array('auid' => $arr['act_id']));
+        $arr['url'] = build_uri('auction', array('auid' => $arr['act_id'],'redirect' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']));
         $arr['short_name']   = $GLOBALS['_CFG']['goods_name_length'] > 0 ?
                                            sub_str($arr['goods_name'], $GLOBALS['_CFG']['goods_name_length']) : $arr['goods_name'];
         $arr['short_style_name']   = add_style($arr['short_name'],'');

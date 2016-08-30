@@ -149,7 +149,7 @@ function promotion_goods_list($size, $page)
         $goodsItem['shop_price']   = price_format($row['shop_price']);
         $goodsItem['thumb']        = '../'.get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $goodsItem['goods_img']    = '../'.get_image_path($row['goods_id'], $row['goods_img']);
-        $goodsItem['url']          = build_uri('goods', array('gid' => $row['goods_id']), $row['goods_name']);
+        $goodsItem['url']          = build_uri('goods', array('gid' => $row['goods_id'],'redirect' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']), $row['goods_name']);
 		$goodsItem['sell_count']   =selled_count($row['goods_id']);
 		$goodsItem['pinglun']   =get_evaluation_sum($row['goods_id']);
 

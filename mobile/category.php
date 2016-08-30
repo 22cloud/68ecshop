@@ -530,7 +530,7 @@ function category_get_goods($children, $brand, $min, $max, $ext, $size, $page, $
         $arr[$row['goods_id']]['promote_price']    = ($promote_price > 0) ? price_format($promote_price) : '';
         $arr[$row['goods_id']]['goods_thumb']      = '../'.get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $arr[$row['goods_id']]['goods_img']        = '../'.get_image_path($row['goods_id'], $row['goods_img']);
-        $arr[$row['goods_id']]['url']              = build_uri('goods', array('gid'=>$row['goods_id']), $row['goods_name']);
+        $arr[$row['goods_id']]['url']              = build_uri('goods', array('gid'=>$row['goods_id'],'redirect' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']), $row['goods_name']);
 	$arr[$row['goods_id']]['click_count'] = $row['click_count'];
         $arr[$row['goods_id']]['wap_count']            = selled_wap_count($row['goods_id']);
     }

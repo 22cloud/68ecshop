@@ -1800,6 +1800,15 @@ function build_uri($app, $params, $append = '', $page = 0, $keywords = '', $size
             return false;
             break;
     }
+    
+    if (empty($redirect))
+    {
+        $uri .='';
+    }
+    else
+    {
+        $uri .= $rewrite ? 'goods-' . $redirect : '&redirect=' . $redirect;
+    }
 
     if ($rewrite)
     {

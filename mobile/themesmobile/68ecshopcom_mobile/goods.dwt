@@ -30,7 +30,7 @@ location.href='share_goods.php?content={$goods.goods_style_name}&pics={$goods.go
 </script>
 <div id="Cheader" style="">
   <div id="header" class="header_03">
-    <a href="./" class="arrow">首页</a>
+    <a href="{$last_url}" class="top_home fl">首页</a>
     <div class="tit" style="">
       <h3>商品详情</h3>
     </div>

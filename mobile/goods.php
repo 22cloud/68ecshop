@@ -31,6 +31,8 @@ $smarty->assign('affiliate', $affiliate);
 
 $goods_id = isset($_REQUEST['id'])  ? intval($_REQUEST['id']) : 0;
 
+$last_url = isset($_REQUEST['redirect'])  ? ($_REQUEST['redirect']) : './';
+
 /*------------------------------------------------------ */
 //-- 改变属性、数量时重新计算商品价格
 /*------------------------------------------------------ */
@@ -149,6 +151,7 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
     $smarty->assign('cfg',          $_CFG);
     $smarty->assign('promotion',       get_promotion_info($goods_id));//促销信息
     $smarty->assign('promotion_info', get_promotion_info());
+    $smarty->assign('last_url',     $last_url);
 
     /* 获得商品的信息 */
     $goods = get_goods_info($goods_id);
@@ -320,7 +323,6 @@ else
 {
     setcookie('ECS[history]', $goods_id, gmtime() + 3600 * 24 * 30);
 }
-
 
 /* 更新点击次数 */
 $db->query('UPDATE ' . $ecs->table('goods') . " SET click_count = click_count + 1 WHERE goods_id = '$_REQUEST[id]'");
