@@ -49,9 +49,9 @@ if ($_REQUEST['act'] == 'list')
     /* 排序、显示方式以及类型 */
     $default_display_type      = $_CFG['show_order_type'] == '0' ? 'list' : ($_CFG['show_order_type'] == '1' ? 'grid' : 'text');
     $default_sort_order_method = $_CFG['sort_order_method'] == '0' ? 'DESC' : 'ASC';
-    $default_sort_order_type   = $_CFG['sort_order_type'] == '0' ? 'goods_id' : ($_CFG['sort_order_type'] == '1' ? 'exchange_integral' : 'last_update');
+    $default_sort_order_type   = $_CFG['sort_order_type'] == '0' ? 'goods_id' : ($_CFG['sort_order_type'] == '1' ? 'exchange_integral' : 'sale_number');
 
-    $sort    = (isset($_REQUEST['sort'])  && in_array(trim(strtolower($_REQUEST['sort'])), array('goods_id', 'exchange_integral', 'last_update'))) ? trim($_REQUEST['sort'])  : $default_sort_order_type;
+    $sort    = (isset($_REQUEST['sort'])  && in_array(trim(strtolower($_REQUEST['sort'])), array('goods_id', 'exchange_integral', 'sale_number'))) ? trim($_REQUEST['sort'])  : $default_sort_order_type;
     $order   = (isset($_REQUEST['order']) && in_array(trim(strtoupper($_REQUEST['order'])), array('ASC', 'DESC')))                              ? trim($_REQUEST['order']) : $default_sort_order_method;
     $display = (isset($_REQUEST['display']) && in_array(trim(strtolower($_REQUEST['display'])), array('list', 'grid', 'text'))) ? trim($_REQUEST['display'])  : (isset($_COOKIE['ECS']['display']) ? $_COOKIE['ECS']['display'] : $default_display_type);
     $display  = in_array($display, array('list', 'grid', 'text')) ? $display : 'text';
@@ -381,7 +381,7 @@ function exchange_get_goods($children, $min, $max, $ext, $size, $page, $sort, $o
     }
 
     /* 获得商品列表 */
-    $sql = 'SELECT g.goods_id, g.goods_name, g.goods_name_style, eg.exchange_integral,' .
+    $sql = 'SELECT (SELECT count(*) FROM ecs_order_info AS oi LEFT JOIN ecs_users AS u ON oi.user_id = u.user_id, ecs_order_goods AS og WHERE oi.order_id = og.order_id AND ' . time() . ' - oi.add_time < 2592000 AND og.goods_id = g.goods_id) AS sale_number,g.goods_id, g.goods_name, g.goods_name_style, eg.exchange_integral,' .
                 'g.goods_type, g.goods_brief, g.goods_thumb , g.goods_img, eg.is_hot ' .
             'FROM ' . $GLOBALS['ecs']->table('exchange_goods') . ' AS eg, ' .$GLOBALS['ecs']->table('goods') . ' AS g ' .
             "WHERE eg.goods_id = g.goods_id AND $where $ext ORDER BY $sort $order";
