@@ -205,6 +205,15 @@
   <div class="us_contentBox mod1 mod2">
   
    <h6>{$lang.label_order}</h6>
+<div class="form-div" style='margin: 10px 20px;'>
+    <a <!-- {if $composite_status_t eq $os_unconfirmed_t && $composite_status eq $os_unconfirmed} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$os_unconfirmed_t}&composite_status={$os_unconfirmed}">{$order_status_names.os.$os_unconfirmed}</a>
+    <a <!-- {if $composite_status_t eq $os_confirmed_t && $composite_status eq $os_confirmed} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$os_confirmed_t}&composite_status={$os_confirmed}">{$order_status_names.os.$os_confirmed}</a>
+    <a <!-- {if $composite_status_t eq $ss_received_t && $composite_status eq $ss_received} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ss_received_t}&composite_status={$ss_received}">{$order_status_names.ss.$ss_received}</a>
+    <a <!-- {if $composite_status_t eq $ss_unshipped_t && $composite_status eq $ss_unshipped} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ss_unshipped_t}&composite_status={$ss_unshipped}">{$order_status_names.ss.$ss_unshipped}</a>
+    <a <!-- {if $composite_status_t eq $ss_shipped_t && $composite_status eq $ss_shipped} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ss_shipped_t}&composite_status={$ss_shipped}">{$order_status_names.ss.$ss_shipped}</a>
+    <a <!-- {if $composite_status_t eq $ps_unpayed_t && $composite_status eq $ps_unpayed} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ps_unpayed_t}&composite_status={$ps_unpayed}">{$order_status_names.ps.$ps_unpayed}</a>
+    <a <!-- {if $composite_status_t eq $ps_payed_t && $composite_status eq $ps_payed} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ps_payed_t}&composite_status={$ps_payed}">{$order_status_names.ps.$ps_payed}</a>
+</div>
 	 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
 			<tr align="center">
 				<td bgcolor="#ffffff">{$lang.order_number}</td>

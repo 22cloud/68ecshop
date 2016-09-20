@@ -798,13 +798,56 @@ elseif ($action == 'order_list')
     include_once(ROOT_PATH . 'includes/lib_transaction.php');
 
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    /* 获取筛选参数 */
+    $composite_status_t = isset($_REQUEST['composite_status_t']) ? ($_REQUEST['composite_status_t']) : '';
+    $composite_status = isset($_REQUEST['composite_status']) ? intval($_REQUEST['composite_status']) : -1;
 
-    $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id'");
+    $filter_sql_where_str = '';
+    if ($composite_status_t != '' && $composite_status >= 0) {
+        switch ($composite_status_t) {
+            case 'o':
+                $filter_sql_where_str .= ' AND order_status = '. $composite_status;
+                break;
+            case 's':
+                $filter_sql_where_str .= ' AND shipping_status = '. $composite_status;
+                break;
+            case 'p':
+                $filter_sql_where_str .= ' AND pay_status = '. $composite_status;
+                break;
+        }
+    }
+
+    $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id'".$filter_sql_where_str);
 
     $pager  = get_pager('user.php', array('act' => $action), $record_count, $page);
 
-    $orders = get_user_orders($user_id, $pager['size'], $pager['start']);
+    $orders = get_user_orders($user_id, $pager['size'], $pager['start'], $filter_sql_where_str);
     $merge  = get_user_merge($user_id);
+    
+    $smarty->assign('composite_status_t',   $composite_status_t);
+    $smarty->assign('composite_status',   $composite_status);
+
+    // 订单状态相关值
+    $smarty->assign('os_unconfirmed',   OS_UNCONFIRMED); // 未确认
+    $smarty->assign('os_unconfirmed_t',   'o'); // 未确认
+    $smarty->assign('os_confirmed',   OS_SPLITED); // 已确认
+    $smarty->assign('os_confirmed_t',   'o'); // 未确认
+    $smarty->assign('ss_received',   SS_RECEIVED); // 确认收货
+    $smarty->assign('ss_received_t',   's'); // 确认收货
+
+    $smarty->assign('ss_unshipped',   SS_UNSHIPPED); // 未发货
+    $smarty->assign('ss_unshipped_t',   's'); // 未发货
+    $smarty->assign('ss_shipped',   SS_SHIPPED); // 已发货
+    $smarty->assign('ss_shipped_t',   's'); // 已发货
+    $smarty->assign('ps_unpayed',   PS_UNPAYED); // 未付款
+    $smarty->assign('ps_unpayed_t',   'p'); // 未付款
+    $smarty->assign('ps_payed',   PS_PAYED); // 已付款
+    $smarty->assign('ps_payed_t',   'p'); // 已付款
+
+    $order_status_names['os'] = $GLOBALS['_LANG']['os'];
+    $order_status_names['ps'] = $GLOBALS['_LANG']['ps'];
+    $order_status_names['ss'] = $GLOBALS['_LANG']['ss'];
+    $smarty->assign('order_status_names', $order_status_names);
 
     $smarty->assign('merge',  $merge);
     $smarty->assign('pager',  $pager);
