@@ -60,9 +60,6 @@
       <p>
 <input type="email" name="email" placeholder="电子邮箱" value="{$smarty.session.email|escape}" autocomplete="on" required>
         </p>
-        <p>
-<textarea  name="content" placeholder="评论内容"  required></textarea>
-        </p>
 		{if $enabled_captcha}
         <p style="position:relative;">
 		<b style="color:#999; font-weight:normal;">验证码：</b>
@@ -96,7 +93,7 @@ function submitComment(frm)
 
   //cmt.username        = frm.elements['username'].value;
   cmt.email           = frm.elements['email'].value;
-  cmt.content         = frm.elements['content'].value;
+  //cmt.content         = frm.elements['content'].value;
   cmt.type            = frm.elements['cmt_type'].value;
   cmt.id              = frm.elements['id'].value;
   cmt.enabled_captcha = frm.elements['enabled_captcha'] ? frm.elements['enabled_captcha'].value : '0';
@@ -131,11 +128,11 @@ function submitComment(frm)
         return false;
    }
 
-   if (cmt.content.length == 0)
-   {
-      alert(cmt_empty_content);
-      return false;
-   }
+   //if (cmt.content.length == 0)
+   //{
+   //   alert(cmt_empty_content);
+   //   return false;
+   //}
 
    if (cmt.enabled_captcha > 0 && cmt.captcha.length == 0 )
    {
