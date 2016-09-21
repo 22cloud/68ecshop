@@ -3,7 +3,7 @@
 /* *
  * 添加商品到购物车 
  */
-function addToCart(goodsId, parentId)
+function addToCart(goodsId, parentId, url='',one_step_buy = false)
 {
   var goods        = new Object();
   var spec_arr     = new Array();
@@ -31,7 +31,13 @@ function addToCart(goodsId, parentId)
   goods.number   = number;
   goods.parent   = (typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
 
-  Ajax.call('flow.php?step=add_to_cart', 'goods=' + goods.toJSONString(), addToCartResponse, 'POST', 'JSON');
+  Ajax.call('flow.php?step=add_to_cart', 'goods=' + goods.toJSONString() + '&one_step_buy=' + one_step_buy + '&url=' + url, addToCartResponse, 'POST', 'JSON');
+}
+
+function fastBuyBtn(goodsId, parentId) {
+  var url = 'flow.php?step=checkout';
+
+  addToCart(goodsId, parentId, url, true);
 }
 
 /**
@@ -87,6 +93,8 @@ function addToCartResponse(result)
   {
     var cartInfo = document.getElementById('ECS_CARTINFO');
     var cart_url = 'flow.php?step=cart';
+    if (result.url)
+      cart_url = result.url;
     if (cartInfo)
     {
       cartInfo.innerHTML = result.content;
