@@ -39,6 +39,13 @@
               <div class="un un_16">我的推荐</div>
               </a></li>
           </ul>
+          <!-- 客服电话{if $service_phone} -->
+          <ul>
+          <li class="items"><a class="lnk" href="tel:{$service_phone}" >
+              <div class="un un_20">联系客服</div>
+              </a></li>
+          </ul>
+          <!-- 结束客服电话{/if} -->
           <ul>
           <li class="items"><a class="lnk" href="user.php?act=logout" >
               <div class="un un_17">退出</div>
