@@ -62,6 +62,12 @@ function addToCart1(goodsId, parentId)
 
 }
 
+function fastBuyBtn(goodsId, parentId) {
+  var url = 'flow.php?step=checkout';
+
+  addToCart(goodsId, parentId, url, true);
+}
+
 function addToCartResponse1(result)
 
 {
@@ -130,7 +136,7 @@ function addToCartResponse1(result)
 
 }
 
-function addToCart(goodsId, parentId)
+function addToCart(goodsId, parentId, url='',one_step_buy = false)
 
 {
 
@@ -184,7 +190,7 @@ function addToCart(goodsId, parentId)
 
 
 
-  Ajax.call('flow.php?step=add_to_cart', 'goods=' + $.toJSON(goods), addToCartResponse, 'POST', 'JSON');
+  Ajax.call('flow.php?step=add_to_cart', 'goods=' + $.toJSON(goods) + '&one_step_buy=' + one_step_buy + '&url=' + url, addToCartResponse, 'POST', 'JSON');
 
 }
 
@@ -296,6 +302,9 @@ function addToCartResponse(result)
 
     var cart_url = 'flow.php?step=cart';
 
+    if (result.url)
+      cart_url = result.url;
+
     if (cartInfo)
 
     {
@@ -304,9 +313,12 @@ function addToCartResponse(result)
 
     }
 
-
-
- 
+    if (result.one_step_buy == '1')
+    {
+      location.href = cart_url;
+    }
+    else
+    {
 
       switch(result.confirm_type)
 
@@ -323,9 +335,8 @@ function addToCartResponse(result)
 	opencartDiv(result.shop_price,result.goods_name,result.goods_thumb,result.goods_brief,result.goods_id,result.goods_price,result.goods_number);
 
           break;
-
     
-
+      }
     }
 
   }

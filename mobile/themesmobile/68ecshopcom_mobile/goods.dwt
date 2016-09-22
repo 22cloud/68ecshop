@@ -150,9 +150,13 @@ changePrice();
         <div class="items"><span class="ui-number">
         <div style="height:0px; line-height:0px; clear:both;"></div>
          <script language="javascript" type="text/javascript">  function goods_cut(){  var num_val=document.getElementById('number');  var new_num=num_val.value;  var Num = parseInt(new_num);  if(Num>1)Num=Num-1;  num_val.value=Num;  }  function goods_add(){  var num_val=document.getElementById('number');  var new_num=num_val.value;  var Num = parseInt(new_num);  Num=Num+1;  num_val.value=Num;  } </script>
+          {if $goods.is_promote and $goods.gmt_end_time}
+          <input type="number" class="num" disabled id="number" onblur="changePrice();" name="number" value="1" min="1" max="{$goods.goods_number}"/>
+          {else}
           <button type="button" class="decrease" onclick="goods_cut();changePrice();">-</button>
           <input type="number" class="num" id="number" onblur="changePrice();" name="number" value="1" min="1" max="{$goods.goods_number}"/>
           <button type="button" class="increase" onclick="goods_add();changePrice();">+</button>
+          {/if}
           </span>
            {if $volume_price_list}
            {foreach from=$volume_price_list item=price_list key=price_key}
@@ -169,7 +173,9 @@ changePrice();
  </div>
         <div class="product_addCart">
           
-          <a  class="button active_button" href="javascript:addToCart({$goods.goods_id});">加入购物车</a> </div>
+          <a  class="button active_button" href="javascript:addToCart({$goods.goods_id});">加入购物车</a>
+          <br>
+          <a  class="button active_button" href="javascript:fastBuyBtn({$goods.goods_id});">立即购买</a></div>
           </form>
         
       </div>
