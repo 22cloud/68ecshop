@@ -119,7 +119,7 @@ if ($_REQUEST['step'] == 'add_to_cart')
     }
 
     /* 更新：如果是一步购物，先清空购物车 */
-    if ($_CFG['one_step_buy'] == '1' || $_REQUEST['one_step_buy'] == true)
+    if ($_CFG['one_step_buy'] == '1' || $_REQUEST['one_step_buy'] == 'true')
     {
         clear_cart();
     }
@@ -153,7 +153,7 @@ if ($_REQUEST['step'] == 'add_to_cart')
             }
 
             $result['content'] = insert_cart_info();
-            $result['one_step_buy'] = ($_REQUEST['one_step_buy'] == true) ? 1 : 0;
+            $result['one_step_buy'] = ($_REQUEST['one_step_buy'] == 'true') ? 1 : 0;
         }
         else
         {

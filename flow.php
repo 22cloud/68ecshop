@@ -119,10 +119,12 @@ if ($_REQUEST['step'] == 'add_to_cart')
     }
 
     /* 更新：如果是一步购物，先清空购物车 */
-    if ($_CFG['one_step_buy'] == '1' || $_REQUEST['one_step_buy'] == true)
+    if ($_CFG['one_step_buy'] == '1' || $_REQUEST['one_step_buy'] == 'true')
     {
         clear_cart();
     }
+
+    /* 验证该商品是否是秒杀商品 如是秒杀商品 用户是否购买过当前商品 */
 
     /* 检查：商品数量是否合法 */
     if (!is_numeric($goods->number) || intval($goods->number) <= 0)
@@ -153,7 +155,7 @@ if ($_REQUEST['step'] == 'add_to_cart')
             }
 
             $result['content'] = insert_cart_info();
-            $result['one_step_buy'] = ($_REQUEST['one_step_buy'] == true) ? 1 : 0;
+            $result['one_step_buy'] = ($_REQUEST['one_step_buy'] == 'true') ? 1 : 0;
         }
         else
         {
