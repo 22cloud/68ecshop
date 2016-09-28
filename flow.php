@@ -125,6 +125,37 @@ if ($_REQUEST['step'] == 'add_to_cart')
     }
 
     /* 验证该商品是否是秒杀商品 如是秒杀商品 用户是否购买过当前商品 */
+    $sql = "SELECT g.is_promote, g.promote_start_date, g.promote_end_date " .
+        "FROM " . $GLOBALS['ecs']->table('goods') . " AS g " . 
+        "WHERE g.goods_id = '" . $goods->goods_id . "'";
+
+    $goods_info = $GLOBALS['db']->getRow($sql);
+
+    /* 促销时间倒计时 */
+    $time = gmtime();
+    if ($time >= $goods_info['promote_start_date'] && $time <= $goods_info['promote_end_date'])
+    {
+         $goods_info['gmt_end_time']  = $goods_info['promote_end_date'];
+    }
+    else
+    {
+        $goods_info['gmt_end_time'] = 0;
+    }
+
+    $hasOrderFlag = 0;
+    if ($goods_info['is_promote'] && $goods_info['gmt_end_time']) {
+        // 在促销期内 查询在促销期内是否有该用户下的该商品的订单
+        $sql = "select COUNT(*) ".
+            "from ".$GLOBALS['ecs']->table('order_info')." as oi " .
+            "join ".$GLOBALS['ecs']->table('order_goods')." as og on oi.`order_id` = og.`order_id` ".
+            "where oi.`add_time` between ".$goods_info['promote_start_date']." and ".$goods_info['promote_end_date']." and og.goods_id = ".$goods->goods_id;
+        $hasOrderFlag = $GLOBALS['db']->getOne($sql);
+    }
+    if ($hasOrderFlag) {
+        // 在促销期已有订单
+        $result['error']   = 1;
+        $result['message'] = '已购买过该商品不能再次购买了。';
+    }
 
     /* 检查：商品数量是否合法 */
     if (!is_numeric($goods->number) || intval($goods->number) <= 0)
@@ -135,41 +166,43 @@ if ($_REQUEST['step'] == 'add_to_cart')
     /* 更新：购物车 */
     else
     {
-        if(!empty($goods->spec))
-        {
-            foreach ($goods->spec as  $key=>$val )
+        if (!$hasOrderFlag) {
+            if(!empty($goods->spec))
             {
-                $goods->spec[$key]=intval($val);
+                foreach ($goods->spec as  $key=>$val )
+                {
+                    $goods->spec[$key]=intval($val);
+                }
             }
-        }
-        // 更新：添加到购物车
-        if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent))
-        {
-            if ($_CFG['cart_confirm'] > 2)
+            // 更新：添加到购物车
+            if (addto_cart($goods->goods_id, $goods->number, $goods->spec, $goods->parent))
             {
-                $result['message'] = '';
-            }
-            else
-            {
-                $result['message'] = $_CFG['cart_confirm'] == 1 ? $_LANG['addto_cart_success_1'] : $_LANG['addto_cart_success_2'];
-            }
+                if ($_CFG['cart_confirm'] > 2)
+                {
+                    $result['message'] = '';
+                }
+                else
+                {
+                    $result['message'] = $_CFG['cart_confirm'] == 1 ? $_LANG['addto_cart_success_1'] : $_LANG['addto_cart_success_2'];
+                }
 
-            $result['content'] = insert_cart_info();
-            $result['one_step_buy'] = ($_REQUEST['one_step_buy'] == 'true') ? 1 : 0;
-        }
-        else
-        {
-            $result['message']  = $err->last_message();
-            $result['error']    = $err->error_no;
-            $result['goods_id'] = stripslashes($goods->goods_id);
-            if (is_array($goods->spec))
-            {
-                $result['product_spec'] = implode(',', $goods->spec);
+                $result['content'] = insert_cart_info();
+                $result['one_step_buy'] = ($_REQUEST['one_step_buy'] == 'true') ? 1 : 0;
             }
             else
             {
-                $result['product_spec'] = $goods->spec;
-            }
+                $result['message']  = $err->last_message();
+                $result['error']    = $err->error_no;
+                $result['goods_id'] = stripslashes($goods->goods_id);
+                if (is_array($goods->spec))
+                {
+                    $result['product_spec'] = implode(',', $goods->spec);
+                }
+                else
+                {
+                    $result['product_spec'] = $goods->spec;
+                }
+            }   
         }
     }
     $result['confirm_type'] = !empty($_CFG['cart_confirm']) ? $_CFG['cart_confirm'] : 2;
