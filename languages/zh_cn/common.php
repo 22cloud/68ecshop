@@ -145,6 +145,10 @@ $_LANG['send_number'] = '赠送数量';
 $_LANG['goods_buysend'] = '买送赠送商品';
 $_LANG['buy_send'] = '买%s送%s 优惠';
 
+/* 商品详情 服务 语言项 */
+$_LANG['service'] = '服务';
+$_LANG['is_freight_free'] = '免运费';
+$_LANG['is_quality'] = '正品保障';
 
 /* 商品比较JS语言项 */
 $_LANG['compare_js']['button_compare'] = '比较选定商品';

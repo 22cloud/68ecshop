@@ -276,6 +276,17 @@
 			<!-- {/if} -->
 			<!-- {/if} -->
 			</div>
+			<!-- {if $goods.is_freight_free || $lang.is_quality} -->
+			<div class="Goodpromotion">
+				<font style="font-size:12px;">{$lang.service}：</font>
+				<!-- {if $goods.is_freight_free} -->
+				<b>{$lang.is_freight_free}</b>
+				<!-- {/if} -->
+				<!-- {if $goods.is_quality} -->
+				<b>{$lang.is_quality}</b>
+				<!-- {/if} -->
+			</div>
+			<!-- {/if} -->
             <div class="Goodpromotion">
             
 			<font style="font-size:12px;">{$lang.number}：</font>

@@ -164,6 +164,18 @@ changePrice();
           {/foreach}
           
 		{/if}
+
+          <!-- {if $goods.is_freight_free || $lang.is_quality} -->
+          <div class="">
+            <font style="font-size:12px;">{$lang.service}：</font>
+            <!-- {if $goods.is_freight_free} -->
+            <b>{$lang.is_freight_free}</b>
+            <!-- {/if} -->
+            <!-- {if $goods.is_quality} -->
+            <b>{$lang.is_quality}</b>
+            <!-- {/if} -->
+          </div>
+          <!-- {/if} -->
           <div style="height:0px; line-height:0px; clear:both;"></div>
       </div>
       </div>

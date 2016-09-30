@@ -746,4 +746,9 @@ $_LANG['address_list']='地址管理';
 $_LANG['pay_manage']='资金管理';
 $_LANG['bonus']='我的红包';
 $_LANG['profile']='信息修改';
+
+/* 商品详情 服务 语言项 */
+$_LANG['service'] = '服务';
+$_LANG['is_freight_free'] = '免运费';
+$_LANG['is_quality'] = '正品保障';
 ?>
