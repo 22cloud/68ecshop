@@ -53,6 +53,9 @@ class integrate
     /* 会员名称的字段名 */
     var $field_name     = '';
 
+    /* 会员手机号的字段名 */
+    var $field_mobile     = 'mobile_phone';
+
     /* 会员密码的字段名 */
     var $field_pass     = '';
 
@@ -443,6 +446,29 @@ class integrate
      *
      * @return void
      */
+    function get_profile_by_mobile($mobile)
+    {
+        $post_mobile = $mobile;
+
+        $sql = "SELECT " . $this->field_id . " AS user_id," . $this->field_name . " AS user_name," .
+                    $this->field_email . " AS email," . $this->field_gender ." AS sex,".
+                    $this->field_bday . " AS birthday," . $this->field_reg_date . " AS reg_time, ".
+                    $this->field_pass . " AS password, ". $this->field_mobile . " AS mobile_phone" .
+               " FROM " . $this->table($this->user_table) .
+               " WHERE " .$this->field_mobile . "='$post_mobile'";
+        $row = $this->db->getRow($sql);
+
+        return $row;
+    }
+
+    /**
+     *  获取指定用户的信息
+     *
+     * @access  public
+     * @param
+     *
+     * @return void
+     */
     function get_profile_by_id($id)
     {
         $sql = "SELECT " . $this->field_id . " AS user_id," . $this->field_name . " AS user_name," .
@@ -501,7 +527,7 @@ class integrate
         {
             $sql = "SELECT " . $this->field_id .
                    " FROM " . $this->table($this->user_table).
-                   " WHERE " . $this->field_name . "='" . $post_username . "'";
+                   " WHERE " . $this->field_mobile . "='" . $post_username . "'";
 
             return $this->db->getOne($sql);
         }
@@ -509,7 +535,7 @@ class integrate
         {
             $sql = "SELECT " . $this->field_id .
                    " FROM " . $this->table($this->user_table).
-                   " WHERE " . $this->field_name . "='" . $post_username . "' AND " . $this->field_pass . " ='" . $this->compile_password(array('password'=>$password)) . "'";
+                   " WHERE " . $this->field_mobile . "='" . $post_username . "' AND " . $this->field_pass . " ='" . $this->compile_password(array('password'=>$password)) . "'";
 
             return  $this->db->getOne($sql);
         }
@@ -843,6 +869,11 @@ class integrate
     function get_user_info($username)
     {
         return $this->get_profile_by_name($username);
+    }
+
+    function get_user_info_by_mobile($mobile)
+    {
+        return $this->get_profile_by_mobile($mobile);
     }
 
 

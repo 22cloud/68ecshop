@@ -25,6 +25,10 @@ if (isset($_REQUEST['is_login']))
 {
     $img->session_word = 'captcha_login';
 }
+if (isset($_REQUEST['is_send_phone']))
+{
+    $img->session_word = 'captcha_phone';
+}
 $img->generate_image();
 
 ?>

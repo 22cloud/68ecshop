@@ -13,6 +13,7 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 {* 包含脚本文件 *}
 {insert_scripts files='common.js,user.js,transport.js'}
 </head>
@@ -52,7 +53,7 @@
         <div class="contentNew" >
           <div class="l_box">
             <form action="user.php" method="post" name="loginForm" id="loginForm" onSubmit="return userLogin()">
-              <label> <span>{$lang.label_username}</span>
+              <label> <span>{$lang.other_mobile_phone}</span>
                 <input type="text" class="inputBg" name="username" />
               </label>
               <label> <span>{$lang.label_password}</span>
@@ -74,7 +75,7 @@
                 <input type="hidden" name="back_act" value="{$back_act}" />
               </div>
               <p class="forgot1">
-                <a href="user.php?act=qpassword_name" >{$lang.get_password_by_question}</a>&nbsp;&nbsp;&nbsp;<a href="user.php?act=get_password" >{$lang.get_password_by_mail}</a>
+                <a href="user.php?act=mobile_password_code" >{$lang.get_password_by_mobile}</a>
               </p>
               <div class="tempotherLoginTail"></div>
             </form>
@@ -119,36 +120,16 @@
         <div class="blank1" style="margin-top:15px;"></div>
         <form action="user.php" method="post" name="formUser" onsubmit="return register();">
           <table width="100%"  border="0" align="left" cellpadding="5" cellspacing="3">
-            <tr><!--用户名-->
-              <td width="15%" align="right">{$lang.label_username}</td>
+            <!-- <tr> --><!--用户名-->
+              <!-- <td width="15%" align="right">{$lang.label_username}</td>
               <td width="85%"><input name="username" type="text" size="25" id="username" onblur="is_registered(this.value);" class="inputBg"/>
                 <span id="username_notice" style="color:#FF0000;"> *</span></td>
-            </tr>
-            <tr><!--电子邮箱-->
-              <td align="right">{$lang.label_email}</td>
+            </tr> -->
+            <!-- <tr> --><!--电子邮箱-->
+              <!-- <td align="right">{$lang.label_email}</td>
               <td><input name="email" type="text" size="25" id="email" onblur="checkEmail(this.value);"  class="inputBg"/>
                 <span id="email_notice" style="color:#FF0000"> *</span></td>
-            </tr>
-            <tr>
-              <td align="right">{$lang.label_password}</td>
-              <td><input name="password" type="password" id="password1" onblur="check_password(this.value);" onkeyup="checkIntensity(this.value)" class="inputBg" style="width:179px;" />
-                <span style="color:#FF0000" id="password_notice"> *</span></td>
-            </tr>
-            <tr>
-              <td align="right">{$lang.label_password_intensity}</td>
-              <td><table width="145" border="0" cellspacing="0" cellpadding="1">
-                  <tr align="center">
-                    <td width="33%" id="pwd_lower">{$lang.pwd_lower}</td>
-                    <td width="33%" id="pwd_middle">{$lang.pwd_middle}</td>
-                    <td width="33%" id="pwd_high">{$lang.pwd_high}</td>
-                  </tr>
-                </table></td>
-            </tr>
-            <tr>
-              <td align="right">{$lang.label_confirm_password}</td>
-              <td><input name="confirm_password" type="password" id="conform_password" onblur="check_conform_password(this.value);"  class="inputBg" style="width:179px;"/>
-                <span style="color:#FF0000" id="conform_password_notice"> *</span></td>
-            </tr>
+            </tr> -->
             <!-- {foreach from=$extend_info_list item=field} --> 
             <!-- {if $field.id eq 6} -->
             <tr>
@@ -157,8 +138,8 @@
                   <option value='0'>{$lang.sel_question}</option>
                   
                   
-	  {html_options options=$passwd_questions}
-	  
+    {html_options options=$passwd_questions}
+    
                 
                 </select></td>
             </tr>
@@ -182,7 +163,27 @@
           </td>
         </tr>
             <!-- {/if} --> 
-            <!-- {/foreach} --> 
+            <!-- {/foreach} -->
+            <tr>
+              <td align="right">{$lang.label_password}</td>
+              <td><input name="password" type="password" id="password1" onblur="check_password(this.value);" onkeyup="checkIntensity(this.value)" class="inputBg" style="width:179px;" />
+                <span style="color:#FF0000" id="password_notice"> *</span></td>
+            </tr>
+            <tr>
+              <td align="right">{$lang.label_password_intensity}</td>
+              <td><table width="145" border="0" cellspacing="0" cellpadding="1">
+                  <tr align="center">
+                    <td width="33%" id="pwd_lower">{$lang.pwd_lower}</td>
+                    <td width="33%" id="pwd_middle">{$lang.pwd_middle}</td>
+                    <td width="33%" id="pwd_high">{$lang.pwd_high}</td>
+                  </tr>
+                </table></td>
+            </tr>
+            <tr>
+              <td align="right">{$lang.label_confirm_password}</td>
+              <td><input name="confirm_password" type="password" id="conform_password" onblur="check_conform_password(this.value);"  class="inputBg" style="width:179px;"/>
+                <span style="color:#FF0000" id="conform_password_notice"> *</span></td>
+            </tr> 
             <!-- 判断是否启用验证码{if $enabled_captcha} -->
             <tr>
               <td align="right">{$lang.comment_captcha}</td>
@@ -284,6 +285,60 @@
           <tr>
             <td></td>
             <td><input type="hidden" name="act" value="get_passwd_question" />
+              <input type="submit" name="submit" value="{$lang.submit}" class="bnt_blue" style="border:none;" />
+              <input name="button" type="button" onclick="history.back()" value="{$lang.back_page_up}" style="border:none;" class="bnt_blue_1" /></td>
+          </tr>
+        </table>
+        <br />
+      </form>
+    </div>
+  </div>
+</div>
+<!--{/if}--> 
+
+<!--*通过手机号码的确认找回账号界面 --> 
+<!--{if $action eq 'mobile_password_code'} -->
+<div class="block1">
+  <div class="usBox bg">
+    <div class="usBox_2 clearfix">
+      <form action="user.php" method="post">
+        <br />
+        <table width="70%" border="0" align="center">
+          <tr>
+            <td colspan="2" align="center"><strong>{$lang.get_mobile_code}</strong></td>
+          </tr>
+          <tr>
+            <td width="29%" align="right">{$lang.other_mobile_phone}</td>
+            <td width="61%"><input name="mobile_phone" id="form-username" type="text" size="30" class="inputBg" /></td>
+          </tr>
+          <tr>
+            <td width="29%" align="right">{$lang.comment_captcha}</td>
+            <td width="61%">
+              <label class="verify">
+                <input type="text" size="8" name="captcha" id="form-code" class="inputBg"/>
+                <img src="captcha.php?is_send_phone=1&{$rand}" name="captcha" alt="captcha" id="captchaImg" style="vertical-align: top;cursor: pointer;" onClick="this.src='captcha.php?is_send_phone=1&'+Math.random()" /> 
+              </label>
+              <p class="verify">点击图片换一张</p>
+            </td>
+          </tr>
+          <tr>
+            <td width="29%" align="right"></td>
+            <td width="61%">
+              <button type="button" id="sendmsgbtn" size="30" class="inputBg bnt_blue" >发送验证码<em></em></button>
+            </td>
+          </tr>
+          <tr>
+            <td width="29%" align="right">{$lang.other_mobile_code}</td>
+            <td width="21%">
+              <input name="phone_code" type="text" size="30" class="inputBg" />
+              <p class="verify">输入手机接收到的短信验证码</p>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input type="hidden" name="type" value="1" />
+              <input type="hidden" name="act" value="check_phone_code" />
               <input type="submit" name="submit" value="{$lang.submit}" class="bnt_blue" style="border:none;" />
               <input name="button" type="button" onclick="history.back()" value="{$lang.back_page_up}" style="border:none;" class="bnt_blue_1" /></td>
           </tr>

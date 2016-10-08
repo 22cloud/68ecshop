@@ -50,17 +50,17 @@ function register($username, $password, $email, $other = array())
     }
 
     /* 检查email */
-    if (empty($email))
-    {
-        $GLOBALS['err']->add($GLOBALS['_LANG']['email_empty']);
-    }
-    else
-    {
-        if (!is_email($email))
-        {
-            $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['email_invalid'], htmlspecialchars($email)));
-        }
-    }
+    // if (empty($email))
+    // {
+    //     $GLOBALS['err']->add($GLOBALS['_LANG']['email_empty']);
+    // }
+    // else
+    // {
+    //     if (!is_email($email))
+    //     {
+    //         $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['email_invalid'], htmlspecialchars($email)));
+    //     }
+    // }
 
     if ($GLOBALS['err']->error_no > 0)
     {
@@ -295,6 +295,187 @@ function send_pwd_email($uid, $user_name, $email, $code)
     {
         return false;
     }
+}
+
+// 发送短信
+function shortMsgSend($mobile,$tpl=0)
+{
+    $returnArr = array();
+    //企业ID $userid
+    $userid = '';
+    //用户账号 $account
+    $account = 'xd000879';
+    //用户密码 $password
+    $password = 'slideview001';
+    //发送到的目标手机号码 $mobile
+    // $mobile = $_POST['mobile'];
+    // 随机生成验证码
+    $verification_code = "";
+
+    for ($i=0; $i < 6; $i++) {
+        $verification_code .= mt_rand(0,9);
+    }
+
+    // 短信内容 $content
+    switch ($tpl) {
+        case '1':
+        // 密码找回
+        $content = "【工聚网】尊敬的用户，您的短信验证码为：".$verification_code."，您正在进行密码找回操作，5分钟内有效，如非本人操作请忽略。";
+        break;
+
+        default:
+        // 注册
+        $content = "【工聚网】尊敬的用户，您的短信验证码为：".$verification_code."，5分钟内有效，如非本人操作请忽略。";
+        break;
+    }
+    $content = urlencode($content);
+
+    $gateway = "http://114.113.154.5/sms.aspx?action=send&userid={$userid}&account={$account}&password={$password}&mobile={$mobile}&content={$content}&sendTime=";
+
+    $result = file_get_contents($gateway);
+    $xml = simplexml_load_string($result);
+
+    if($xml->returnstatus == 'Success'){
+        $returnArr['status'] = 1;
+        $returnArr['code'] = $verification_code;
+    }else{
+        $returnArr['status'] = 0;
+    }
+    
+    return $returnArr;
+}
+
+// 短信 保存
+// params 
+// $mobile  手机号
+// $code    验证码
+// $tp      验证类型
+function smsSave($mobile, $code, $tp='0')
+{
+    $returnArr = array();
+
+    // 状态值
+    $statusCode = 0;
+    $returnMsg = '';
+
+    if ($mobile) {
+        $data['cearte_time'] = time();
+        // 截止时间 5分钟
+        $data['end_time'] = time()+(60*5);
+        $data['mobile'] = trim($mobile);
+        $data['mobilecode'] = trim($code);
+        $data['type'] = $tp ? $tp : '0';
+
+        $sql = "INSERT INTO " . $GLOBALS['ecs']->table('mobilecode_log') . 
+                "( mobile, mobilecode, type, cearte_time, end_time)" .
+                " VALUES ( '" . $data['mobile'] . "', '" . $data['mobilecode'] . "', '" . $data['type'] . "', '" . $data['cearte_time'] . "', '" . $data['end_time'] . "')";
+        $addFlag = $GLOBALS['db']->query($sql);
+
+        if ($addFlag) {
+            $statusCode = 1;
+            $returnMsg = '成功';
+        }
+    }else{
+        // throw new Exception("手机号 及 验证码 未接受到");
+        $statusCode = -2;
+        $returnMsg = '参数不全';
+    }
+
+    $returnArr['status'] = $statusCode;
+    $returnArr['info'] = $returnMsg;
+
+    return ($statusCode == 1) ? true : false;
+    
+}
+
+// 短信发送 请求
+function sms($mobile, $tp)
+{
+    $returnArr = array();
+
+    // 状态值
+    $statusCode = 0;
+    $returnMsg = '';
+
+    if ($mobile) {
+        // 发送短信
+        $sendInfo = shortMsgSend($mobile,$tp);
+
+        if ($sendInfo) {
+            // 发送成功
+            if ($sendInfo['status'] == 1 && isset($sendInfo['code'])) {
+                // 验证码 入库
+                $addFlag = smsSave($mobile, $sendInfo['code'],$tp);
+
+                if ($addFlag == 1) {
+                    $statusCode = 1;
+                    $returnMsg = '成功';
+                    unset($sendInfo['code']);
+                    $returnData = $sendInfo;
+                }else{
+                    $statusCode = -4;
+                    $returnMsg = '失败';
+                }
+            }else{
+                $returnMsg = '发送失败';
+            }
+        }
+    }else{
+        $statusCode = -2;
+        $returnMsg = '数据不完整';
+    }
+
+    $returnArr['status'] = $statusCode;
+    $returnArr['msg'] = $returnMsg;
+    if ($returnData) {
+        $returnArr['data'] = $returnData;
+    }
+
+    return $returnArr;
+
+}
+// 短信 校验
+// 查询 短信记录 是否存在 且未过期
+function smsSelect($mobile, $code, $tp='0')
+{
+    $returnArr = array();
+
+    // 状态值
+    $statusCode = 0;
+    $returnMsg = '';
+
+    if ($mobile && $code) {
+
+        $condition['mobilecode'] = trim($code);
+        $condition['mobile'] = trim($mobile);
+        $condition['type'] = $tp ? strval($tp) : '0';
+        $condition['end_time'] = array('egt',time());
+        $condition['cearte_time'] = array('lt',time());
+
+        $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('mobilecode_log') . 
+                " WHERE mobilecode = '" . $condition['mobilecode'] . "'" . 
+                " AND mobile = '" . $condition['mobile']. "'" .
+                " AND type = '" . $condition['type'] . "'" .
+                " AND end_time >= " . time() . "" .
+                " AND cearte_time < " . time() . "";
+        $smsLogInfo = $GLOBALS['db']->getOne($sql);
+        if ($smsLogInfo) {
+            $statusCode = 1;
+            $returnMsg = '成功';
+        }else{
+            $returnMsg = '验证码错误';
+        }
+    }else{
+        // throw new Exception("手机号 及 验证码 未接受到");
+        $statusCode = -2;
+        $returnMsg = '参数不全';
+    }
+
+    $returnArr['status'] = $statusCode;
+    $returnArr['info'] = $returnMsg;
+
+    return ($statusCode == 1) ? true : false;
+    
 }
 
 /**
