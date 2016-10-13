@@ -50,6 +50,7 @@ if (!defined('IN_ECS'))
     $purview['14_package_list']      = 'package_manage';
 //  $purview['02_snatch_list']       = 'gift_manage';  //赠品管理
     $purview['15_exchange_goods']    = 'exchange_goods';  //赠品管理
+    $purview['16_auto_campaign']    = 'auto_campaign';  //赠品管理
 
 //文章管理权限
     $purview['02_articlecat_list']   = 'article_cat';
@@ -91,6 +92,7 @@ if (!defined('IN_ECS'))
     $purview['flashplay']            = 'flash_manage';
     $purview['ucenter_setup']        = 'integrate_users';
     $purview['021_reg_fields']       = 'reg_fields';
+    $purview['auto_form']       = 'auto_form';
 
 //广告管理
     $purview['z_clicks_stats']       = 'ad_manage';

@@ -1,0 +1,72 @@
+<!-- $Id: exchange_campaign_post_list.htm 15544 2009-01-09 01:54:28Z zblikai $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div class="form-div">
+  <a href="./auto_campaign.php?act=list" title="">返回自定义活动列表</a>
+</div>
+
+<form method="POST" action="auto_campaign.php?act=batch_remove" name="listForm">
+<!-- start cat list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellspacing='1' cellpadding='3' id='list-table'>
+  <tr>
+    <th>
+      <a>{$lang.id}</a></th>
+        <th><a>{$lang.campaign_user_name}</a></th>
+        <th><a>{$lang.campaign_mobile}</a></th>
+        <th><a>{$lang.campaign_sex}</a></th>
+        <th><a>{$lang.campaign_remark}</a></th>
+        <th><a>{$lang.campaign_age}</a></th>
+        <th><a>{$lang.campaign_position}</a></th>
+  </tr>
+  {foreach from=$campaign_post_list item=list}
+  <tr>
+    <td><span>{$list.id}</span></td>
+    <td class="first-cell"><span>{$list.campaign_user_name|escape:html}</span></td>
+    <td align="center">{$list.campaign_mobile}</td>
+    <td align="center"><span>{if $list.campation_sex eq 1}男{else}女{/if}</span></td>
+    <td align="center"><span>{if $list.campaign_remark}{$list.campaign_remark}{else}-{/if}</span></td>
+    <td align="center"><span>{if $list.campaign_age}{$list.campaign_age}{else}-{/if}</span></td>
+    <td align="center"><span>{if $list.campaign_position}{$list.campaign_position}{else}-{/if}</span></td>
+   </tr>
+   {foreachelse}
+    <tr><td class="no-records" colspan="5">{$lang.no_records}</td></tr>
+  {/foreach}
+  <tr>
+    <td colspan="2"></td>
+    <td align="right" nowrap="true" colspan="8">{include file="page.htm"}</td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+<!-- end cat list -->
+<script type="text/javascript" language="JavaScript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+  {literal}
+
+  onload = function()
+  {
+    // 开始检查订单
+    startCheckOrder();
+  }
+
+ /* 搜索文章 */
+ function searchArticle()
+ {
+    listTable.filter.keyword = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter.page = 1;
+    listTable.loadList();
+ }
+ {/literal}
+</script>
+{include file="pagefooter.htm"}
+{/if}
