@@ -49,6 +49,7 @@ $modules['03_promotion']['13_wholesale']            = 'wholesale.php?act=list';
 $modules['03_promotion']['14_package_list']         = 'package.php?act=list';
 //$modules['03_promotion']['ebao_commend']            = 'ebao_commend.php?act=list';
 $modules['03_promotion']['15_exchange_goods']       = 'exchange_goods.php?act=list';
+$modules['03_promotion']['16_auto_campaign']       = 'auto_campaign.php?act=list';
 
 
 $modules['04_order']['02_order_list']               = 'order.php?act=list';
@@ -115,6 +116,7 @@ $modules['11_system']['navigator']                  = 'navigator.php?act=list';
 $modules['11_system']['file_check']                 = 'filecheck.php';
 //$modules['11_system']['fckfile_manage']             = 'fckfile_manage.php?act=list';
 $modules['11_system']['021_reg_fields']             = 'reg_fields.php?act=list';
+$modules['11_system']['auto_form']             = 'auto_form.php?act=list';
 
 
 $modules['12_template']['02_template_select']       = 'template.php?act=list';

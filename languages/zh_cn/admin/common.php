@@ -48,6 +48,7 @@ $_LANG['edit'] = '编辑';
 $_LANG['view'] = '查看';
 $_LANG['remove'] = '移除';
 $_LANG['drop'] = '删除';
+$_LANG['see_post'] = '查看提交信息';
 $_LANG['confirm_delete'] = '您确定要删除吗？';
 $_LANG['disabled'] = '禁用';
 $_LANG['enabled'] = '启用';
@@ -278,6 +279,10 @@ $_LANG['fckfile_manage'] = 'Fck上传文件管理';
 $_LANG['ucenter_setup'] = 'UCenter设置';
 $_LANG['file_check'] = '文件校验';
 $_LANG['021_reg_fields'] = '会员注册项设置';
+$_LANG['auto_form'] = '自定义表单';
+
+$_LANG['auto_form_list'] = '自定义表单列表';
+$_LANG['auto_form_add'] = '添加自定义表单';
 
 /* 模板管理 */
 $_LANG['02_template_select'] = '模板选择';
@@ -313,6 +318,12 @@ $_LANG['view_sendlist'] = '邮件队列管理';
 $_LANG['15_exchange_goods'] = '积分商城商品';
 $_LANG['15_exchange_goods_list'] = '积分商城商品列表';
 $_LANG['exchange_goods_add'] = '添加新商品';
+
+/* 首页自定义管理 */
+$_LANG['16_auto_campaign'] = '首页自定义活动管理';
+$_LANG['16_auto_campaign_list'] = '首页自定义活动列表';
+$_LANG['auto_campaign_add'] = '添加活动';
+$_LANG['auto_campaign_post_list'] = '-活动报名情况';
 
 /* cls_image类的语言项 */
 $_LANG['directory_readonly'] = '目录 % 不存在或不可写';

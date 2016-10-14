@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+<script type="text/javascript" src="js/action.js"></script>
+<script type="text/javascript" src="themes/68ecshop_xinjuwang/js/mzp-packed-me.js"></script>
+</head>
+<body><script type="text/javascript">
+          //初始化主菜单
+            function sw_nav2(obj,tag)
+            {
+            var DisSub2 = document.getElementById("DisSub2_"+obj);
+            var HandleLI2= document.getElementById("HandleLI2_"+obj);
+                if(tag==1)
+                {
+                    DisSub2.style.display = "block";
+                }
+                else
+                {
+                    DisSub2.style.display = "none";
+                }
+            }
+      function showhide(show){
+        document.getElementById("category_tree").style.display = show;
+        }
+</script>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="block1"> <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem --> </div>
+<div class="block1 clearfix"> 
+  
+  <!--右边区域-->
+  <div class="block1" style="margin-left:10px;">
+  <style>
+    .campaign_content{
+      text-align: left;
+    }
+  </style>
+    <div style="text-align: center">
+      <h4 class="goodName">{$goods.title}</h4>
+    </div>
+    <div class="campaign_content">
+      {$goods.content}
+    </div>
+    <div class="campaign_form" style="border: 1px solid #dddddd; padding: 30px;margin: 30px 0px;">
+      <form action="campaign.php" onsubmit="return submitCampaign(this);" method="post" name="campaignPostForm" id="campaignPostForm">
+       <table border="0" cellspacing="5" cellpadding="0">
+        <tr>
+          <td align="right">{$lang.campaign_user_name}：</td>
+          <td><input type="text" name="campaign_user_name" vlaue="" class="InputBorder" /></td>
+        </tr>
+        <tr>
+          <td align="right">{$lang.campaign_mobile}：</td>
+          <td>
+          <input type="text" name="campaign_mobile" id="email"  maxlength="100" value="" class="InputBorder" />
+          </td>
+        </tr>
+        <tr>
+          <td align="right">{$lang.campaign_sex}：</td>
+          <td>
+            <input type="radio" name="campaign_sex" value="1" />男
+            <input type="radio" name="campaign_sex" checked value="0" />女
+          </td>
+        </tr>
+
+        <!--{if $goods.has_field_remark}-->
+        <tr>
+          <td align="right">{$lang.campaign_remark}：</td>
+          <td>
+            <textarea name="campaign_remark" class="InputBorder"></textarea>
+          </td>
+        </tr>
+        <!--{/if}-->
+        <!--{if $goods.has_field_age}-->
+        <tr>
+          <td align="right">{$lang.campaign_age}：</td>
+          <td>
+            <input type="number" name="campaign_age"  class="InputBorder" />
+          </td>
+        </tr>
+        <!--{/if}-->
+        <!--{if $goods.has_field_position}-->
+        <tr>
+          <td align="right">{$lang.campaign_position}：</td>
+          <td>
+            <input type="text" name="campaign_position" value=""  class="InputBorder" />
+          </td>
+        </tr>
+        <!--{/if}-->
+
+        <tr>
+          <td colspan="2">
+          <!-- 判断是否启用验证码{if $enabled_captcha} -->
+          <div class="captcha fl">
+          {$lang.comment_captcha}：<input type="text" name="captcha" size="10"  class="InputBorder" style="margin-right:5px;"/>
+          <img src="captcha.php?{$rand}" alt="captcha" onClick="this.src='captcha.php?'+Math.random()" style="vertical-align:bottom;">
+          </div>
+          <!-- {/if} -->
+          <input type="hidden" name="act" value="ajax_post" />
+          <input type="hidden" name="campaign_id" value="{$goods_id}">
+          <input name="" type="submit"  value="{$lang.submit_comment}" class="bnt_number4 fr">
+          </td>
+        </tr>
+      </table>
+      </form>
+    </div>
+  
+  
+  </div>
+</div>
+<!-- #BeginLibraryItem "/library/help.lbi" --><!-- #EndLibraryItem --> <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+<script>
+/**
+ * 提交信息
+*/
+function submitCampaign(frm)
+{
+  var cmt = new Object;
+
+
+  //cmt.username        = frm.elements['username'].value;
+  cmt.campaign_user_name           = frm.elements['campaign_user_name'].value;
+  cmt.campaign_mobile         = frm.elements['campaign_mobile'].value;
+  cmt.campaign_sex            = frm.elements['campaign_sex'].value;
+  cmt.campaign_remark = frm.elements['campaign_remark'] ? frm.elements['campaign_remark'].value : '';
+  cmt.campaign_age = frm.elements['campaign_age'] ? frm.elements['campaign_age'].value : '';
+  cmt.campaign_position         = frm.elements['campaign_position'] ? frm.elements['campaign_position'].value : '';
+
+
+  if (cmt.campaign_user_name.length == 0)
+  {
+        alert('名字不能为空');
+        return false;
+   }
+
+   if (cmt.campaign_mobile.length == 0)
+   {
+      alert('手机号不能为空');
+      return false;
+   }
+
+   if (frm.elements['campaign_age'] && cmt.campaign_age.length == 0)
+   {
+      alert('年龄不能为空');
+      return false;
+   }
+
+   if (frm.elements['campaign_position'] && cmt.campaign_position.length == 0 )
+   {
+      alert('职业不能为空');
+      return false;
+   }
+
+}
+</script>
+<script type="text/javascript">
+<!-- {literal} -->
+onload = function()
+{
+  fixpng();
+}
+<!-- {/literal} -->
+</script>
+</html>

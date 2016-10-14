@@ -864,3 +864,53 @@ function calResult()
     }
   }
 }
+
+$(function(){
+
+  var count = 60;
+  function settime(e) { 
+    if (count == 0) { 
+      $(e.target).find('em').text(''); 
+      $(e.target).removeClass("disabled"); 
+      count = 60; 
+      return;
+    } else { 
+      $(e.target).find('em').text(count);
+      count--; 
+    } 
+    setTimeout(function() { 
+      settime(e) }
+    ,1000) 
+  }
+
+  /* *
+   * 发送手机验证码
+   */
+  $("#sendmsgbtn").click(function(e){
+
+      // 检测是否有手机号
+      var username = $("#form-username").val();
+      var capath = $("#form-code").val();
+
+      if(username && capath){
+        $("#sendmsgbtn").addClass("disabled");
+        settime(e);
+        Ajax.call('user.php?act=send_phone_code', 'm=' + username + '&v=' + capath + '&t=1', addPhoneMsgResponse, 'POST', 'JSON');
+      }else{
+        if (!username) {
+            alert('手机号不能为空');
+        }else{
+            alert('验证码不能为空');
+        }
+      }
+
+  });
+});
+/* *
+ * 处理添加商品到购物车的反馈信息
+ */
+function addPhoneMsgResponse(result)
+{
+  
+}
+

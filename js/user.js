@@ -864,3 +864,104 @@ function calResult()
     }
   }
 }
+$(function(){
+
+  var count = 60;
+  function settime(e) { 
+    if (count == 0) { 
+      $(e.target).find('em').text(''); 
+      $(e.target).removeClass("disabled"); 
+      count = 60; 
+      return;
+    } else { 
+      $(e.target).find('em').text(count);
+      count--; 
+    } 
+    setTimeout(function() { 
+      settime(e) }
+    ,1000) 
+  }
+
+  /* *
+   * 发送手机验证码
+   */
+  $("#sendmsgbtn").click(function(e){
+
+      // 检测是否有手机号
+      var username = $("#form-username").val();
+      var capath = $("#form-code").val();
+
+      if(username && capath){
+        $("#sendmsgbtn").addClass("disabled");
+        settime(e);
+        Ajax.call('user.php?act=send_phone_code', 'm=' + username + '&v=' + capath + '&t=1', addPhoneMsgResponse, 'POST', 'JSON');
+      }else{
+        if (!username) {
+            alert('手机号不能为空');
+        }else{
+            alert('验证码不能为空');
+        }
+      }
+
+  });
+});
+/* *
+ * 处理添加商品到购物车的反馈信息
+ */
+function addPhoneMsgResponse(result)
+{
+  if (result.error > 0)
+  {
+    // 如果需要缺货登记，跳转
+    if (result.error == 2)
+    {
+      if (confirm(result.message))
+      {
+        location.href = 'user.php?act=add_booking&id=' + result.goods_id + '&spec=' + result.product_spec;
+      }
+    }
+    // 没选规格，弹出属性选择框
+    else if (result.error == 6)
+    {
+      openSpeDiv(result.message, result.goods_id, result.parent);
+    }
+    else
+    {
+      alert(result.message);
+    }
+  }
+  else
+  {
+    var cartInfo = document.getElementById('ECS_CARTINFO');
+    var cart_url = 'flow.php?step=cart';
+    if (result.url)
+      cart_url = result.url;
+    if (cartInfo)
+    {
+      cartInfo.innerHTML = result.content;
+    }
+
+    if (result.one_step_buy == '1')
+    {
+      location.href = cart_url;
+    }
+    else
+    {
+      switch(result.confirm_type)
+      {
+        case '1' :
+          if (confirm(result.message)) location.href = cart_url;
+          break;
+        case '2' :
+          if (!confirm(result.message)) location.href = cart_url;
+          break;
+        case '3' :
+          location.href = cart_url;
+          break;
+        default :
+          break;
+      }
+    }
+  }
+}
+

@@ -109,7 +109,6 @@ elseif ($_REQUEST['act'] == 'add')
         $priv_arr[$rows['action_id']] = $rows;
     }
 
-
     /* 按权限组查询底级的权限名称 */
     $sql = "SELECT action_id, parent_id, action_code, relevance FROM " .$ecs->table('admin_action').
            " WHERE parent_id " .db_create_in(array_keys($priv_arr));

@@ -31,12 +31,12 @@ $back_act='';
 
 // 不需要登录的操作或自己验证是否登录（如ajax处理）的act
 $not_login_arr =
-array('login','act_login','register','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'oath' , 'oath_login', 'other_login');
+array('login','act_login','register','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code','send_phone_code', 'check_phone_code');
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
-'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer');
+'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code');
 
 /* 未登录处理 */
 if (empty($_SESSION['user_id']))
@@ -152,14 +152,14 @@ elseif ($action == 'act_register')
     {
         include_once(ROOT_PATH . 'includes/lib_passport.php');
 
-        $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+        // $username = isset($_POST['username']) ? trim($_POST['username']) : '';
         $password = isset($_POST['password']) ? trim($_POST['password']) : '';
         $email    = isset($_POST['email']) ? trim($_POST['email']) : '';
         $other['msn'] = isset($_POST['extend_field1']) ? $_POST['extend_field1'] : '';
         $other['qq'] = isset($_POST['extend_field2']) ? $_POST['extend_field2'] : '';
         $other['office_phone'] = isset($_POST['extend_field3']) ? $_POST['extend_field3'] : '';
         $other['home_phone'] = isset($_POST['extend_field4']) ? $_POST['extend_field4'] : '';
-        $other['mobile_phone'] = isset($_POST['extend_field5']) ? $_POST['extend_field5'] : '';
+        $other['mobile_phone'] = $username = isset($_POST['extend_field5']) ? $_POST['extend_field5'] : '';
         $sel_question = empty($_POST['sel_question']) ? '' : compile_str($_POST['sel_question']);
         $passwd_answer = isset($_POST['passwd_answer']) ? compile_str(trim($_POST['passwd_answer'])) : '';
 
@@ -920,6 +920,98 @@ elseif ($action == 'send_pwd_email')
     }
 }
 
+/* 发送短信 */
+elseif ($action == 'send_phone_code') {
+
+    include_once('includes/cls_json.php');
+    include_once(ROOT_PATH . 'includes/lib_passport.php');
+
+    $json  = new JSON;
+
+    $returnArr = array();
+
+    // 状态值
+    $statusCode = 0;
+    $returnMsg = '';
+
+    $mobile = $_POST['m'] ? trim($_POST['m']) : '';
+    $code = $_POST['v'] ? trim($_POST['v']) : '';
+    $tp = $_POST['t'] ? trim($_POST['t']) : 0;
+
+    if ($mobile && $code) {
+        $captcha = intval($_CFG['captcha']);
+
+        /* 检查验证码 */
+        include_once('includes/cls_captcha.php');
+
+        $validator = new captcha();
+        $validator->session_word = 'captcha_phone';
+        if ($validator->check_word($code))
+        {
+            $sendFlag = sms($mobile, $tp);
+            if ($sendFlag['status'] == 1) {
+                $statusCode = $sendFlag['status'];
+                $returnMsg = $sendFlag['msg'];
+                $returnData = $sendFlag['data'];
+            }
+        }else{
+            $statusCode = -3;
+            $returnMsg = '验证码不正确';
+        }
+    }else{
+        $statusCode = -2;
+        $returnMsg = '数据不完整';
+    }
+
+    $returnArr['status'] = $statusCode;
+    $returnArr['msg'] = $returnMsg;
+    if ($returnData) {
+        $returnArr['data'] = $returnData;
+    }
+
+    die($json->encode($returnArr));
+}
+
+/* 检查验证码的正确及是否过期 */
+elseif ($action == 'check_phone_code') {
+    include_once('includes/cls_json.php');
+    include_once(ROOT_PATH . 'includes/lib_passport.php');
+
+    $json  = new JSON;
+
+    $phoneNumber = $_POST['mobile_phone'];
+    $code = $_POST['phone_code'];
+    $type = $_POST['type'];
+    // 获取 验证码 手机 对应的 发送时间
+
+    $checkFlag = smsSelect($phoneNumber, $code, $type);
+
+    if ($checkFlag == 1) {
+        $return['status'] = 1;
+        $user_info = $user->get_user_info_by_mobile($phoneNumber);
+        
+        if ($user_info && $user_info['mobile_phone'] == $phoneNumber)
+        {
+            //生成code
+             //$code = md5($user_info[0] . $user_info[1]);
+
+            $code = md5($user_info['user_id'] . $_CFG['hash_code'] . $user_info['reg_time']);
+
+            $redirectUrl = $GLOBALS['ecs']->url() . 'user.php?act=get_password&uid=' . $user_info['user_id'] . '&code=' . $code;
+
+            header("Location: ".$redirectUrl);exit;
+        }
+
+    }else{
+        show_message('验证码不正确，或已超时!', $_LANG['back_page_up'], 'user.php?act=mobile_password_code', 'error');
+    }
+}
+
+/* 发送密码修改确认短信 */
+elseif ($action == 'send_pwd_phone_code') {
+    include_once(ROOT_PATH . 'includes/lib_passport.php');
+}
+
 /* 重置新密码 */
 elseif ($action == 'reset_password')
 {
@@ -964,6 +1056,13 @@ elseif ($action == 'act_edit_password')
         show_message($_LANG['edit_password_failure'], $_LANG['back_page_up'], '', 'info');
     }
 
+}
+
+/* 密码找回 -> 手机验证码界面 */
+elseif ($action == 'mobile_password_code')
+{
+    //显示输入要找回密码的账号表单
+    $smarty->display('user_passport.dwt');
 }
 
 /* 添加一个红包 */

@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="themesmobile/68ecshopcom_mobile/css/ecsmart.css">
 <script type="text/javascript" src="themesmobile/68ecshopcom_mobile/js/jquery.js"></script>
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 {insert_scripts files='common.js,utils.js,user.js,transport.js'}
 </head>
 <body style="background:#F4F4F4">
@@ -23,7 +24,9 @@
                 {if $action eq 'get_password'}{$lang.get_password}{/if}
                 {if $action eq 'get_passwd_question'}{$lang.get_password}{/if}
                 {if $action eq 'reset_password'}{$lang.get_password}{/if}	
-                {if $action eq 'qpassword_name'}{$lang.get_password}{/if}</h3>
+                {if $action eq 'qpassword_name'}{$lang.get_password}{/if}
+                {if $action eq 'mobile_password_code'}{$lang.get_password}{/if}</h3>
+                
     </div>
     <div class="nav">
       <ul>
@@ -46,7 +49,7 @@
          <div class="register"><a href="user.php?act=register" >没有帐号,免费注册</a> </div>
           <div class="field username">
             <div class="c-form-search">
-              <input type="text" name="username" placeholder="请输入用户名/邮箱" value=""/>
+              <input type="text" name="username" placeholder="请输入手机号" value=""/>
             </div>
           </div>
           <div class="field pwd">
@@ -69,8 +72,8 @@
           </div>
           <div class="field">
             <label class="bf1 login_ffri"><input type="checkbox" name="remember" value="1" checked="" >&nbsp;保存登录信息</label>
-        
-               <a class="login_ffleft" href="user.php?act=get_password">{$lang.get_password}</a>
+
+               <a class="login_ffleft" href="user.php?act=mobile_password_code">{$lang.get_password_by_mobile}</a>
           
           <div style="height:20px; line-height:20px; clear:both"></div>
  <!--  <div class="field">
@@ -117,20 +120,48 @@
       <section class="innercontent">
 <form action="user.php" method="post"  name="formUser" onsubmit="return register();">
 <fieldset>
-<div class="field username">
+<!-- <div class="field username">
 <div class="c-form-search st" style="background-position: 7px 10px;">
 <input type="text" name="username" id="username" placeholder="账户名" class="c-f-text"  onblur="is_registered(this.value);"/>
                         </div>
                         <div class="tips" ><span id="username_notice"></span></div>
-                    </div>
-                     <div class="field email">
+                    </div> -->
+                     <!-- <div class="field email">
                         <div class="c-form-search st">
                             <input type="email" name="email" placeholder="邮箱地址" value="" class="c-f-text" id="email" onblur="checkEmail(this.value);" />
                         </div>
                         <div class="tips"><span id="email_notice"></span></div>
-                    </div>
+                    </div> -->
                     
-                 
+                 {foreach from=$extend_info_list item=field}
+          {if $field.id eq 6}
+                      <div class="" >
+                        <div class="" >
+          
+            <select name="sel_question"{if $field.is_need} required{/if} class="c-f-text">
+              {html_options options=$passwd_questions selected=$profile.passwd_question}
+            </select>
+                    </div></div>
+                      <div class="field no">
+                        <div class="ptxt st">
+        
+            <input type="text "  placeholder="密码问题答案" name="passwd_answer" value="{$profile.passwd_answer}" {if $field.is_need} required{/if} class="c-f-text"/>
+                   </div>
+                     <!-- {if $field.is_need} -->
+       <div class="tips"><span id="conform_password_notice"> </span></div>
+        <!-- {/if} -->
+                   </div>
+          {else}
+                     <div class="field no">
+                        <div class="ptxt st">         
+            <input type="text" name="extend_field{$field.id}" value="{$field.content}" placeholder="{$field.reg_field_name}" id="extend_field_{$field.id}" class="c-f-text"/>
+                    </div>
+                     <!-- {if $field.is_need} -->
+       <div class="tips"><span id="conform_password_notice"> </span></div>
+        <!-- {/if} -->
+                    </div>
+          {/if}
+          {/foreach}
                     <div class="field pwd">
                         <div class="ptxt st">
                             <input type="password" name="password" id="password1" onblur="check_password(this.value);" value="" placeholder="密码" class="c-f-text"/>
@@ -143,35 +174,6 @@
                         </div>
                          <div class="tips"><span id="conform_password_notice"> </span></div>
                     </div>
-                    {foreach from=$extend_info_list item=field}
-					{if $field.id eq 6}
-                      <div class="" >
-                        <div class="" >
-					
-						<select name="sel_question"{if $field.is_need} required{/if} class="c-f-text">
-							{html_options options=$passwd_questions selected=$profile.passwd_question}
-						</select>
-                    </div></div>
-                      <div class="field no">
-                        <div class="ptxt st">
-				
-						<input type="text "  placeholder="密码问题答案" name="passwd_answer" value="{$profile.passwd_answer}" {if $field.is_need} required{/if} class="c-f-text"/>
-                   </div>
-                     <!-- {if $field.is_need} -->
-       <div class="tips"><span id="conform_password_notice"> </span></div>
-        <!-- {/if} -->
-                   </div>
-					{else}
-                     <div class="field no">
-                        <div class="ptxt st">					
-						<input type="text" name="extend_field{$field.id}" value="{$field.content}" placeholder="{$field.reg_field_name}" id="extend_field_{$field.id}" class="c-f-text"/>
-                    </div>
-                     <!-- {if $field.is_need} -->
-       <div class="tips"><span id="conform_password_notice"> </span></div>
-        <!-- {/if} -->
-                    </div>
-					{/if}
-					{/foreach}
                     {if $enabled_captcha}
                     <div class="field identifyCode">
                         <div class="c-form-search">
@@ -238,6 +240,57 @@
       </form>
     </section>
 {/if}
+<!--*通过手机号码的确认找回账号界面 --> 
+{if $action eq 'mobile_password_code'}
+<section class="innercontent">
+
+      <form action="user.php" method="post">
+        <fieldset>
+          <div class="field username">
+            <div class="c-form-search st">
+              <input type="text" name="mobile_phone" id="form-username" placeholder="请输入{$lang.other_mobile_phone}" value="" class="c-f-text"/>
+            </div>
+          </div>
+           
+           <div class="field text">
+             <div class="c-form-search">
+            <label class="verify">
+                <input type="text" size="8" name="captcha" id="form-code"  placeholder="{$lang.comment_captcha}" class="c-f-text"/>
+                <img src="captcha.php?is_send_phone=1&{$rand}" name="captcha" alt="captcha" id="captchaImg" style="vertical-align: top;cursor: pointer;" onClick="this.src='captcha.php?is_send_phone=1&'+Math.random()" /> 
+              </label>
+              <p class="verify">点击图片换一张</p>
+           </div>
+                        <div class="tips"></div>
+                    </div>
+            <div class="field">
+              <button type="button" id="sendmsgbtn" size="30" class="c-btn-oran-big1" >发送验证码<em></em></button>
+            </div>
+
+            <div class="field text">
+              <div class="c-form-search">
+                <input name="phone_code" type="text" size="30" class="c-f-text" />
+                <div class="tips">输入手机接收到的短信验证码</div>
+              </div>
+            </div>
+         
+          <div class="field submit-btn">
+
+            <input type="hidden" name="type" value="1" />
+            <input type="hidden" name="act" value="check_phone_code" />
+            <input type="submit" class="c-btn-oran-big1" value="提 交">
+          </div>
+
+            <div class="tips">
+              {$lang.get_mobile_code}
+            </div>
+      </div>
+
+        </fieldset>
+      </form>
+    </section>
+<!--{/if}--> 
+
+
 	{if $action eq 'qpassword_name'}
 <section class="innercontent">
 

@@ -197,6 +197,7 @@ $_LANG['edit_password_failure'] = '您输入的原密码不正确！';
 $_LANG['edit_password_success'] = '您的新密码已设置成功！';
 $_LANG['username_not_match_email'] = '用户名与电子邮件地址不匹配，请重新输入！';
 $_LANG['get_question_username'] = '请输入您注册的用户名以取得您的密码提示问题。';
+$_LANG['get_mobile_code'] = '请输入您注册的手机号及该手机号接收到的验证码。';
 $_LANG['no_passwd_question'] = '您没有设置密码提示问题，无法通过这种方式找回密码。';
 $_LANG['input_answer'] = '请根据您注册时设置的密码问题输入设置的答案';
 $_LANG['wrong_passwd_answer'] = '您输入的密码答案是错误的';
@@ -376,6 +377,7 @@ $_LANG['back_home_lnk'] = '返回首页';
 $_LANG['get_password_lnk'] = '返回获取密码页面';
 $_LANG['get_password_by_question'] = '密码问题找回密码';
 $_LANG['get_password_by_mail'] = '注册邮件找回密码';
+$_LANG['get_password_by_mobile'] = '忘记密码';
 $_LANG['back_retry_answer'] = '返回重试';
 
 /* 登录 注册 */
@@ -391,6 +393,8 @@ $_LANG['other_office_phone'] = '办公电话';
 $_LANG['other_home_phone'] = '家庭电话';
 $_LANG['other_mobile_phone'] = '手机';
 $_LANG['remember'] = '请保存我这次的登录信息。';
+
+$_LANG['other_mobile_code'] = '短信验证码';
 
 $_LANG['msg_un_blank'] = '用户名不能为空';
 $_LANG['msg_un_length'] = '用户名最长不得超过7个汉字';

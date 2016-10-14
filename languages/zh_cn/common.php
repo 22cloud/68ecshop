@@ -731,4 +731,14 @@ $_LANG['label_collection'] = '我的收藏';
 $_LANG['article_list'] = '文章列表';
 $_LANG['preferences_price'] = '优惠价格';
 $_LANG['divided_into'] = '分成规则';
+
+/* 自定义活动 语言项 */
+$_LANG['campaign'] = '活动';
+$_LANG['campaign_user_name'] = '名字';
+$_LANG['campaign_mobile'] = '手机';
+$_LANG['campaign_sex'] = '性别';
+$_LANG['campaign_remark'] = '备注';
+$_LANG['campaign_age'] = '年龄';
+$_LANG['campaign_position'] = '职业';
+
 ?>
