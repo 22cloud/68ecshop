@@ -19,7 +19,7 @@
   </form>
 </div>
 
-<form method="post" action="group_buy.php?act=insert_update" name="theForm" onsubmit="return validate()">
+<form method="post" enctype="multipart/form-data" action="group_buy.php?act=insert_update" name="theForm" onsubmit="return validate()">
 <div class="main-div">
 <table id="group-table" cellspacing="1" cellpadding="3" width="100%">
   <tr>
@@ -31,6 +31,18 @@
       <option value="0">{$lang.notice_goods_name}</option>
       {/if}
     </select>    </td>
+  </tr>
+  <tr>
+    <td class="label">头图：</td>
+    <td>
+      <input type="file" name="img_url" size="35" />
+      {if $group_buy.img_url}
+        <a href="group_buy.php?act=show_image&img_url={$group_buy.img_url}" target="_blank"><img src="images/yes.gif" border="0" /></a>
+      {else}
+        <img src="images/no.gif" />
+      {/if}
+      <input type="hidden" name="img_url_val" value="{$group_buy.img_url}" />
+    </td>
   </tr>
   <tr>
     <td class="label">{$lang.label_start_date}</td>

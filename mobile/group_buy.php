@@ -321,11 +321,12 @@ function group_buy_list($size, $page)
     $gb_list = array();
     $now = gmtime();
     $sql = "SELECT b.*, IFNULL(g.goods_thumb, '') AS goods_thumb, b.act_id AS group_buy_id, ".
-                "b.start_time AS start_date, b.end_time AS end_date " .
+                "b.start_time AS start_date, b.end_time AS end_date , b.img_url AS img_url " .
             "FROM " . $GLOBALS['ecs']->table('goods_activity') . " AS b " .
                 "LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS g ON b.goods_id = g.goods_id " .
             "WHERE b.act_type = '" . GAT_GROUP_BUY . "' " .
             "AND b.start_time <= '$now' AND b.is_finished < 3 ORDER BY b.act_id DESC";
+            
     $res = $GLOBALS['db']->selectLimit($sql, $size, ($page - 1) * $size);
     while ($group_buy = $GLOBALS['db']->fetchRow($res))
     {
@@ -361,6 +362,11 @@ function group_buy_list($size, $page)
         if (empty($group_buy['goods_thumb']))
         {
             $group_buy['goods_thumb'] = get_image_path($group_buy['goods_id'], $group_buy['goods_thumb'], true);
+        }
+        /* 处理图片 */
+        if (empty($group_buy['img_url']))
+        {
+            $group_buy['img_url'] = get_image_path($group_buy['act_id'], $group_buy['img_url'], true);
         }
         /* 处理链接 */
         $group_buy['url'] =build_uri('group_buy', array('gbid'=>$group_buy['group_buy_id'],'redirect' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']));
