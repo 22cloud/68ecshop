@@ -320,12 +320,12 @@ function shortMsgSend($mobile,$tpl=0)
     switch ($tpl) {
         case '1':
         // 密码找回
-        $content = "【工聚网】尊敬的用户，您的短信验证码为：".$verification_code."，您正在进行密码找回操作，5分钟内有效，如非本人操作请忽略。";
+        $content = "【生活惠】尊敬的用户，您的短信验证码为：".$verification_code."，您正在进行密码找回操作，5分钟内有效，如非本人操作请忽略。";
         break;
 
         default:
         // 注册
-        $content = "【工聚网】尊敬的用户，您的短信验证码为：".$verification_code."，5分钟内有效，如非本人操作请忽略。";
+        $content = "【生活惠】尊敬的用户，您的短信验证码为：".$verification_code."，5分钟内有效，如非本人操作请忽略。";
         break;
     }
     $content = urlencode($content);
