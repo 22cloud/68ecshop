@@ -276,10 +276,27 @@
 			<!-- {/if} -->
 			<!-- {/if} -->
 			</div>
+			<!-- {if $goods.is_freight_free || $lang.is_quality} -->
+			<div class="Goodpromotion">
+				<font style="font-size:12px;">{$lang.service}：</font>
+				<!-- {if $goods.is_freight_free} -->
+				<b>{$lang.is_freight_free}</b>
+				<!-- {/if} -->
+				<!-- {if $goods.is_quality} -->
+				<b>{$lang.is_quality}</b>
+				<!-- {/if} -->
+			</div>
+			<!-- {/if} -->
             <div class="Goodpromotion">
             
 			<font style="font-size:12px;">{$lang.number}：</font>
+			<!--{if $goods.is_promote and $goods.gmt_end_time } 促销时间-->
+			<input name="number" disabled type="text" id="number" value="1" size="4" onBlur="changePrice()" class="InputBorder"/>
+			<!-- {else} -->
+			<input type="button" class="num_minus" onclick="changeNumber('-')" value="-">
 			<input name="number" type="text" id="number" value="1" size="4" onBlur="changePrice()" class="InputBorder"/>
+			<input type="button" class="num_plus" onclick="changeNumber('+')" value="+">
+			<!-- {/if} -->
 			&nbsp;&nbsp;&nbsp;
 			<font style="font-size:12px;">{$lang.amount}：</font><span id="ECS_GOODS_AMOUNT" class="price"></span>
 			<!-- {if $goods.is_shipping}-->
@@ -287,6 +304,7 @@
 		  <!-- {/if} -->
 			<div class="blank"></div>
 			<a href="javascript:addToCart({$goods.goods_id})"><img src="images/bnt_buy.gif" /></a> 
+			<a href="javascript:fastBuyBtn({$goods.goods_id})"><img src="images/fast_bnt_buy.gif" /></a> 
             </div>
 		</form>
        
@@ -350,6 +368,21 @@ onload = function(){
   fixpng();
   try { onload_leftTime(); }
   catch (e) {}
+}
+
+function changeNumber(type)
+{
+  	var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
+  	if (type == '+') {
+  		qty = qty*1 + 1;
+  	}else{
+  		qty = qty*1 - 1;
+  	}
+
+  	if (qty>0) {
+  		document.forms['ECS_FORMBUY'].elements['number'].value = qty;
+  		changePrice();
+  	}
 }
 
 /**

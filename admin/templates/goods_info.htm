@@ -259,6 +259,12 @@
             <td><textarea name="seller_note" cols="40" rows="3">{$goods.seller_note}</textarea><br />
             <span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="noticeSellerNote">{$lang.notice_seller_note}</span></td>
           </tr>
+          <tr>
+            <td class="label">{$lang.lab_service}</td>
+            <td>
+              <input type="checkbox" name="is_freight_free" value="1" {if $goods.is_freight_free}checked="checked"{/if} />{$lang.is_freight_free} 
+              <input type="checkbox" name="is_quality" value="1" {if $goods.is_quality}checked="checked"{/if} />{$lang.is_quality}
+          </tr>
         </table>
 
         <!-- 属性与规格 -->

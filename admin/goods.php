@@ -176,7 +176,9 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             'promote_end_date'   => local_date('Y-m-d', local_strtotime('+1 month')),
             'goods_weight'  => 0,
             'give_integral' => -1,
-            'rank_integral' => -1
+            'rank_integral' => -1,
+            'is_freight_free'    => '1',
+            'is_quality' => '1'
         );
 
         if ($code != '')
@@ -244,7 +246,9 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
                 'promote_end_date'   => local_date('Y-m-d', gmstr2tome('+1 month')),
                 'goods_weight'  => 0,
                 'give_integral' => -1,
-                'rank_integral' => -1
+                'rank_integral' => -1,
+                'is_freight_free'    => '1',
+                'is_quality' => '1'
             );
         }
 
@@ -829,6 +833,9 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
 
     $buy_number = isset($_POST['buy_number']) && ($_POST['buy_number'] > 0) ? $_POST['buy_number'] : 0;
     $send_number = isset($_POST['send_number']) && ($_POST['send_number'] > 0) ? $_POST['send_number'] : 0;
+    /* 服务 */
+    $is_freight_free = isset($_POST['is_freight_free']) && ($_POST['is_freight_free'] > 0) ? $_POST['is_freight_free'] : 0;
+    $is_quality = isset($_POST['is_quality']) && ($_POST['is_quality'] > 0) ? $_POST['is_quality'] : 0;
 
     /* 入库 */
     if ($is_insert)
@@ -840,14 +847,14 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                     "promote_start_date, promote_end_date, goods_img, goods_thumb, original_img, keywords, goods_brief, " .
                     "seller_note, goods_weight, goods_number, warn_number, integral, give_integral, is_best, is_new, is_hot, " .
                     "is_on_sale, is_alone_sale, is_shipping, goods_desc, add_time, last_update, goods_type, rank_integral, ".
-                    "suppliers_id, buy_number, send_number) " .
+                    "suppliers_id, buy_number, send_number, is_freight_free, is_quality) " .
                 "VALUES ('$_POST[goods_name]', '$goods_name_style', '$goods_sn', '$catgory_id', " .
                     "'$brand_id', '$shop_price', '$market_price', '$is_promote','$promote_price', ".
                     "'$promote_start_date', '$promote_end_date', '$goods_img', '$goods_thumb', '$original_img', ".
                     "'$_POST[keywords]', '$_POST[goods_brief]', '$_POST[seller_note]', '$goods_weight', '$goods_number',".
                     " '$warn_number', '$_POST[integral]', '$give_integral', '$is_best', '$is_new', '$is_hot', '$is_on_sale', '$is_alone_sale', $is_shipping, ".
                     " '$_POST[goods_desc]', '" . gmtime() . "', '". gmtime() ."', '$goods_type', '$rank_integral', '$suppliers_id', ".
-                    " '$buy_number', '$send_number')";
+                    " '$buy_number', '$send_number', '$is_freight_free', '$is_quality')";
         }
         else
         {
@@ -856,14 +863,14 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                     "promote_start_date, promote_end_date, goods_img, goods_thumb, original_img, keywords, goods_brief, " .
                     "seller_note, goods_weight, goods_number, warn_number, integral, give_integral, is_best, is_new, is_hot, is_real, " .
                     "is_on_sale, is_alone_sale, is_shipping, goods_desc, add_time, last_update, goods_type, extension_code, rank_integral, " .
-                    "buy_number, send_number) ".
+                    "buy_number, send_number, is_freight_free, is_quality) ".
                 "VALUES ('$_POST[goods_name]', '$goods_name_style', '$goods_sn', '$catgory_id', " .
                     "'$brand_id', '$shop_price', '$market_price', '$is_promote','$promote_price', ".
                     "'$promote_start_date', '$promote_end_date', '$goods_img', '$goods_thumb', '$original_img', ".
                     "'$_POST[keywords]', '$_POST[goods_brief]', '$_POST[seller_note]', '$goods_weight', '$goods_number',".
                     " '$warn_number', '$_POST[integral]', '$give_integral', '$is_best', '$is_new', '$is_hot', 0, '$is_on_sale', '$is_alone_sale', $is_shipping, ".
                     " '$_POST[goods_desc]', '" . gmtime() . "', '". gmtime() ."', '$goods_type', '$code', '$rank_integral',".
-                    " '$buy_number', '$send_number')";
+                    " '$buy_number', '$send_number', '$is_freight_free', '$is_quality')";
         }
     }
     else
@@ -930,7 +937,9 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                 "last_update = '". gmtime() ."', ".
                 "goods_type = '$goods_type', " .
                 "buy_number = '$buy_number', " .
-                "send_number = '$send_number' " .
+                "send_number = '$send_number', " .
+                "is_freight_free = '$is_freight_free', " .
+                "is_quality = '$is_quality' " .
                 "WHERE goods_id = '$_REQUEST[goods_id]' LIMIT 1";
     }
     $db->query($sql);

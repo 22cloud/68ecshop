@@ -125,6 +125,10 @@ $_LANG['lab_picture_url'] = '商品图片外部URL';
 $_LANG['lab_thumb_url'] = '商品缩略图外部URL';
 
 /* 新增语言项 start */
+$_LANG['lab_service'] = '服务：';
+$_LANG['is_freight_free'] = '免运费';
+$_LANG['is_quality'] = '正品保障';
+
 $_LANG['tab_buysend'] = '买送';
 $_LANG['goods_buysend'] = '该商品的买送结果商品';
 $_LANG['lab_buy_number'] = '买送的数量条件：';

@@ -1594,10 +1594,12 @@ function get_cart_goods()
     );
 
     /* 循环、统计 */
-    $sql = "SELECT *, IF(parent_id, parent_id, goods_id) AS pid " .
-            " FROM " . $GLOBALS['ecs']->table('cart') . " " .
-            " WHERE session_id = '" . SESS_ID . "' AND rec_type = '" . CART_GENERAL_GOODS . "'" .
-            " ORDER BY pid, parent_id";
+    $sql = "SELECT c.*, IF(c.parent_id, c.parent_id, c.goods_id) AS pid " .
+            ", g.is_promote, g.promote_start_date,g.promote_end_date " .
+            " FROM " . $GLOBALS['ecs']->table('cart') . " c " .
+            " JOIN " . $GLOBALS['ecs']->table('goods') . " g ON g.goods_id = c.goods_id" .
+            " WHERE c.session_id = '" . SESS_ID . "' AND c.rec_type = '" . CART_GENERAL_GOODS . "'" .
+            " ORDER BY pid, c.parent_id";
     $res = $GLOBALS['db']->query($sql);
 
     /* 用于统计购物车中实体商品和虚拟商品的个数 */
