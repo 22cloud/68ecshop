@@ -34,7 +34,7 @@ array('login','act_login','register','act_register','act_edit_password','get_pas
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
-'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code');
+'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code','order_refund');
 
 /* 未登录处理 */
 if (empty($_SESSION['user_id']))
@@ -1029,6 +1029,121 @@ elseif ($action == 'order_detail')
     $smarty->assign('order',      $order);
     $smarty->assign('goods_list', $goods_list);
     $smarty->display('user_transaction.dwt');
+}
+
+elseif ($action == 'order_refund')
+{
+    include_once(ROOT_PATH . 'includes/lib_transaction.php');
+    include_once(ROOT_PATH . 'includes/lib_payment.php');
+    include_once(ROOT_PATH . 'includes/lib_order.php');
+    include_once(ROOT_PATH . 'includes/lib_clips.php'); 
+
+    $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+
+    /* 订单详情 */
+    $order = get_order_detail($order_id, $user_id);
+
+    /* 订单商品 */
+    $goods_list = order_goods($order_id);
+    foreach ($goods_list AS $key => $value)
+    {
+        $goods_list[$key]['market_price'] = price_format($value['market_price'], false);
+        $goods_list[$key]['goods_price']  = price_format($value['goods_price'], false);
+        $goods_list[$key]['subtotal']     = price_format($value['subtotal'], false);
+    }
+
+
+    $smarty->assign('order',      $order);
+    $smarty->assign('goods_list', $goods_list);
+ 
+
+    $smarty->display('user_transaction.dwt');
+}
+
+elseif ($action == 'order_refund_cancel')
+{
+    $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+
+    $sql = "DELETE FROM " . $ecs->table('order_refund_log') .
+                       "WHERE order_id = '$order_id'";
+    if ($GLOBALS['db']->query($sql) !== false)
+    {
+        $pay_status = 2;
+        // 更新支付状态 为已付款
+        $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
+                    " SET ".
+                        " pay_status = '$pay_status' " .
+               "WHERE order_id = '$order_id'";
+
+        $GLOBALS['db']->query($sql); 
+    }
+
+    Header("Location: user.php?act=order_list");exit;
+
+}
+
+elseif ($action == 'order_refund_action')
+{
+    include_once(ROOT_PATH . 'includes/lib_transaction.php');
+    include_once(ROOT_PATH . 'includes/lib_payment.php');
+    include_once(ROOT_PATH . 'includes/lib_order.php');
+    include_once(ROOT_PATH . 'includes/lib_clips.php');
+
+    $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
+
+    $sql = "INSERT INTO " .$GLOBALS['ecs']->table('order_refund_log'). " (uid, order_id, refund_content, create_time)" .
+                    "VALUES ('$_SESSION[user_id]', '$order_id', '".$_POST['refund_content']."','".time()."')";
+
+            if ($GLOBALS['db']->query($sql) !== false)
+            {
+                $pay_status = 3;
+                // 更新支付状态 为退款中
+                $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
+                            " SET ".
+                                " pay_status = '$pay_status' " .
+                       "WHERE order_id = '$order_id'";
+
+                $GLOBALS['db']->query($sql); 
+            }
+    Header("Location: user.php?act=order_list");exit;
+
+    // /* 订单详情 */
+    // $order = get_order_detail($order_id, $user_id);
+    // // echo strtotime('2016-01-12');exit;
+
+    // $order['detail_data'] = $order['trade_no'].'^'.$order['total_fee'].'^'.$order['refund_content'];
+
+    // /*
+    //  * 在线支付按钮
+    //  */
+    // //支付方式信息
+    // $payment_info = array();
+    // $payment_info = payment_info($order['pay_id']);
+
+    // //无效支付方式
+    // if ($payment_info === false)
+    // {
+    //     $order['pay_online'] = '';
+    // }
+    // else
+    // {
+    //     //取得支付信息，生成支付代码
+    //     $payment = unserialize_config($payment_info['pay_config']);
+
+    //     //获取需要支付的log_id
+    //     $order['log_id']    = get_paylog_id($order['order_id'], $pay_type = PAY_ORDER);
+    //     $order['user_name'] = $_SESSION['user_name'];
+    //     $order['pay_desc']  = $payment_info['pay_desc'];
+
+    //     /* 调用相应的支付方式文件 */
+    //     include_once(ROOT_PATH . 'includes/modules/payment/' . $payment_info['pay_code'] . '.php');
+
+    //     /* 取得在线支付方式的支付按钮 */
+    //     $pay_obj    = new $payment_info['pay_code'];
+    //     $order_refund_url = $pay_obj->get_refund_code($order, $payment);
+    // }
+
+    // Header("Location: $order_refund_url");exit;
 }
 
 /* 取消订单 */

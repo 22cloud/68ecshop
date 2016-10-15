@@ -237,6 +237,132 @@
  
   <!--{/if}-->
  <!--#订单列表界面 end-->
+
+ <!--#订单退款界面 start-->
+  <!-- {if $action eq 'order_refund'} -->
+  <div class="us_contentBox mod1 mod2">
+  
+  <h6>{$lang.order_status}</h6>
+  <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+        <tr>
+          <td width="15%" align="right" bgcolor="#ffffff">{$lang.detail_order_sn}：</td>
+          <td align="left" bgcolor="#ffffff">{$order.order_sn}
+          <!-- {if $order.extension_code eq "group_buy"} -->
+					<a href="./group_buy.php?act=view&id={$order.extension_id}"><strong>{$lang.order_is_group_buy}</strong></a>
+					<!-- {elseif $order.extension_code eq "exchange_goods"} -->
+					<a href="./exchange.php?act=view&id={$order.extension_id}"><strong>{$lang.order_is_exchange}</strong></a>
+					<!--{/if}-->  
+					<a href="user.php?act=message_list&order_id={$order.order_id}">[<u>{$lang.business_message}</u>]</a>
+					</td>
+        </tr>
+        <tr>
+          <td align="right" bgcolor="#ffffff">{$lang.detail_order_status}：</td>
+          <td align="left" bgcolor="#ffffff">{$order.order_status}&nbsp;&nbsp;&nbsp;&nbsp;{$order.confirm_time}</td>
+        </tr>
+        <tr>
+          <td align="right" bgcolor="#ffffff">{$lang.detail_pay_status}：</td>
+          <td align="left" bgcolor="#ffffff">{$order.pay_status}&nbsp;&nbsp;&nbsp;&nbsp;{if $order.order_amount gt 0}{$order.pay_online}{/if}{$order.pay_time}</td>
+        </tr>
+        <tr>
+          <td align="right" bgcolor="#ffffff">{$lang.detail_shipping_status}：</td>
+          <td align="left" bgcolor="#ffffff">{$order.shipping_status}&nbsp;&nbsp;&nbsp;&nbsp;{$order.shipping_time}</td>
+        </tr>
+        <!-- {if $order.invoice_no}-->
+        <tr>
+          <td align="right" bgcolor="#ffffff">{$lang.consignment}：</td>
+          <td align="left" bgcolor="#ffffff">{$order.invoice_no}</td>
+        </tr>
+        <!--{/if}-->
+        <!--{if $order.to_buyer}-->
+        <tr>
+          <td align="right" bgcolor="#ffffff">{$lang.detail_to_buyer}：</td>
+          <td align="left" bgcolor="#ffffff">{$order.to_buyer}</td>
+        </tr>
+        <!-- {/if} -->
+
+        <!--{if $virtual_card}-->
+        <tr>
+          <td align="right" bgcolor="#ffffff">{$lang.virtual_card_info}：</td>
+          <td colspan="3" align="left" bgcolor="#ffffff">
+          <!--{foreach from=$virtual_card item=vgoods}-->
+            <!--{foreach from=$vgoods.info item=card}-->
+              <!--{if $card.card_sn}-->{$lang.card_sn}:<span style="color:red;">{$card.card_sn}</span><!--{/if}-->
+              <!--{if $card.card_password}-->{$lang.card_password}:<span style="color:red;">{$card.card_password}</span><!--{/if}-->
+              <!--{if $card.end_date}-->{$lang.end_date}:{$card.end_date}<!--{/if}--><br />
+            <!--{/foreach}-->
+          <!--{/foreach}-->
+          </td>
+        </tr>
+        <!--{/if}-->
+      </table>
+	</div>
+
+  <div class="us_contentBox mod1 mod2">
+  
+  <h6 class="clearfix"><span class="fl">{$lang.goods_list}</span>
+	 <span class="fr">
+   <!-- {if $allow_to_cart} -->
+    <a href="javascript:;" onclick="returnToCart({$order.order_id})" class="us_textDot">{$lang.return_to_cart}</a>
+   <!-- {/if} -->
+	 </span>
+  </h6>
+  <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr>
+            <th width="23%" align="center" bgcolor="#ffffff">{$lang.goods_name}</th>
+            <th width="29%" align="center" bgcolor="#ffffff">{$lang.goods_attr}</th>
+            <!--<th>{$lang.market_price}</th>-->
+            <th width="26%" align="center" bgcolor="#ffffff">{$lang.goods_price}<!-- {if $order.extension_code eq "group_buy"} -->{$lang.gb_deposit}<!-- {/if} --></th>
+            <th width="9%" align="center" bgcolor="#ffffff">{$lang.number}</th>
+            <th width="20%" align="center" bgcolor="#ffffff">{$lang.subtotal}</th>
+          </tr>
+          <!-- {foreach from=$goods_list item=goods} -->
+          <tr>
+            <td bgcolor="#ffffff">
+						<!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} 商品 -->
+							<a href="goods.php?id={$goods.goods_id}" target="_blank">{$goods.goods_name}</a>
+							<!-- {if $goods.parent_id > 0} -->
+							<span style="color:#FF0000">（{$lang.accessories}）</span>
+							<!-- {elseif $goods.is_gift} -->
+							<span style="color:#FF0000">（{$lang.largess}）</span>
+							<!-- {/if} -->
+						<!-- {elseif $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} -->
+							<a href="javascript:void(0)" onclick="setSuitShow({$goods.goods_id})">{$goods.goods_name}<span style="color:#FF0000;">（礼包）</span></a>
+							<div id="suit_{$goods.goods_id}" style="display:none">
+									<!-- {foreach from=$goods.package_goods_list item=package_goods_list} -->
+										<a href="goods.php?id={$package_goods_list.goods_id}" target="_blank">{$package_goods_list.goods_name}</a><br />
+									<!-- {/foreach} -->
+							</div>
+						<!-- {/if} -->
+						</td>
+
+            <td align="left" bgcolor="#ffffff">{$goods.goods_attr|nl2br}</td>
+            <!--<td align="right">{$goods.market_price}</td>-->
+            <td align="right" bgcolor="#ffffff" class="price">{$goods.goods_price}</td>
+            <td align="center" bgcolor="#ffffff" class="price">{$goods.goods_number}</td>
+            <td align="right" bgcolor="#ffffff" class="price">{$goods.subtotal}</td>
+          </tr>
+          <!-- {/foreach} -->
+          <tr>
+            <td colspan="8" bgcolor="#ffffff" align="right">
+            {$lang.shopping_money}
+						<!-- {if $order.extension_code eq "group_buy"} -->
+						<font class="price">{$lang.gb_deposit}</font>
+						<!-- {/if} -->: 
+						<font class="price">{$order.formated_goods_amount}</font>
+            </td>
+          </tr>
+        </table>
+  </div>
+ <div class="us_contentBox mod1 mod2">
+ 	<form action="./user.php?act=order_refund_action" method="post" accept-charset="utf-8">
+ 		<label>退款理由：</label><br>
+ 		<textarea name="refund_content" class="InputBorder" placeholder="请输入60个字以内"></textarea><br>
+ 		<input type="hidden" name="order_id" value="{$order.order_id}">
+ 		<input type="submit" name="refund_submit" value="退款">
+ 	</form>
+ </div>
+  <!--{/if}-->
+ <!--#订单退款界面 end-->
  
  <!--#包裹状态查询界面 start-->
  <!-- {if $action eq 'track_packages'} -->

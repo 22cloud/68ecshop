@@ -20,6 +20,7 @@ require(ROOT_PATH . 'includes/lib_payment.php');
 require(ROOT_PATH . 'includes/lib_order.php');
 /* 支付方式代码 */
 $pay_code = !empty($_REQUEST['code']) ? trim($_REQUEST['code']) : '';
+$refund = !empty($_REQUEST['refund']) ? trim($_REQUEST['refund']) : 0;
 
 //获取首信支付方式
 if (empty($pay_code) && !empty($_REQUEST['v_pmode']) && !empty($_REQUEST['v_pstring']))
@@ -73,9 +74,12 @@ else
         {
             /* 根据支付方式代码创建支付类的对象并调用其响应操作方法 */
             include_once($plugin_file);
-
             $payment = new $pay_code();
-            $msg     = (@$payment->respond()) ? $_LANG['pay_success'] : $_LANG['pay_fail'];
+            if ($refund) {
+                $msg     = (@$payment->refund_respond()) ? '退款成功' : '退款失败';   
+            }else{
+                $msg     = (@$payment->respond()) ? $_LANG['pay_success'] : $_LANG['pay_fail'];   
+            }
         }
         else
         {

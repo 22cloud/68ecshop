@@ -168,6 +168,66 @@ class alipay
     }
 
     /**
+     * 退款操作
+     */
+    function get_refund_code($order, $payment)
+    {
+        if (!defined('EC_CHARSET'))
+        {
+            $charset = 'utf-8';
+        }
+        else
+        {
+            $charset = EC_CHARSET;
+        }
+
+        $service = 'refund_fastpay_by_platform_pwd';
+
+        $extend_param = 'isv^sh22';
+
+
+        $parameter = array(
+            'extend_param'      => $extend_param,
+            'service'           => trim($service),
+            'partner'           => $payment['alipay_partner'],
+            'seller_user_id'           => $payment['alipay_partner'],
+            //'partner'           => ALIPAY_ID,
+            '_input_charset'    => trim(strtolower($charset)),
+            'notify_url'        => return_refund_url(basename(__FILE__, '.php')),
+            /* 业务参数 */
+            'out_trade_no'      => $order['order_sn'] . $order['log_id'],
+            'refund_date'       => date("Y-m-d H:i:s",time()),
+            'batch_num'          => substr_count($order['detail_data'],'#') + 1,
+            'batch_no'      => date('Ymd').time(),
+            /* 物流参数 */
+            'detail_data'    => $order['detail_data'],
+            /* 买卖双方信息 */
+            'seller_email'      => $payment['alipay_account']
+        );
+
+        ksort($parameter);
+        reset($parameter);
+
+        $param = '';
+        $sign  = '';
+
+        foreach ($parameter AS $key => $val)
+        {
+            $param .= "$key=" .urlencode($val). "&";
+            $sign  .= "$key=$val&";
+        }
+
+        $param = substr($param, 0, -1);
+        $sign  = substr($sign, 0, -1). $payment['alipay_key'];
+        //$sign  = substr($sign, 0, -1). ALIPAY_AUTH;
+
+        $button = 'https://mapi.alipay.com/gateway.do?'.$param. '&sign='.md5($sign).'&sign_type=MD5';
+
+        return $button;
+    }
+    
+
+    /**
      * 响应操作
      */
     function respond()
@@ -213,21 +273,92 @@ class alipay
         if ($_GET['trade_status'] == 'WAIT_SELLER_SEND_GOODS')
         {
             /* 改变订单状态 */
-            order_paid($order_sn, 2);
+            order_paid($order_sn, $_GET['trade_no'], 2);
 
             return true;
         }
         elseif ($_GET['trade_status'] == 'TRADE_FINISHED')
         {
             /* 改变订单状态 */
-            order_paid($order_sn);
+            order_paid($order_sn, $_GET['trade_no']);
 
             return true;
         }
         elseif ($_GET['trade_status'] == 'TRADE_SUCCESS')
         {
             /* 改变订单状态 */
-            order_paid($order_sn, 2);
+            order_paid($order_sn, $_GET['trade_no'], 2);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    /**
+     * 退款——响应操作
+     */
+    function refund_respond()
+    {
+        if (!empty($_POST))
+        {
+            foreach($_POST as $key => $data)
+            {
+                $_GET[$key] = $data;
+            }
+        }
+        $payment  = get_payment($_GET['code']);
+        $seller_email = rawurldecode($_GET['seller_email']);
+        $order_sn = str_replace($_GET['subject'], '', $_GET['out_trade_no']);
+        $order_sn = trim($order_sn);
+
+        /* 检查数字签名是否正确 */
+        ksort($_GET);
+        reset($_GET);
+
+        $sign = '';
+        foreach ($_GET AS $key=>$val)
+        {
+            if ($key != 'sign' && $key != 'sign_type' && $key != 'code')
+            {
+                $sign .= "$key=$val&";
+            }
+        }
+
+        $sign = substr($sign, 0, -1) . $payment['alipay_key'];
+        //$sign = substr($sign, 0, -1) . ALIPAY_AUTH;
+        if (md5($sign) != $_GET['sign'])
+        {
+            return false;
+        }
+
+        /* 检查支付的金额是否相符 */
+        if (!check_money($order_sn, $_GET['total_fee']))
+        {
+            return false;
+        }
+
+        if ($_GET['trade_status'] == 'WAIT_SELLER_SEND_GOODS')
+        {
+            /* 改变订单状态 */
+            order_paid($order_sn, $_GET['trade_no'], 2);
+
+            return true;
+        }
+        elseif ($_GET['trade_status'] == 'TRADE_FINISHED')
+        {
+            /* 改变订单状态 */
+            order_paid($order_sn, $_GET['trade_no']);
+
+            return true;
+        }
+        elseif ($_GET['trade_status'] == 'TRADE_SUCCESS')
+        {
+            /* 改变订单状态 */
+            order_paid($order_sn, $_GET['trade_no'], 2);
 
             return true;
         }

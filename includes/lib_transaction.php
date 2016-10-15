@@ -324,7 +324,12 @@ function get_user_orders($user_id, $num = 10, $start = 0, $other_where = '')
         }
         else
         {
-            $row['handler'] = '<span style="color:red">'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>';
+            if ($row['pay_status'] == 3) {
+                @$row['handler'] = "<a href=\"user.php?act=order_refund_cancel&order_id=" .$row['order_id']. '">' .取消退款. '</a>';
+            }else{
+                @$row['handler'] = "<a href=\"user.php?act=order_refund&order_id=" .$row['order_id']. '">' .退款. '</a>';
+            }
+            // $row['handler'] = '<span style="color:red">'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>';
         }
 
         $row['shipping_status'] = ($row['shipping_status'] == SS_SHIPPED_ING) ? SS_PREPARING : $row['shipping_status'];

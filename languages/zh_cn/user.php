@@ -307,6 +307,8 @@ $_LANG['ss'][SS_SHIPPED_ING] = '配货中'; // 已分单
 $_LANG['ps'][PS_UNPAYED] = '未付款';
 $_LANG['ps'][PS_PAYING] = '付款中';
 $_LANG['ps'][PS_PAYED] = '已付款';
+$_LANG['ps'][PS_REFUNDING] = '退款中';
+$_LANG['ps'][PS_REFUNDED] = '已退款';
 
 $_LANG['shipping_not_need'] = '无需使用配送方式';
 $_LANG['current_os_not_unconfirmed'] = '当前订单状态不是“未确认”。';

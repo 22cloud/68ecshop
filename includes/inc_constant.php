@@ -89,6 +89,8 @@ define('OS_SHIPPED_PART',           6); // 已发货(部分商品)
 define('PS_UNPAYED',                0); // 未付款
 define('PS_PAYING',                 1); // 付款中
 define('PS_PAYED',                  2); // 已付款
+define('PS_REFUNDING',              3); // 退款中
+define('PS_REFUNDED',               4); // 已退款
 
 /* 综合状态 */
 define('CS_AWAIT_PAY',              100); // 待付款：货到付款且已发货且未付款，非货到付款且未付款
