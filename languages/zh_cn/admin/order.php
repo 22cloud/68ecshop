@@ -401,4 +401,14 @@ $_LANG['label_return_time'] = '退货时间';
 $_LANG['tips_back_del'] = '退货单删除成功！';
 
 $_LANG['goods_num_err'] = '库存不足，请重新选择！';
+
+$_LANG['refund_list'] = '退款申请列表';
+$_LANG['refund_id'] = '编号';
+$_LANG['refund_order_sn'] = '订单号';
+$_LANG['refund_user'] = '申请人';
+$_LANG['refund_remark'] = '申请备注';
+$_LANG['refund_is_success'] = '是否成功退款';
+$_LANG['button_refund'] = '批量退款';
+$_LANG['no_select_refund'] = '未选择退款记录';
+
 ?>

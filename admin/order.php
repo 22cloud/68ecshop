@@ -4463,6 +4463,113 @@ elseif ($_REQUEST['act'] == 'get_goods_info')
     make_json_result($goods);
 }
 
+/*------------------------------------------------------ */
+//-- 获取退款请求列表
+/*------------------------------------------------------ */
+elseif ($_REQUEST['act'] == 'refund')
+{
+    /* 权限判断 */
+    admin_priv('refund');
+
+    /* 取得过滤条件 */
+    $filter = array();
+    $smarty->assign('ur_here',      $_LANG['refund_list']);
+    $smarty->assign('full_page',    1);
+    $smarty->assign('filter',       $filter);
+
+    // 查询申请退款记录
+    $refund_list = get_refund_list();
+
+    $smarty->assign('refund_list',    $refund_list['arr']);
+    $smarty->assign('filter',        $refund_list['filter']);
+    $smarty->assign('record_count',  $refund_list['record_count']);
+    $smarty->assign('page_count',    $refund_list['page_count']);
+
+    $sort_flag  = sort_flag($refund_list['filter']);
+
+    assign_query_info();
+    $smarty->display('refund_list.htm');
+}
+
+/*------------------------------------------------------ */
+//-- 获取退款请求列表
+/*------------------------------------------------------ */
+elseif ($_REQUEST['act'] == 'batch_refund')
+{
+    /* 权限判断 */
+    admin_priv('refund');
+
+    if (!isset($_POST['checkboxes']) || !is_array($_POST['checkboxes']))
+    {
+        sys_msg($_LANG['no_select_refund'], 1);
+    }
+
+    $count = 0;
+    foreach ($_POST['checkboxes'] AS $key => $id)
+    {
+        $sql = 'DELETE FROM ' . $GLOBALS['ecs']->table('form') . " WHERE id = '$id'";
+
+        if ($GLOBALS['db']->query($sql))
+        {
+            admin_log($id,'remove','auto_form');
+            $count++;
+        }
+    }
+
+    $lnk[] = array('text' => $_LANG['back_list'], 'href' => 'auto_form.php?act=list');
+    sys_msg(sprintf($_LANG['batch_remove_succeed'], $count), 0, $lnk);
+}
+
+/* 获得活动列表 */
+function get_refund_list()
+{
+    $result = get_filter();
+
+    if ($result === false)
+    {
+        $filter = array();
+        $filter['keyword']    = empty($_REQUEST['keyword']) ? '' : trim($_REQUEST['keyword']);
+        if (isset($_REQUEST['is_ajax']) && $_REQUEST['is_ajax'] == 1)
+        {
+            $filter['keyword'] = json_str_iconv($filter['keyword']);
+        }
+        $filter['sort_by']    = empty($_REQUEST['sort_by']) ? 'l.id' : trim($_REQUEST['sort_by']);
+        $filter['sort_order'] = empty($_REQUEST['sort_order']) ? 'DESC' : trim($_REQUEST['sort_order']);
+
+        $where = '';
+
+        /* 文章总数 */
+        $sql = 'SELECT COUNT(*) FROM ' .$GLOBALS['ecs']->table('order_refund_log'). ' AS l '.
+               'WHERE 1 ' .$where;
+        $filter['record_count'] = $GLOBALS['db']->getOne($sql);
+
+        $filter = page_and_size($filter);
+
+        /* 获取文章数据 */
+        $sql = 'SELECT l.*,u.user_name,oi.order_sn '.
+               'FROM ' .$GLOBALS['ecs']->table('order_refund_log'). ' AS l '.
+               'LEFT JOIN '.$GLOBALS['ecs']->table('order_info').' AS oi ON oi.order_id = l.order_id '.
+               'LEFT JOIN '.$GLOBALS['ecs']->table('users').' AS u ON u.user_id = l.uid '.
+               'WHERE 1 ' .$where. ' ORDER by '.$filter['sort_by'].' '.$filter['sort_order'];
+
+        $filter['keyword'] = stripslashes($filter['keyword']);
+        set_filter($filter, $sql);
+    }
+    else
+    {
+        $sql    = $result['sql'];
+        $filter = $result['filter'];
+    }
+    $arr = array();
+    $res = $GLOBALS['db']->selectLimit($sql, $filter['page_size'], $filter['start']);
+
+    while ($rows = $GLOBALS['db']->fetchRow($res))
+    {
+        $arr[] = $rows;
+    }
+    return array('arr' => $arr, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
+}
+
 /**
  * 取得状态列表
  * @param   string  $type   类型：all | order | shipping | payment

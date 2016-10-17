@@ -1,0 +1,61 @@
+<!-- $Id: exchange_refund_list.htm 15544 2009-01-09 01:54:28Z zblikai $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="POST" action="order.php?act=batch_refund" name="listForm">
+<!-- start cat list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellspacing='1' cellpadding='3' id='list-table'>
+  <tr>
+    <th><input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">
+      <a>{$lang.refund_id}</a></th>
+    <th><a>{$lang.refund_order_sn}</a></th>
+    <th><a>{$lang.refund_user}</a></th>
+    <th><a>{$lang.refund_remark}</a></th>
+    <th><a>{$lang.refund_is_success}</a></th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$refund_list item=list}
+  <tr>
+    <td><span><input name="checkboxes[]" type="checkbox" value="{$list.id}"/>{$list.id}</span></td>
+    <td class="first-cell"><span>{$list.order_sn|escape:html}</span></td>
+    <td class="center"><span>{$list.user_name|escape:html}</span></td>
+    <td class="center"><span>{$list.refund_content|escape:html}</span></td>
+    <td align="center"><img src="images/{if $list.is_refund eq 1}yes{else}no{/if}.gif" /></td>
+    <td align="center" nowrap="true"><span>
+      <a href="order.php?act=refund_action&id={$list.id}" title="退款">退款</a>
+    </td>
+   </tr>
+   {foreachelse}
+    <tr><td class="no-records" colspan="5">{$lang.no_records}</td></tr>
+  {/foreach}
+  <tr>
+    <td colspan="2"><input type="submit" class="button" id="btnSubmit" value="{$lang.button_refund}" disabled="true" /></td>
+    <td align="right" nowrap="true" colspan="8">{include file="page.htm"}</td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+<!-- end cat list -->
+<script type="text/javascript" language="JavaScript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+  {literal}
+
+  onload = function()
+  {
+    // 开始检查订单
+    startCheckOrder();
+  }
+ {/literal}
+</script>
+{include file="pagefooter.htm"}
+{/if}
