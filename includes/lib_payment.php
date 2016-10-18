@@ -330,7 +330,7 @@ function order_refunded($batch_no)
                 " SET ".
                     " pay_status = '$pay_status' " .
            "WHERE order_id = '$order_id'";
-    $GLOBALS['db']->query($sql);
+    $update_flag_1 = $GLOBALS['db']->query($sql);
 
     // 更新退款记录未 已退款
     $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_refund_log') .
@@ -338,7 +338,9 @@ function order_refunded($batch_no)
                     " is_refund = 1 " .
            "WHERE order_id = '$order_id'";
 
-    $GLOBALS['db']->query($sql);
+    $update_flag_2 = $GLOBALS['db']->query($sql);
+
+    return ($update_flag_1 && $update_flag_2);
 }
 
 ?>

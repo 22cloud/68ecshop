@@ -324,9 +324,10 @@ class alipay
             return false;
         }
 
+        $batch_no = $_POST['batch_no'];
         $result_details_suc_arr = explode('^', $_POST['result_details']);
         if (is_array($result_details_suc_arr) && $result_details_suc_arr[count($result_details_suc_arr)-1] == 'SUCCESS') {
-            order_refunded($batch_no);
+            return order_refunded($batch_no);
         }else{
             return false;
         }
