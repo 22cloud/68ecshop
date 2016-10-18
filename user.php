@@ -1091,8 +1091,10 @@ elseif ($action == 'order_refund_action')
 
     $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
 
-    $sql = "INSERT INTO " .$GLOBALS['ecs']->table('order_refund_log'). " (uid, order_id, refund_content, create_time)" .
-                    "VALUES ('$_SESSION[user_id]', '$order_id', '".$_POST['refund_content']."','".time()."')";
+    $batch_no = date('Ymd').time();
+
+    $sql = "INSERT INTO " .$GLOBALS['ecs']->table('order_refund_log'). " (uid, order_id, batch_no, refund_content, create_time)" .
+                    "VALUES ('$_SESSION[user_id]', '$order_id', '$batch_no', '".$_POST['refund_content']."','".time()."')";
 
             if ($GLOBALS['db']->query($sql) !== false)
             {

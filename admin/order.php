@@ -4491,6 +4491,65 @@ elseif ($_REQUEST['act'] == 'refund')
     $smarty->display('refund_list.htm');
 }
 
+elseif ($_REQUEST['act'] == 'refund_action')
+{
+    /* 权限判断 */
+    admin_priv('refund');
+    /* 取得订单商品 */
+    $id = isset($_REQUEST['id'])?intval($_REQUEST['id']):0;
+
+    if ($id) {
+        /* 获取该退款请求的备注信息 */
+        $sql = "SELECT orl.order_id,orl.uid,orl.refund_content FROM ".
+                $GLOBALS['ecs']->table('order_refund_log')." AS orl ".
+                " WHERE orl.is_refund = 0 AND orl.id = $id ";
+        $log_info = $GLOBALS['db']->getRow($sql);
+
+        include_once(ROOT_PATH . 'includes/lib_transaction.php');
+        include_once(ROOT_PATH . 'includes/lib_payment.php');
+        include_once(ROOT_PATH . 'includes/lib_order.php');
+        include_once(ROOT_PATH . 'includes/lib_clips.php');
+
+        /* 订单详情 */
+        $order = get_order_detail($log_info['order_id'], $log_info['uid']);
+        // echo strtotime('2016-01-12');exit;
+
+        $order['detail_data'] = $order['trade_no'].'^'.$order['total_fee'].'^'.$log_info['refund_content'];
+
+        /*
+         * 获取 退款链接
+         */
+        //支付方式信息
+        $payment_info = array();
+        $payment_info = payment_info($order['pay_id']);
+
+        //无效支付方式
+        if ($payment_info === false)
+        {
+            $order['pay_online'] = '';
+        }
+        else
+        {
+            //取得支付信息，生成支付代码
+            $payment = unserialize_config($payment_info['pay_config']);
+
+            //获取需要支付的log_id
+            $order['log_id']    = get_paylog_id($order['order_id'], $pay_type = PAY_ORDER);
+            $order['user_name'] = $_SESSION['user_name'];
+            $order['pay_desc']  = $payment_info['pay_desc'];
+
+            /* 调用相应的支付方式文件 */
+            include_once(ROOT_PATH . 'includes/modules/payment/' . $payment_info['pay_code'] . '.php');
+
+            /* 取得在线支付方式的支付按钮 */
+            $pay_obj    = new $payment_info['pay_code'];
+            $order_refund_url = $pay_obj->get_refund_code($order, $payment);
+        }
+        Header("Location: $order_refund_url");exit;
+    }
+
+}
+
 /*------------------------------------------------------ */
 //-- 获取退款请求列表
 /*------------------------------------------------------ */

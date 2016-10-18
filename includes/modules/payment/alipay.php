@@ -198,7 +198,7 @@ class alipay
             'out_trade_no'      => $order['order_sn'] . $order['log_id'],
             'refund_date'       => date("Y-m-d H:i:s",time()),
             'batch_num'          => substr_count($order['detail_data'],'#') + 1,
-            'batch_no'      => date('Ymd').time(),
+            'batch_no'      => $order['batch_no'],
             /* 物流参数 */
             'detail_data'    => $order['detail_data'],
             /* 买卖双方信息 */
@@ -303,24 +303,17 @@ class alipay
      */
     function refund_respond()
     {
-        if (!empty($_POST))
-        {
-            foreach($_POST as $key => $data)
-            {
-                $_GET[$key] = $data;
-            }
-        }
-        $payment  = get_payment($_GET['code']);
-        $seller_email = rawurldecode($_GET['seller_email']);
-        $order_sn = str_replace($_GET['subject'], '', $_GET['out_trade_no']);
-        $order_sn = trim($order_sn);
+
+        $log_flag = log_refund_return_info($_POST);
+
+        $payment  = get_payment('alipay');
 
         /* 检查数字签名是否正确 */
-        ksort($_GET);
-        reset($_GET);
+        ksort($_POST);
+        reset($_POST);
 
         $sign = '';
-        foreach ($_GET AS $key=>$val)
+        foreach ($_POST AS $key=>$val)
         {
             if ($key != 'sign' && $key != 'sign_type' && $key != 'code')
             {
@@ -330,40 +323,15 @@ class alipay
 
         $sign = substr($sign, 0, -1) . $payment['alipay_key'];
         //$sign = substr($sign, 0, -1) . ALIPAY_AUTH;
-        if (md5($sign) != $_GET['sign'])
+        if (md5($sign) != $_POST['sign'])
         {
             return false;
         }
 
-        /* 检查支付的金额是否相符 */
-        if (!check_money($order_sn, $_GET['total_fee']))
-        {
-            return false;
-        }
-
-        if ($_GET['trade_status'] == 'WAIT_SELLER_SEND_GOODS')
-        {
-            /* 改变订单状态 */
-            order_paid($order_sn, $_GET['trade_no'], 2);
-
-            return true;
-        }
-        elseif ($_GET['trade_status'] == 'TRADE_FINISHED')
-        {
-            /* 改变订单状态 */
-            order_paid($order_sn, $_GET['trade_no']);
-
-            return true;
-        }
-        elseif ($_GET['trade_status'] == 'TRADE_SUCCESS')
-        {
-            /* 改变订单状态 */
-            order_paid($order_sn, $_GET['trade_no'], 2);
-
-            return true;
-        }
-        else
-        {
+        $result_details_suc_arr = explode('^', $_POST['result_details']);
+        if (is_array($result_details_suc_arr) && $result_details_suc_arr[count($result_details_suc_arr)-1] == 'SUCCESS') {
+            order_refunded($batch_no);
+        }else{
             return false;
         }
     }

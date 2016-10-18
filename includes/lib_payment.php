@@ -33,7 +33,7 @@ function return_url($code)
  */
 function return_refund_url($code)
 {
-    return $GLOBALS['ecs']->url() . 'respond.php?code=' . $code . '&refund=1';
+    return $GLOBALS['ecs']->url() . 'refund_respond.php';
 }
 
 /**
@@ -57,6 +57,20 @@ function get_payment($code)
     }
 
     return $payment;
+}
+
+/**
+ * 记录 退款请求返回的信息
+ * @param  array  $log_arr   返回的信息
+ */
+function log_refund_return_info($log_arr)
+{
+    
+    $sql = "INSERT INTO " . $GLOBALS['ecs']->table('refund_alipay_return_log') .
+                        " (notify_time, notify_type, notify_id, sign_type, sign, batch_no, success_num, result_details)" .
+                        "VALUES('".$log_arr['notify_time']."', '".$log_arr['notify_type']."', '".$log_arr['notify_id']."', '".$log_arr['sign_type']."','".$log_arr['sign']."', '".$log_arr['batch_no']."', '".$log_arr['success_num']."', '".$log_arr['result_details']."')";
+    $log_flag = $GLOBALS['db']->query($sql);
+    return $log_flag;
 }
 
 /**
@@ -299,6 +313,32 @@ function order_paid($log_id, $trade_no , $pay_status = PS_PAYED, $note = '')
            }
         }
     }
+}
+
+/* 订单 退款成功 */
+function order_refunded($batch_no)
+{
+    /* 查找退款批次号 对应的订单号 */
+    $sql = 'SELECT orl.order_id FROM ' . 
+            $GLOBALS['ecs']->table('order_refund_log') .' AS orl '.
+            'WHERE orl.batch_no = $batch_no';
+    $order_id = $GLOBALS['ecs']->getOne($sql);
+
+    $pay_status = 4;
+    // 更新支付状态 为退款中
+    $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
+                " SET ".
+                    " pay_status = '$pay_status' " .
+           "WHERE order_id = '$order_id'";
+    $GLOBALS['db']->query($sql);
+
+    // 更新退款记录未 已退款
+    $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_refund_log') .
+                " SET ".
+                    " is_refund = 1 " .
+           "WHERE order_id = '$order_id'";
+
+    $GLOBALS['db']->query($sql);
 }
 
 ?>
