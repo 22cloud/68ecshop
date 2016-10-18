@@ -321,8 +321,8 @@ function order_refunded($batch_no)
     /* 查找退款批次号 对应的订单号 */
     $sql = 'SELECT orl.order_id FROM ' . 
             $GLOBALS['ecs']->table('order_refund_log') .' AS orl '.
-            'WHERE orl.batch_no = $batch_no';
-    $order_id = $GLOBALS['ecs']->getOne($sql);
+            'WHERE orl.batch_no = '.$batch_no;
+    $order_id = $GLOBALS['db']->getOne($sql);
 
     $pay_status = 4;
     // 更新支付状态 为退款中
