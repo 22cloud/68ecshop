@@ -183,11 +183,8 @@ class alipay
 
         $service = 'refund_fastpay_by_platform_pwd';
 
-        $extend_param = 'isv^sh22';
-
 
         $parameter = array(
-            'extend_param'      => $extend_param,
             'service'           => trim($service),
             'partner'           => $payment['alipay_partner'],
             'seller_user_id'           => $payment['alipay_partner'],
