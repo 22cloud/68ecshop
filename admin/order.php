@@ -4541,6 +4541,7 @@ elseif ($_REQUEST['act'] == 'refund_action')
             /* 调用相应的支付方式文件 */
             include_once(ROOT_PATH . 'includes/modules/payment/' . $payment_info['pay_code'] . '.php');
 
+            $order['batch_no'] = date('Ymd',time()).time();
             /* 取得在线支付方式的支付按钮 */
             $pay_obj    = new $payment_info['pay_code'];
             $order_refund_url = $pay_obj->get_refund_code($order, $payment);

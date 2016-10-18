@@ -183,7 +183,6 @@ class alipay
 
         $service = 'refund_fastpay_by_platform_pwd';
 
-
         $parameter = array(
             'service'           => trim($service),
             'partner'           => $payment['alipay_partner'],
