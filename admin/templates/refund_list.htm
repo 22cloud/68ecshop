@@ -26,7 +26,9 @@
     <td class="center"><span>{$list.refund_content|escape:html}</span></td>
     <td align="center"><img src="images/{if $list.is_refund eq 1}yes{else}no{/if}.gif" /></td>
     <td align="center" nowrap="true"><span>
+    <!-- {if $list.is_refund eq 0} -->
       <a href="order.php?act=refund_action&id={$list.id}" target="_blank" title="退款">退款</a>
+      <!-- {/if} -->
     </td>
    </tr>
    {foreachelse}

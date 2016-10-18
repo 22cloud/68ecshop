@@ -326,6 +326,7 @@ function get_user_orders($user_id, $num = 10, $start = 0, $other_where = '')
         {
             if ($row['pay_status'] == 3) {
                 @$row['handler'] = "<a href=\"user.php?act=order_refund_cancel&order_id=" .$row['order_id']. '">' .取消退款. '</a>';
+            }elseif ($row['pay_status'] == 4) {
             }else{
                 @$row['handler'] = "<a href=\"user.php?act=order_refund&order_id=" .$row['order_id']. '">' .退款. '</a>';
             }

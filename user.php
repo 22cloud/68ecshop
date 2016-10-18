@@ -1042,22 +1042,25 @@ elseif ($action == 'order_refund')
 
     /* 订单详情 */
     $order = get_order_detail($order_id, $user_id);
+    if ($order['status'] == 2) {
+        /* 订单商品 */
+        $goods_list = order_goods($order_id);
+        foreach ($goods_list AS $key => $value)
+        {
+            $goods_list[$key]['market_price'] = price_format($value['market_price'], false);
+            $goods_list[$key]['goods_price']  = price_format($value['goods_price'], false);
+            $goods_list[$key]['subtotal']     = price_format($value['subtotal'], false);
+        }
 
-    /* 订单商品 */
-    $goods_list = order_goods($order_id);
-    foreach ($goods_list AS $key => $value)
-    {
-        $goods_list[$key]['market_price'] = price_format($value['market_price'], false);
-        $goods_list[$key]['goods_price']  = price_format($value['goods_price'], false);
-        $goods_list[$key]['subtotal']     = price_format($value['subtotal'], false);
+
+        $smarty->assign('order',      $order);
+        $smarty->assign('goods_list', $goods_list);
+     
+
+        $smarty->display('user_transaction.dwt');
+    }else{
+        Header("Location: ./user.php?act=order_list");exit;
     }
-
-
-    $smarty->assign('order',      $order);
-    $smarty->assign('goods_list', $goods_list);
- 
-
-    $smarty->display('user_transaction.dwt');
 }
 
 elseif ($action == 'order_refund_cancel')
