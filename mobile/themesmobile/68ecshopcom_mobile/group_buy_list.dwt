@@ -44,7 +44,7 @@ $("#sortbtn_adapt").removeClass("active on");
 }); 
 </script>
 </head>
-<body style="background:#EEF0F3; padding-top:57px;">
+<body style="background:#EEF0F3;">
 
   <div id="header" class="header_03">
     <div class=""> <a href="./" class="top_home fl">首页</a> </div>
@@ -101,10 +101,10 @@ $("#sortbtn_adapt").removeClass("active on");
 	 <!-- {if $gb_list} 如果有团购活动 -->
   <ul id="ProductList">
       <!-- {foreach from=$gb_list item=group_buy} 循环团购活动开始 -->
-    <li>
+    <li style="width: 99.2%;">
       <div class="product items "> <a href="{$group_buy.url}" class="ScanProductViewBtn" >
-        <div class="imgurl"><img src="../../{$group_buy.goods_thumb}"></div>
-        <div class="info">
+        <div class="imgurl"><img src="../../{$group_buy.img_url}"></div>
+        <!-- <div class="info">
           <dl>
             <dt>
               <span>{$group_buy.goods_name|escape:html}</span>
@@ -112,7 +112,7 @@ $("#sortbtn_adapt").removeClass("active on");
             <dd><span class="pull-left"><strong>价格:<b class="ect-colory">{$group_buy.formated_cur_price}</b></strong></span><span class="ect-pro-price"></span></dd>
             <dd><span class="pull-left">已购：{$group_buy.num}</span></dd>
       </dl>
-        </div>
+        </div> -->
         </a> </div>
     </li>
     <!--{/foreach}-->  

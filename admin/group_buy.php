@@ -17,6 +17,8 @@ define('IN_ECS', true);
 require(dirname(__FILE__) . '/includes/init.php');
 require_once(ROOT_PATH . 'includes/lib_goods.php');
 require_once(ROOT_PATH . 'includes/lib_order.php');
+include_once(ROOT_PATH . '/includes/cls_image.php');
+$image = new cls_image($_CFG['bgcolor']);
 
 /* 检查权限 */
 admin_priv('group_by');
@@ -130,6 +132,72 @@ elseif ($_REQUEST['act'] =='insert_update')
         {
             sys_msg($_LANG['error_group_buy'], 1);
         }
+    }
+
+    /* 检查图片：如果有错误，检查尺寸是否超过最大值；否则，检查文件类型 */
+    if (isset($_FILES['img_url']['error'])) // php 4.2 版本才支持 error
+    {
+        // 最大上传文件大小
+        $php_maxsize = ini_get('upload_max_filesize');
+        $htm_maxsize = '2M';
+
+        // 商品图片
+        if ($_FILES['img_url']['error'] == 0)
+        {
+            if (!$image->check_img_type($_FILES['img_url']['type']))
+            {
+                sys_msg($_LANG['invalid_goods_img'], 1, array(), false);
+            }
+        }
+        elseif ($_FILES['img_url']['error'] == 1)
+        {
+            sys_msg(sprintf($_LANG['goods_img_too_big'], $php_maxsize), 1, array(), false);
+        }
+        elseif ($_FILES['img_url']['error'] == 2)
+        {
+            sys_msg(sprintf($_LANG['goods_img_too_big'], $htm_maxsize), 1, array(), false);
+        }
+
+    }
+    /* 4.1版本 */
+    else
+    {
+        // 相册图片
+        foreach ($_FILES['img_url']['tmp_name'] AS $key => $value)
+        {
+            if ($value != 'none')
+            {
+                if (!$image->check_img_type($_FILES['img_url']['type'][$key]))
+                {
+                    sys_msg(sprintf($_LANG['invalid_img_url'], $key + 1), 1, array(), false);
+                }
+            }
+        }
+    }
+    $img_url = $_POST['img_url_val'] ? $_POST['img_url_val'] : '';
+    // 如果上传了商品图片，相应处理
+    if (($_FILES['img_url']['tmp_name'] != '' && $_FILES['img_url']['tmp_name'] != 'none'))
+    {
+        if ($_REQUEST['act_id'] > 0)
+        {
+            /* 删除原来的图片文件 */
+            $sql = "SELECT img_url " .
+                    " FROM " . $ecs->table('goods_activity') .
+                    " WHERE act_id = '$_REQUEST[act_id]'";
+            $row = $db->getRow($sql);
+            if ($row['img_url'] != '' && is_file('../' . $row['img_url']))
+            {
+                @unlink('../' . $row['img_url']);
+            }
+        }
+
+        $original_img   = $image->upload_image($_FILES['img_url']); // 原始图片
+
+        if ($original_img === false)
+        {
+            sys_msg($image->error_msg(), 1, array(), false);
+        }
+        $img_url      = $original_img;   // 商品图片
     }
 
     if (isset($_POST['finish']))
@@ -498,6 +566,7 @@ elseif ($_REQUEST['act'] =='insert_update')
             'act_type'   => GAT_GROUP_BUY,
             'goods_id'   => $goods_id,
             'goods_name' => $goods_name,
+            'img_url'    => $img_url,
             'start_time'    => $start_time,
             'end_time'      => $end_time,
             'ext_info'   => serialize(array(
@@ -603,6 +672,32 @@ elseif ($_REQUEST['act'] == 'search_goods')
     $arr    = get_goods_list($filter);
 
     make_json_result($arr);
+}
+
+/*------------------------------------------------------ */
+//-- 显示图片
+/*------------------------------------------------------ */
+
+elseif ($_REQUEST['act'] == 'show_image')
+{
+
+    if (isset($GLOBALS['shop_id']) && $GLOBALS['shop_id'] > 0)
+    {
+        $img_url = $_GET['img_url'];
+    }
+    else
+    {
+        if (strpos($_GET['img_url'], 'http://') === 0)
+        {
+            $img_url = $_GET['img_url'];
+        }
+        else
+        {
+            $img_url = '../' . $_GET['img_url'];
+        }
+    }
+    $smarty->assign('img_url', $img_url);
+    $smarty->display('goods_show_image.htm');
 }
 
 /*------------------------------------------------------ */
