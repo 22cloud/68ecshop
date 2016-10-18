@@ -4546,7 +4546,6 @@ elseif ($_REQUEST['act'] == 'refund_action')
             $pay_obj    = new $payment_info['pay_code'];
             $order_refund_url = $pay_obj->get_refund_code($order, $payment);
         }
-        echo '<pre>';var_dump($order_refund_url);exit;
         Header("Location: $order_refund_url");exit;
     }
 
