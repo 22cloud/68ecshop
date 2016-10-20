@@ -136,9 +136,11 @@ function addToCartResponse1(result)
 
 }
 
-function addToCart(goodsId, parentId, url='',one_step_buy = false)
+function addToCart(goodsId, parentId, url, one_step_buy)
 
 {
+
+  var one_step_buy = false ;
 
   var goods        = new Object();
 
