@@ -1042,7 +1042,7 @@ elseif ($action == 'order_refund')
 
     /* 订单详情 */
     $order = get_order_detail($order_id, $user_id);
-    if ($order['status'] == 2) {
+    if ($order['pay_status'] == '2') {
         /* 订单商品 */
         $goods_list = order_goods($order_id);
         foreach ($goods_list AS $key => $value)
