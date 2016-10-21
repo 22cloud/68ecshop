@@ -36,6 +36,11 @@ function return_refund_url($code)
     return $GLOBALS['ecs']->url() . 'refund_respond.php';
 }
 
+function return_notify_url($code)
+{
+    return $GLOBALS['ecs']->url() . 'notify.php?code=' . $code;
+}
+
 /**
  *  取得某支付方式信息
  *  @param  string  $code   支付方式代码

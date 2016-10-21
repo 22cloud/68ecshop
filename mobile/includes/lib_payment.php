@@ -27,6 +27,11 @@ function return_url($code)
     return $GLOBALS['ecs']->url() . 'respond.php?code=' . $code;
 }
 
+function return_notify_url($code)
+{
+    return $GLOBALS['ecs']->url() . 'notify.php?code=' . $code;
+}
+
 /**
  *  取得某支付方式信息
  *  @param  string  $code   支付方式代码
@@ -133,11 +138,12 @@ function check_money($log_id, $money)
  *
  * @access  public
  * @param   string  $log_id     支付编号
+ * @param   string  $trade_no   支付宝交易号
  * @param   integer $pay_status 状态
  * @param   string  $note       备注
  * @return  void
  */
-function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
+function order_paid($log_id, $trade_no, $pay_status = PS_PAYED, $note = '')
 {
     /* 取得支付编号 */
     $log_id = intval($log_id);
@@ -172,7 +178,8 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                                 " pay_status = '$pay_status', " .
                                 " pay_time = '".gmtime()."', " .
                                 " money_paid = order_amount," .
-                                " order_amount = 0 ".
+                                " order_amount = 0 ,".
+                                " trade_no = '".$trade_no."'".
                        "WHERE order_id = '$order_id'";
                 $GLOBALS['db']->query($sql);
 

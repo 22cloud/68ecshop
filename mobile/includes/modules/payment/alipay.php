@@ -165,9 +165,9 @@ class alipay
             'seller_id'           => $payment['alipay_partner'],
             //'partner'           => ALIPAY_ID,
             '_input_charset'    => $charset,
-            'notify_url'        => return_url(basename(__FILE__, '.php')),
+            'notify_url'        => return_notify_url(basename(__FILE__, '.php')),
             'return_url'        => return_url(basename(__FILE__, '.php')),
-            'show_url'          => 'http://bxshenghuohui.com',
+            'show_url'          => 'http://bxshenghuohui.com/mobile',
             /* 业务参数 */
             'subject'           => $order['order_sn'],
             'out_trade_no'      => $order['order_sn'] . $order['log_id'],
@@ -199,7 +199,7 @@ class alipay
         $sign  = substr($sign, 0, -1). $payment['alipay_key'];
         //$sign  = substr($sign, 0, -1). ALIPAY_AUTH;
 
-        $button = '<div class="pay-btn" style="text-align:center"><input type="button" class="sub-btn btnRadius" onclick="window.open(\'https://www.alipay.com/cooperate/gateway.do?'.$param. '&sign='.md5($sign).'&sign_type=MD5\')" value="' .$GLOBALS['_LANG']['pay_button']. '" /></div>';
+        $button = '<div class="pay-btn" style="text-align:center"><input type="button" class="sub-btn btnRadius" onclick="window.location.href=\'https://www.alipay.com/cooperate/gateway.do?'.$param. '&sign='.md5($sign).'&sign_type=MD5\'" value="' .$GLOBALS['_LANG']['pay_button']. '" /></div>';
 
         return $button;
     }
@@ -250,21 +250,21 @@ class alipay
         if ($_GET['trade_status'] == 'WAIT_SELLER_SEND_GOODS')
         {
             /* 改变订单状态 */
-            order_paid($order_sn, 2);
+            order_paid($order_sn, $_GET['trade_no'], 2);
 
             return true;
         }
         elseif ($_GET['trade_status'] == 'TRADE_FINISHED')
         {
             /* 改变订单状态 */
-            order_paid($order_sn);
+            order_paid($order_sn, $_GET['trade_no']);
 
             return true;
         }
         elseif ($_GET['trade_status'] == 'TRADE_SUCCESS')
         {
             /* 改变订单状态 */
-            order_paid($order_sn, 2);
+            order_paid($order_sn, $_GET['trade_no'], 2);
 
             return true;
         }

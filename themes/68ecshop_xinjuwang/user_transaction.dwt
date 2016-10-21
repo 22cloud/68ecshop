@@ -213,6 +213,8 @@
     <a <!-- {if $composite_status_t eq $ss_shipped_t && $composite_status eq $ss_shipped} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ss_shipped_t}&composite_status={$ss_shipped}">{$order_status_names.ss.$ss_shipped}</a>
     <a <!-- {if $composite_status_t eq $ps_unpayed_t && $composite_status eq $ps_unpayed} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ps_unpayed_t}&composite_status={$ps_unpayed}">{$order_status_names.ps.$ps_unpayed}</a>
     <a <!-- {if $composite_status_t eq $ps_payed_t && $composite_status eq $ps_payed} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ps_payed_t}&composite_status={$ps_payed}">{$order_status_names.ps.$ps_payed}</a>
+    <a <!-- {if $composite_status_t eq $ps_refunding_t && $composite_status eq $ps_refunding} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ps_refunding_t}&composite_status={$ps_refunding}">{$order_status_names.ps.$ps_refunding}</a>
+    <a <!-- {if $composite_status_t eq $ps_refunded_t && $composite_status eq $ps_refunded} -->style='border: 1px solid #cccccc;padding: 2px;'<!-- {else} -->style='padding: 3px;'<!-- {/if} --> href="user.php?act=order_list&composite_status_t={$ps_refunded_t}&composite_status={$ps_refunded}">{$order_status_names.ps.$ps_refunded}</a>
 </div>
 	 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
 			<tr align="center">

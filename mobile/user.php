@@ -36,7 +36,7 @@ array('login','act_login','register','act_register','act_edit_password','get_pas
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
-'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code');
+'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code','order_refund');
 
 /* 未登录处理 */
 if (empty($_SESSION['user_id']))
@@ -1088,13 +1088,57 @@ elseif ($action == 'order_list')
     include_once(ROOT_PATH . 'includes/lib_transaction.php');
 
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    /* 获取筛选参数 */
+    $composite_status_t = isset($_REQUEST['composite_status_t']) ? ($_REQUEST['composite_status_t']) : '';
+    $composite_status = isset($_REQUEST['composite_status']) ? intval($_REQUEST['composite_status']) : -1;
 
-    $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id'");
+    $filter_sql_where_str = '';
+    if ($composite_status_t != '' && $composite_status >= 0) {
+        switch ($composite_status_t) {
+            case 'o':
+                $filter_sql_where_str .= ' AND order_status = '. $composite_status;
+                break;
+            case 's':
+                $filter_sql_where_str .= ' AND shipping_status = '. $composite_status;
+                break;
+            case 'p':
+                $filter_sql_where_str .= ' AND pay_status = '. $composite_status;
+                break;
+        }
+    }
+
+    $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id'".$filter_sql_where_str);
 
     $pager  = get_pager('user.php', array('act' => $action), $record_count, $page);
 
-    $orders = get_user_orders($user_id, $pager['size'], $pager['start']);
+    $orders = get_user_orders($user_id, $pager['size'], $pager['start'], $filter_sql_where_str);
     $merge  = get_user_merge($user_id);
+
+    // 订单状态相关值
+    $smarty->assign('os_unconfirmed',   OS_UNCONFIRMED); // 未确认
+    $smarty->assign('os_unconfirmed_t',   'o'); // 未确认
+    $smarty->assign('os_confirmed',   OS_SPLITED); // 已确认
+    $smarty->assign('os_confirmed_t',   'o'); // 未确认
+    $smarty->assign('ss_received',   SS_RECEIVED); // 确认收货
+    $smarty->assign('ss_received_t',   's'); // 确认收货
+
+    $smarty->assign('ss_unshipped',   SS_UNSHIPPED); // 未发货
+    $smarty->assign('ss_unshipped_t',   's'); // 未发货
+    $smarty->assign('ss_shipped',   SS_SHIPPED); // 已发货
+    $smarty->assign('ss_shipped_t',   's'); // 已发货
+    $smarty->assign('ps_unpayed',   PS_UNPAYED); // 未付款
+    $smarty->assign('ps_unpayed_t',   'p'); // 未付款
+    $smarty->assign('ps_payed',   PS_PAYED); // 已付款
+    $smarty->assign('ps_payed_t',   'p'); // 已付款
+    $smarty->assign('ps_refunding',   PS_REFUNDING); // 退款中
+    $smarty->assign('ps_refunding_t',   'p'); // 退款中
+    $smarty->assign('ps_refunded',   PS_REFUNDED); // 已退款
+    $smarty->assign('ps_refunded_t',   'p'); // 已退款
+
+    $order_status_names['os'] = $GLOBALS['_LANG']['os'];
+    $order_status_names['ps'] = $GLOBALS['_LANG']['ps'];
+    $order_status_names['ss'] = $GLOBALS['_LANG']['ss'];
+    $smarty->assign('order_status_names', $order_status_names);
 
     $smarty->assign('merge',  $merge);
     $smarty->assign('pager',  $pager);
@@ -1177,7 +1221,12 @@ elseif ($action == 'order_detail')
     $pay_obj    = new $payment_old['pay_code'];
 
     $pay_online = $pay_obj->get_code($order, unserialize_config($payment_old['pay_config']));
-    
+
+    if ($order['pay_status'] == '2' && $order['shipping_status'] == '0') {
+        // 获取 退款申请操作页面
+        $refund_online = '<div class="pay-btn" style="text-align:center"><input type="button" class="sub-btn btnRadius" onclick="window.location.href=\'./user.php?act=order_refund&order_id='.$order_id.'\'" value="退款" /></div>';
+        $smarty->assign('refund_online',      $refund_online);
+    }    
     $smarty->assign('pay_online',      $pay_online);
 
     /* 订单 支付 配送 状态语言项 */
@@ -1188,6 +1237,65 @@ elseif ($action == 'order_detail')
     $smarty->assign('order',      $order);
     $smarty->assign('goods_list', $goods_list);
     $smarty->display('user_transaction.dwt');
+}
+
+elseif ($action == 'order_refund') {
+    
+    include_once(ROOT_PATH . 'includes/lib_transaction.php');
+    include_once(ROOT_PATH . 'includes/lib_payment.php');
+    include_once(ROOT_PATH . 'includes/lib_order.php');
+    include_once(ROOT_PATH . 'includes/lib_clips.php');
+
+    $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+
+    /* 订单详情 */
+    $order = get_order_detail($order_id, $user_id);
+
+    if ($order['pay_status'] == '2') {
+
+        /* 订单商品 */
+        $goods_list = order_goods($order_id);
+        foreach ($goods_list AS $key => $value)
+        {
+            $goods_list[$key]['market_price'] = price_format($value['market_price'], false);
+            $goods_list[$key]['goods_price']  = price_format($value['goods_price'], false);
+            $goods_list[$key]['subtotal']     = price_format($value['subtotal'], false);
+        }
+
+        $smarty->assign('order',      $order);
+        $smarty->assign('goods_list', $goods_list);
+        $smarty->display('user_transaction.dwt');   
+    }else{
+        Header("Location: ./user.php?act=order_list");exit;
+    }
+}
+
+elseif ($action == 'order_refund_action')
+{
+    include_once(ROOT_PATH . 'includes/lib_transaction.php');
+    include_once(ROOT_PATH . 'includes/lib_payment.php');
+    include_once(ROOT_PATH . 'includes/lib_order.php');
+    include_once(ROOT_PATH . 'includes/lib_clips.php');
+
+    $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
+
+    $batch_no = date('Ymd').time();
+
+    $sql = "INSERT INTO " .$GLOBALS['ecs']->table('order_refund_log'). " (uid, order_id, batch_no, refund_content, create_time)" .
+                    "VALUES ('$_SESSION[user_id]', '$order_id', '$batch_no', '".$_POST['refund_content']."','".time()."')";
+
+            if ($GLOBALS['db']->query($sql) !== false)
+            {
+                $pay_status = 3;
+                // 更新支付状态 为退款中
+                $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
+                            " SET ".
+                                " pay_status = '$pay_status' " .
+                       "WHERE order_id = '$order_id'";
+
+                $GLOBALS['db']->query($sql); 
+            }
+    Header("Location: user.php?act=order_list");exit;
 }
 
 /* 取消订单 */

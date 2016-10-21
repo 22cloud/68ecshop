@@ -941,6 +941,10 @@ elseif ($action == 'order_list')
     $smarty->assign('ps_unpayed_t',   'p'); // 未付款
     $smarty->assign('ps_payed',   PS_PAYED); // 已付款
     $smarty->assign('ps_payed_t',   'p'); // 已付款
+    $smarty->assign('ps_refunding',   PS_REFUNDING); // 退款中
+    $smarty->assign('ps_refunding_t',   'p'); // 退款中
+    $smarty->assign('ps_refunded',   PS_REFUNDED); // 已退款
+    $smarty->assign('ps_refunded_t',   'p'); // 已退款
 
     $order_status_names['os'] = $GLOBALS['_LANG']['os'];
     $order_status_names['ps'] = $GLOBALS['_LANG']['ps'];

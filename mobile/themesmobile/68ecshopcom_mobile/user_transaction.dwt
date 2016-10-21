@@ -34,6 +34,7 @@
 {if $action eq 'bonus'}  {include file='library/user_bonus.lbi'}{/if}
 {if $action eq 'address_list'}  {include file='library/user_address_list.lbi'}{/if}
 {if $action eq 'order_detail'}{include file='library/user_order_detail.lbi'}{/if}
+{if $action eq 'order_refund'}{include file='library/user_order_refund.lbi'}{/if}
 {if $action eq "account_raply" || $action eq "account_log" || $action eq "act_account" || $action eq "account_deposit" || $action eq "account_detail"}{include file='library/user_account.lbi'}{/if}
 <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
 

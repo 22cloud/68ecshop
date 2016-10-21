@@ -32,7 +32,9 @@
 				</tr>
 				<tr class="odd">
 					<th>{$lang.detail_pay_status}{$lang.colon}</th>
-					<td class="last"><span class="status">{$order.pay_status}</span>{if $order.order_amount gt 0}{$pay_online}{/if}<span class="time">{$order.pay_time}</span></td>
+					<td class="last"><span class="status">{$order.pay_status}</span>{if $order.order_amount gt 0}{$pay_online}{/if}<span class="time">{$order.pay_time}</span>
+					{$refund_online}
+					</td>
 				</tr>
 				<tr class="even{if !$order.invoice_no and !$order.to_buyer and !$virtual_card} last{/if}">
 					<th>{$lang.detail_shipping_status}{$lang.colon}</th>

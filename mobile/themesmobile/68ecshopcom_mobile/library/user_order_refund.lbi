@@ -1,0 +1,129 @@
+<div id="user_ddxq_1" class="goods_list" style="margin-top:0;">
+       <table class="data_table">
+			
+			<tbody>
+				<tr class="odd">
+					<th>{$lang.detail_order_sn}{$lang.colon}</th>
+					<td class="last"><span class="order_id">{$order.order_sn}</span>
+					{if $order.extension_code eq "group_buy"}<a href="./group_buy.php?act=view&id={$order.extension_id}" class="status">{$lang.order_is_group_buy}</a>
+					{elseif $order.extension_code eq "exchange_goods"}<a href="./exchange.php?act=view&id={$order.extension_id}" class="status">{$lang.order_is_exchange}</a>
+					{/if}<a href="user.php?act=message_list&order_id={$order.order_id}" class="view_message dim_button"><span>{$lang.business_message}</span></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div style="height:12px; line-height:12px; clear:both;"></div>
+		<table class="data_table">
+			
+			<thead>
+
+				<tr>
+					<th width="30%;">{$lang.goods_name}</th>
+					<th>{$lang.goods_price}{if $order.extension_code eq "group_buy"}{$lang.gb_deposit}{/if}</th>
+					<th>{$lang.number}</th>
+					<th class="last">{$lang.subtotal}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach from=$goods_list item=goods name=goods_list}
+				<tr class="{cycle values="odd,even"}{if $smarty.foreach.goods_list.last} last{/if}">
+					<td>
+						{if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'}
+							
+							<a href="goods.php?id={$goods.goods_id}" class="name" target="_blank">{$goods.goods_name}</a>
+							<span class="extra_info">
+								{if $goods.goods_attr}{$goods.goods_attr}{/if}
+								{if $goods.is_shipping}<em class="carriage_free">{$lang.carriage_free}</em>{/if}
+								{if $goods.parent_id gt 0}<em class="accessories">{$lang.accessories}</em>{/if}
+								{if $goods.is_gift gt 0}<em class="largess">{$lang.largess}</em>{/if}
+							</span>
+						{elseif $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'}
+							<span class="name">{$goods.goods_name}</span>
+							<span class="package_goods_list">{foreach from=$goods.package_goods_list item=package_goods_list name=package_goods_list}<em>{$package_goods_list.goods_name}</em>{/foreach}</span>
+						{else}
+							{$goods.goods_name}
+						{/if}
+					</td>
+					<td class="price">{$goods.goods_price}</td>
+					<td>{$goods.goods_number}</td>
+					<td class="last price">{$goods.subtotal}</td>
+				</tr>
+				{/foreach}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5" class="last">
+						<p>{$lang.goods_all_price}
+						{if $order.extension_code eq "group_buy"}{$lang.gb_deposit}{/if}{$lang.colon}<span class="price">{$order.formated_goods_amount}</span>
+						{if $order.discount gt 0}
+						- {$lang.discount}{$lang.colon}<span class="price">{$order.formated_discount}</span>
+						{/if}
+						{if $order.tax gt 0}
+						+ {$lang.tax}{$lang.colon}<span class="price">{$order.formated_tax}</span>
+						{/if}
+						{if $order.shipping_fee > 0}
+						+ {$lang.shipping_fee}{$lang.colon}<span class="price">{$order.formated_shipping_fee}</span>
+						{/if}
+						{if $order.insure_fee > 0}
+						+ {$lang.insure_fee}{$lang.colon}<span class="price">{$order.formated_insure_fee}</span>
+						{/if}
+						{if $order.pay_fee > 0}
+						+ {$lang.pay_fee}{$lang.colon}<span class="price">{$order.formated_pay_fee}</span>
+						{/if}
+						{if $order.pack_fee > 0}
+						+ {$lang.pack_fee}{$lang.colon}<span class="price">{$order.formated_pack_fee}</span>
+						{/if}
+						{if $order.card_fee > 0}
+						+ {$lang.card_fee}{$lang.colon}<span class="price">{$order.formated_card_fee}</span>
+						{/if}
+						{if $order.money_paid > 0} - {$lang.order_money_paid}{$lang.colon}<span class="price">{$order.formated_money_paid}</span>{/if}
+						{if $order.surplus > 0} - {$lang.use_surplus}{$lang.colon}<span class="price">{$order.formated_surplus}</span>{/if}
+						{if $order.integral_money > 0} - {$lang.use_integral}{$lang.colon}<span class="price">{$order.formated_integral_money}</span>{/if}
+						{if $order.bonus > 0} - {$lang.use_bonus}{$lang.colon}<span class="price">{$order.formated_bonus}</span>{/if}</p>
+						<p>{$lang.order_amount}{$lang.colon}<span class="price">{$order.formated_order_amount}</span>{if $order.extension_code eq "group_buy"}{$lang.notice_gb_order_amount}{/if}</p>
+						{if $allow_edit_surplus}
+						
+							<form action="user.php" method="post" name="formFee" id="formFee">
+                            <div class=" ub-ac ub-pc font12" style="overflow: hidden;">
+                   <label> 
+                   <div class="all_clor dizhji lin_qu ufl mar-top mar-left">
+                        {$lang.use_more_surplus}：
+                    </div>
+                    <div class=" c-wh wap_input_bor ufl mar-top mar-right1" style="width:50%;">
+                        <input name="surplus" value="0" type="text" class="c-f-text"/>{$max_surplus}
+                    </div>
+                    </label>
+                </div>                            
+                          
+					<input type="submit" value="{$lang.button_submit}"  class="tx-c c-org-g buttonHeight mar-top2 t-wh  font18" style="margin-top:30px;width:98%; padding:0 ;"/>
+								<input type="hidden" name="act" value="act_edit_surplus">
+								<input type="hidden" name="order_id" value="{$smarty.get.order_id}">
+							</form>
+						
+						{/if}
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<table class="data_table">
+
+			<form action="./user.php?act=order_refund_action" method="post" accept-charset="utf-8">
+			<tbody>
+			<tr>
+			<th>
+			退款理由：
+			</th>
+			<td>
+				<textarea name="refund_content" style="border:1px solid #ccc;width:100%;" class="InputBorder" placeholder="请输入60个字以内"></textarea>
+			</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td>
+				<input type="hidden" name="order_id" value="{$order.order_id}">
+				<input type="submit" class="sub-btn btnRadius" name="refund_submit" value="退款">
+				</td>
+			</tr>
+			</tbody>
+			</form>
+		</table>
+ </div>
