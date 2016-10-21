@@ -49,11 +49,11 @@
 		
 		</p>
         <p><em class="wuxing">
-    <input name="comment_rank" type="radio" value="1" id="comment_rank1" /> 很差
-          <input name="comment_rank" type="radio" value="2" id="comment_rank2" /> 稍差
-          <input name="comment_rank" type="radio" value="3" id="comment_rank3" /> 一般
-          <input name="comment_rank" type="radio" value="4" id="comment_rank4" /> 很好
-          <input name="comment_rank" type="radio" value="5" checked="checked" id="comment_rank5" /> 非常好
+    <input name="comment_rank" type="radio" value="1" id="comment_rank1" /> <img src="../images/stars1.gif" />
+          <input name="comment_rank" type="radio" value="2" id="comment_rank2" /> <img src="../images/stars2.gif" />
+          <input name="comment_rank" type="radio" value="3" id="comment_rank3" /> <img src="../images/stars3.gif" />
+          <input name="comment_rank" type="radio" value="4" id="comment_rank4" /> <img src="../images/stars4.gif" />
+          <input name="comment_rank" type="radio" value="5" checked="checked" id="comment_rank5" /> <img src="../images/stars5.gif" />
    </em>
 
 		</p>
