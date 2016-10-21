@@ -1,31 +1,31 @@
 <div id="menu1" class="ub tab_menu widt100" style="margin-top:0px; ">
-                    <div id="ddxq1" onClick="window.location.href='user.php?act=order_list&composite_status_t={$os_unconfirmed_t}&composite_status={$os_unconfirmed}'"  class="ub-f1 tx-c b-grar-g  t-red-g tab_check">
+                    <div id="ddxq1" onClick="window.location.href='user.php?act=order_list&composite_status_t={$os_unconfirmed_t}&composite_status={$os_unconfirmed}'"  class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $os_unconfirmed_t && $composite_status eq $os_unconfirmed} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.os.$os_unconfirmed}</span>
                     </div>
-                    <div id="ddxq2" onClick="window.location.href='user.php?act=order_list&composite_status_t={$os_confirmed_t}&composite_status={$os_confirmed}'" class="ub-f1 tx-c b-grar-g b-whl-g">
+                    <div id="ddxq2" onClick="window.location.href='user.php?act=order_list&composite_status_t={$os_confirmed_t}&composite_status={$os_confirmed}'" class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $os_confirmed_t && $composite_status eq $os_confirmed} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.os.$os_confirmed}</span>
                     </div>
-                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ss_received_t}&composite_status={$ss_received}'" class="ub-f1 tx-c b-grar-g b-whl-g">
+                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ss_received_t}&composite_status={$ss_received}'" class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $ss_received_t && $composite_status eq $ss_received} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.ss.$ss_received}</span>
                     </div>
-                    <div id="ddxq4" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ss_unshipped_t}&composite_status={$ss_unshipped}'" class="ub-f1 tx-c b-grar-g b-whl-g">
+                    <div id="ddxq4" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ss_unshipped_t}&composite_status={$ss_unshipped}'" class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $ss_unshipped_t && $composite_status eq $ss_unshipped} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.ss.$ss_unshipped}</span>
                     </div>
-                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ss_shipped_t}&composite_status={$ss_shipped}'" class="ub-f1 tx-c b-grar-g b-whl-g">
+                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ss_shipped_t}&composite_status={$ss_shipped}'" class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $ss_shipped_t && $composite_status eq $ss_shipped} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.ss.$ss_shipped}</span>
                     </div>
                 </div>
 <div id="menu1" class="ub tab_menu widt100" style="margin-top:0px; ">
-                    <div id="ddxq4" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ps_unpayed_t}&composite_status={$ps_unpayed}'" class="ub-f1 tx-c b-grar-g b-whl-g">
+                    <div id="ddxq4" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ps_unpayed_t}&composite_status={$ps_unpayed}'" class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $ps_unpayed_t && $composite_status eq $ps_unpayed} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.ps.$ps_unpayed}</span>
                     </div>
-                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ps_payed_t}&composite_status={$ps_payed}'" class="ub-f1 tx-c b-grar-g b-whl-g">
+                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ps_payed_t}&composite_status={$ps_payed}'" class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $ps_payed_t && $composite_status eq $ps_payed} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.ps.$ps_payed}</span>
                     </div>
-                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ps_refunding_t}&composite_status={$ps_refunding}'" class="ub-f1 tx-c b-grar-g b-whl-g">
+                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ps_refunding_t}&composite_status={$ps_refunding}'" class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $ps_refunding_t && $composite_status eq $ps_refunding} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.ps.$ps_refunding}</span>
                     </div>
-                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ps_refunded_t}&composite_status={$ps_refunded}'" class="ub-f1 tx-c b-grar-g b-whl-g">
+                    <div id="ddxq3" onClick="window.location.href='user.php?act=order_list&composite_status_t={$ps_refunded_t}&composite_status={$ps_refunded}'" class="ub-f1 tx-c b-grar-g <!-- {if $composite_status_t eq $ps_refunded_t && $composite_status eq $ps_refunded} -->t-red-g tab_check<!-- {else} -->b-whl-g<!-- {/if} -->">
                         <span style=" display:inline-block;">{$order_status_names.ps.$ps_refunded}</span>
                     </div>
                 </div>
