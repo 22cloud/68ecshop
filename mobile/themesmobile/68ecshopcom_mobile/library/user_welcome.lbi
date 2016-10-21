@@ -11,8 +11,12 @@
               </div>
 		      <div class="field no">
             <div class="c-form-search st">
-                        {$lang.birthday}：                  
-                       {html_select_date field_order=YMD prefix=birthday start_year=-60 end_year=+1 display_days=true month_format=%m day_value_format=%02d time=$profile.birthday}
+                        {$lang.birthday}：      
+                        <!-- {if $profile.birthday eq '0000-00-00'} -->  
+                       {html_select_date field_order=YMD prefix=birthday start_year=-60 end_year=+1 display_days=true month_format=%m day_value_format=%02d time=$profile.birthday disable_flag=false}
+                       <!-- {else} -->
+                      {html_select_date field_order=YMD prefix=birthday start_year=-60 end_year=+1 display_days=true month_format=%m day_value_format=%02d time=$profile.birthday} 
+                       <!-- {/if} -->
                     </div>
                 </div>
 				
@@ -21,7 +25,6 @@
             <div class="c-form-search st">
                         {$lang.sex}：
                     
-                      <label for="sex0"><input type="radio" name="sex" value="0"{if $profile.sex==0} checked="checked"{/if} tabindex="2" class="radio" id="sex0"/>{$lang.secrecy}</label>
 					<label for="sex1"><input type="radio" name="sex" value="1"{if $profile.sex==1} checked="checked"{/if} tabindex="3" class="radio" id="sex1"/>{$lang.male}</label>
 					<label for="sex2"><input type="radio" name="sex" value="2"{if $profile.sex==2} checked="checked"{/if} tabindex="4" class="radio" id="sex2"/>{$lang.female}</label>
                     </div>
