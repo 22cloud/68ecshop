@@ -3,8 +3,9 @@
 /* *
  * 添加商品到购物车 
  */
-function addToCart(goodsId, parentId, url='',one_step_buy = false)
+function addToCart(goodsId, parentId, url,one_step_buy)
 {
+  var one_step_buy = false;
   var goods        = new Object();
   var spec_arr     = new Array();
   var fittings_arr = new Array();
