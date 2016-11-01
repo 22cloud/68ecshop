@@ -66,6 +66,8 @@ location.href='share_goods.php?content={$goods.goods_style_name}&pics={$goods.go
       {/if}
 
 <div>
+{insert_scripts files='lefttime.js'}
+{if $goods.is_promote and $goods.gmt_end_time}
 <style>
 .progress-bar, .progress-bar b{ display: inline-block;} 
 .progress-bar {border:1px solid red;background-position: 0 0; height: 15px;width: 430px;} 
@@ -73,8 +75,6 @@ location.href='share_goods.php?content={$goods.goods_style_name}&pics={$goods.go
 </style>
   剩余库存<span class="progress-bar"><b style="width:{$goods.promote_saled_percent}%;"> </b></span>{$goods.promote_saled_percent}%
 </div>
-{insert_scripts files='lefttime.js'}
-{if $goods.is_promote and $goods.gmt_end_time}
 <div class="m-sales" >
 <div class="timeBox"><em class="big_clock"></em><p class="countdown" >剩余<span id="leftTime">{$lang.please_waiting}</span></p></div>
 </div>
