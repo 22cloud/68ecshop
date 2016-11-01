@@ -190,9 +190,16 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
             }
         }
 
+        /* 是否进入倒计时 */
+        if ($goods['is_promote'] && time() < $goods['promote_start_date']) {
+            $smarty->assign('is_count_down',1);
+            $smarty->assign('tips_content','亲爱的用户：商品 ['.$goods['goods_name'].'] 即将开始秒杀。 ');
+        }
+
         $smarty->assign('goods',              $goods);
         $smarty->assign('goods_id',           $goods['goods_id']);
         $smarty->assign('promote_end_time',   $goods['gmt_end_time']);
+        $smarty->assign('promote_start_time',   $goods['promote_start_date']);
         $smarty->assign('categories',         get_categories_tree($goods['cat_id']));  // 分类树
 
         /* meta */

@@ -174,6 +174,12 @@
               <input name="promote_start_date" type="text" id="promote_start_date" size="12" value='{$goods.promote_start_date}' readonly="readonly" /><input name="selbtn1" type="button" id="selbtn1" onclick="return showCalendar('promote_start_date', '%Y-%m-%d', false, false, 'selbtn1');" value="{$lang.btn_select}" class="button"/><span style="*display:inline-block;*vertical-align:top; *height:32px; *line-height:32px; *padding:0 5px;"> - </span><input name="promote_end_date" type="text" id="promote_end_date" size="12" value='{$goods.promote_end_date}' readonly="readonly" /><input name="selbtn2" type="button" id="selbtn2" onclick="return showCalendar('promote_end_date', '%Y-%m-%d', false, false, 'selbtn2');" value="{$lang.btn_select}" class="button"/>
             </td>
           </tr>
+          <tr id="promote_14">
+            <td class="label" id="promote_15">促销总库存：</td>
+            <td id="promote_16">
+               <input type="text" name="promote_total_number" value="{$goods.promote_total_number}" />
+            </td>
+          </tr>
           <tr>
             <td class="label">{$lang.lab_picture}</td>
             <td>

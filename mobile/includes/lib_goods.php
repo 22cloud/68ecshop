@@ -603,7 +603,22 @@ function get_goods_info($goods_id)
         $row['goods_img']   = '../'.get_image_path($goods_id, $row['goods_img']);
         $row['goods_thumb'] = '../'.get_image_path($goods_id, $row['goods_thumb'], true);
 		//yyy修改end
+        
+        $promote_total_num = $row['promote_total_number'];
+        // 查询 促销期内的销售总数
+        if ($row['gmt_end_time'])
+        {
+            $sql =  "SELECT SUM(og.goods_number)  " .
+                    "FROM " . $GLOBALS['ecs']->table('order_info') . " AS oi " .
+                    "LEFT JOIN ".$GLOBALS['ecs']->table('order_goods')." AS og ON oi.order_id = og.order_id " .
+                    "WHERE og.goods_id = '$goods_id' AND (oi.add_time BETWEEN ".$row['promote_start_date']." AND ".$row['promote_end_date'].") " .
+                    "limit 1";
+            $promote_saled_num = $GLOBALS['db']->getOne($sql);
+        }else{
+            $promote_saled_num = 0;
+        }
 
+        $row['promote_saled_percent'] = sprintf("%.2f", (($promote_total_num - $promote_saled_num)/$promote_total_num)*100);
 
         return $row;
     }

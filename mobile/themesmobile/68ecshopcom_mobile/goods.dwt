@@ -65,11 +65,27 @@ location.href='share_goods.php?content={$goods.goods_style_name}&pics={$goods.go
      <span class="price" id="ECS_GOODS_AMOUNT">{$goods.shop_price_formated} </span>
       {/if}
 
+<div>
+<style>
+.progress-bar, .progress-bar b{ display: inline-block;} 
+.progress-bar {border:1px solid red;background-position: 0 0; height: 15px;width: 430px;} 
+.progress-bar b {background-color: red;background-position: 0 -17px; height: 15px;}
+</style>
+  剩余库存<span class="progress-bar"><b style="width:{$goods.promote_saled_percent}%;"> </b></span>{$goods.promote_saled_percent}%
+</div>
 {insert_scripts files='lefttime.js'}
 {if $goods.is_promote and $goods.gmt_end_time}
 <div class="m-sales" >
 <div class="timeBox"><em class="big_clock"></em><p class="countdown" >剩余<span id="leftTime">{$lang.please_waiting}</span></p></div>
 </div>
+{/if}
+{if $is_count_down}
+<div class="m-sales" >
+<div class="timeBox"><em class="big_clock"></em><p class="countdown" >距离开始<span id="leftTime">{$lang.please_waiting}</span></p></div>
+</div>
+<!-- <div>
+  <input type="button" onclick="setRemind(1, '{$goods.goods_id}', '{$tips_content}');" value="设置提醒" />
+</div> -->
 {/if}
 <div class="star comment_star">
 <div class="star_box">
@@ -310,6 +326,7 @@ changePrice();
 var goods_id = {$goods_id};
 var goodsattr_style = {$cfg.goodsattr_style|default:1};
 var gmt_end_time = {$promote_end_time|default:0};
+var gmt_start_time = {$promote_start_time|default:0};
 {foreach from=$lang.goods_js item=item key=key}
 var {$key} = "{$item}";
 {/foreach}
@@ -319,7 +336,7 @@ var now_time = {$now_time};
 <!-- {literal} -->
 onload = function(){
   changePrice();
-  try { onload_leftTime(); }
+  try { onload_leftTime();onload_leftStartTime(); }
   catch (e) {}
 }
 
@@ -349,6 +366,11 @@ function changePriceResponse(res)
     if (document.getElementById('ECS_GOODS_AMOUNT'))
       document.getElementById('ECS_GOODS_AMOUNT').innerHTML = res.result;
   }
+}
+/* 设置开始提醒 */
+function setRemind(t,id,content)
+{
+  // window.AndroidWebView.showInfoFromJs(name);
 }
 <!-- {/literal} -->
 </script>

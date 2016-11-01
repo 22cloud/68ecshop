@@ -174,6 +174,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             'warn_number'   => 1,
             'promote_start_date' => local_date('Y-m-d'),
             'promote_end_date'   => local_date('Y-m-d', local_strtotime('+1 month')),
+            'promote_total_number' => 100,
             'goods_weight'  => 0,
             'give_integral' => -1,
             'rank_integral' => -1,
@@ -244,6 +245,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
                 'warn_number'   => 1,
                 'promote_start_date' => local_date('Y-m-d'),
                 'promote_end_date'   => local_date('Y-m-d', gmstr2tome('+1 month')),
+                'promote_total_number' => 100,
                 'goods_weight'  => 0,
                 'give_integral' => -1,
                 'rank_integral' => -1,
@@ -809,6 +811,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     $is_promote = empty($promote_price) ? 0 : 1;
     $promote_start_date = ($is_promote && !empty($_POST['promote_start_date'])) ? local_strtotime($_POST['promote_start_date']) : 0;
     $promote_end_date = ($is_promote && !empty($_POST['promote_end_date'])) ? local_strtotime($_POST['promote_end_date']) : 0;
+    $promote_total_number = ($is_promote && !empty($_POST['promote_total_number'])) ? ($_POST['promote_total_number']) : 100;
     $goods_weight = !empty($_POST['goods_weight']) ? $_POST['goods_weight'] * $_POST['weight_unit'] : 0;
     $is_best = isset($_POST['is_best']) ? 1 : 0;
     $is_new = isset($_POST['is_new']) ? 1 : 0;
@@ -844,13 +847,13 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         {
             $sql = "INSERT INTO " . $ecs->table('goods') . " (goods_name, goods_name_style, goods_sn, " .
                     "cat_id, brand_id, shop_price, market_price, is_promote, promote_price, " .
-                    "promote_start_date, promote_end_date, goods_img, goods_thumb, original_img, keywords, goods_brief, " .
+                    "promote_start_date, promote_end_date, promote_total_number, goods_img, goods_thumb, original_img, keywords, goods_brief, " .
                     "seller_note, goods_weight, goods_number, warn_number, integral, give_integral, is_best, is_new, is_hot, " .
                     "is_on_sale, is_alone_sale, is_shipping, goods_desc, add_time, last_update, goods_type, rank_integral, ".
                     "suppliers_id, buy_number, send_number, is_freight_free, is_quality) " .
                 "VALUES ('$_POST[goods_name]', '$goods_name_style', '$goods_sn', '$catgory_id', " .
                     "'$brand_id', '$shop_price', '$market_price', '$is_promote','$promote_price', ".
-                    "'$promote_start_date', '$promote_end_date', '$goods_img', '$goods_thumb', '$original_img', ".
+                    "'$promote_start_date', '$promote_end_date', '$promote_total_number', '$goods_img', '$goods_thumb', '$original_img', ".
                     "'$_POST[keywords]', '$_POST[goods_brief]', '$_POST[seller_note]', '$goods_weight', '$goods_number',".
                     " '$warn_number', '$_POST[integral]', '$give_integral', '$is_best', '$is_new', '$is_hot', '$is_on_sale', '$is_alone_sale', $is_shipping, ".
                     " '$_POST[goods_desc]', '" . gmtime() . "', '". gmtime() ."', '$goods_type', '$rank_integral', '$suppliers_id', ".
@@ -860,13 +863,13 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         {
             $sql = "INSERT INTO " . $ecs->table('goods') . " (goods_name, goods_name_style, goods_sn, " .
                     "cat_id, brand_id, shop_price, market_price, is_promote, promote_price, " .
-                    "promote_start_date, promote_end_date, goods_img, goods_thumb, original_img, keywords, goods_brief, " .
+                    "promote_start_date, promote_end_date, promote_total_number, goods_img, goods_thumb, original_img, keywords, goods_brief, " .
                     "seller_note, goods_weight, goods_number, warn_number, integral, give_integral, is_best, is_new, is_hot, is_real, " .
                     "is_on_sale, is_alone_sale, is_shipping, goods_desc, add_time, last_update, goods_type, extension_code, rank_integral, " .
                     "buy_number, send_number, is_freight_free, is_quality) ".
                 "VALUES ('$_POST[goods_name]', '$goods_name_style', '$goods_sn', '$catgory_id', " .
                     "'$brand_id', '$shop_price', '$market_price', '$is_promote','$promote_price', ".
-                    "'$promote_start_date', '$promote_end_date', '$goods_img', '$goods_thumb', '$original_img', ".
+                    "'$promote_start_date', '$promote_end_date', '$promote_total_number', '$goods_img', '$goods_thumb', '$original_img', ".
                     "'$_POST[keywords]', '$_POST[goods_brief]', '$_POST[seller_note]', '$goods_weight', '$goods_number',".
                     " '$warn_number', '$_POST[integral]', '$give_integral', '$is_best', '$is_new', '$is_hot', 0, '$is_on_sale', '$is_alone_sale', $is_shipping, ".
                     " '$_POST[goods_desc]', '" . gmtime() . "', '". gmtime() ."', '$goods_type', '$code', '$rank_integral',".
@@ -903,7 +906,8 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                 "promote_price = '$promote_price', " .
                 "promote_start_date = '$promote_start_date', " .
                 "suppliers_id = '$suppliers_id', " .
-                "promote_end_date = '$promote_end_date', ";
+                "promote_end_date = '$promote_end_date', " .
+                "promote_total_number = '$promote_total_number', ";
 
         /* 如果有上传图片，需要更新数据库 */
         if ($goods_img)
