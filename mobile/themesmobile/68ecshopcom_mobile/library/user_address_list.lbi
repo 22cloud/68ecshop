@@ -27,10 +27,7 @@
 	<ul>
        <li>
     	  <input type="text" name="consignee" value="{$consignee.consignee|escape}" id="consignee_{$sn}"  placeholder="{$lang.consignee_name}"/>
-		</li>
-         <li>
-    	  <input type="email" name="email" value="{$consignee.email|escape}" id="email_{$sn}"  placeholder="{$lang.email_address}" maxlength="20"/>
-			</li>     
+		</li>     
     	
             <li>
 

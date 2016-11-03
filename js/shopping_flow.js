@@ -579,12 +579,6 @@ function checkConsignee(frm)
     msg.push(consignee_not_null);
   }
 
-  if ( ! Utils.isEmail(frm.elements['email'].value))
-  {
-    err = true;
-    msg.push(invalid_email);
-  }
-
   if (frm.elements['address'] && Utils.isEmpty(frm.elements['address'].value))
   {
     err = true;

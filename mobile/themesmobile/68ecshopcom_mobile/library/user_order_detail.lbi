@@ -176,11 +176,6 @@
 					<input type="text" name="consignee" value="{$order.consignee|escape}" class="c-f-text" placeholder="{$lang.consignee_name}"/>
                     </div>
                 </div>
-			  <div class="field else">
-                        <div class="c-form-search st">
-					<input  type="email" name="email" value="{$order.email|escape}" class="c-f-text" placeholder="{$lang.email_address}"/>
-                    </div>
-               </div>
 			{if $order.exist_real_goods}
               <div class="field else">
                         <div class="c-form-search st">

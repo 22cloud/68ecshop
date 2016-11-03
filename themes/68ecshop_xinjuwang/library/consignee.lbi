@@ -28,9 +28,8 @@
     <td bgcolor="#ffffff">{$lang.consignee_name}:</td>
     <td bgcolor="#ffffff"><input name="consignee" type="text" class="InputBorder" id="consignee_{$sn}" value="{$consignee.consignee|escape}" />
     {$lang.require_field} </td>
-    <td bgcolor="#ffffff">{$lang.email_address}:</td>
-    <td bgcolor="#ffffff"><input name="email" type="text" class="InputBorder"  id="email_{$sn}" value="{$consignee.email|escape}" />
-    {$lang.require_field}</td>
+    <td bgcolor="#ffffff">{$lang.postalcode}:</td>
+    <td bgcolor="#ffffff"><input name="zipcode" type="text" class="InputBorder"  id="zipcode_{$sn}" value="{$consignee.zipcode|escape}" /></td>
   </tr>
   <!-- {if $real_goods_count gt 0} -->
   <!-- 购物车中存在实体商品显示详细地址以及邮政编码 -->
@@ -38,8 +37,8 @@
     <td bgcolor="#ffffff">{$lang.detailed_address}:</td>
     <td bgcolor="#ffffff"><input name="address" type="text" class="InputBorder"  id="address_{$sn}" value="{$consignee.address|escape}" />
     {$lang.require_field}</td>
-    <td bgcolor="#ffffff">{$lang.postalcode}:</td>
-    <td bgcolor="#ffffff"><input name="zipcode" type="text" class="InputBorder"  id="zipcode_{$sn}" value="{$consignee.zipcode|escape}" /></td>
+    <td bgcolor="#ffffff"></td>
+    <td bgcolor="#ffffff"></td>
   </tr>
   <!-- {/if} -->
   <tr>

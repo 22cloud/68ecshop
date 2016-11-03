@@ -329,7 +329,70 @@
 <!-- 如果有收货地址，循环显示用户的收获地址 -->
 <!-- {foreach from=$consignee_list item=consignee key=sn} -->
 <form action="flow.php" method="post" name="theForm" id="theForm" onsubmit="return checkConsignee(this)">
-<!-- #BeginLibraryItem "/Library/consignee.lbi" --><!-- #EndLibraryItem -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="goodsTitle">{$lang.consignee_info}</div>
+{insert_scripts files='utils.js,transport.js'}
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#e3e3e3" class="floatTable">
+  <!-- {if $real_goods_count gt 0} -->
+  <!-- 购物车中存在实体商品显示国家和地区 -->
+  <tr>
+    <td bgcolor="#ffffff">{$lang.country_province}:</td>
+    <td colspan="3" bgcolor="#ffffff">
+      <input type="hidden" name="country" value="{$shop_country}">
+      <input type="hidden" name="province" value="{$shop_province}">
+      <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')"  class="InputBorder">
+        <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
+        <!-- {foreach from=$city_list.$sn item=city} -->
+        <option value="{$city.region_id}" {if $shop_city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+        <!-- {/foreach} -->
+      </select>
+      <select name="district" id="selDistricts_{$sn}" {if !$district_list.$sn}style="display:none"{/if}  class="InputBorder">
+        <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
+        <!-- {foreach from=$district_list.$sn item=district} -->
+        <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+        <!-- {/foreach} -->
+      </select>
+    {$lang.require_field} </td>
+  </tr>
+  <!-- {/if} -->
+  <tr>
+    <td bgcolor="#ffffff">{$lang.consignee_name}:</td>
+    <td bgcolor="#ffffff"><input name="consignee" type="text" class="InputBorder" id="consignee_{$sn}" value="{$consignee.consignee|escape}" />
+    {$lang.require_field} </td>
+    <td bgcolor="#ffffff">{$lang.postalcode}:</td>
+    <td bgcolor="#ffffff"><input name="zipcode" type="text" class="InputBorder"  id="zipcode_{$sn}" value="{$consignee.zipcode|escape}" /></td>
+  </tr>
+  <!-- {if $real_goods_count gt 0} -->
+  <!-- 购物车中存在实体商品显示详细地址以及邮政编码 -->
+  <tr>
+    <td bgcolor="#ffffff">{$lang.detailed_address}:</td>
+    <td bgcolor="#ffffff"><input name="address" type="text" class="InputBorder"  id="address_{$sn}" value="{$consignee.address|escape}" />
+    {$lang.require_field}</td>
+    <td bgcolor="#ffffff"></td>
+    <td bgcolor="#ffffff"></td>
+  </tr>
+  <!-- {/if} -->
+  <tr>
+    <td bgcolor="#ffffff">{$lang.phone}:</td>
+    <td bgcolor="#ffffff"><input name="tel" type="text" class="InputBorder"  id="tel_{$sn}" value="{$consignee.tel|escape}" />
+    {$lang.require_field}</td>
+    <td bgcolor="#ffffff"></td>
+    <td bgcolor="#ffffff"></td>
+  </tr>
+  <tr>
+    <td colspan="4" align="center" bgcolor="#ffffff">
+    <input type="submit" name="Submit" class="bnt_number8" value="{$lang.shipping_address}" />
+      <!-- {if $smarty.session.user_id gt 0 and $consignee.address_id gt 0} -->
+      <!-- 如果登录了，显示删除按钮 -->
+      <input name="button" type="button" onclick="if (confirm('{$lang.drop_consignee_confirm}')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}'"  class="bnt_number2" value="{$lang.drop}" />
+      <!-- {/if} -->
+      <input type="hidden" name="step" value="consignee" />
+      <input type="hidden" name="act" value="checkout" />
+      <input name="address_id" type="hidden" value="{$consignee.address_id}" />
+      </td>
+  </tr>
+</table>
+
 </form>
 <!-- {/foreach} -->
 <!-- {/if} -->
@@ -430,15 +493,15 @@ var flow_no_shipping = "{$lang.flow_no_shipping}";
 		<tr>
 			<td bgcolor="#ffffff">{$lang.consignee_name}:</td>
 			<td bgcolor="#ffffff">{$consignee.consignee|escape}</td>
-			<td bgcolor="#ffffff">{$lang.email_address}:</td>
-			<td bgcolor="#ffffff">{$consignee.email|escape}</td>
+			<td bgcolor="#ffffff">{$lang.postalcode}:</td>
+			<td bgcolor="#ffffff">{$consignee.zipcode|escape}</td>
 		</tr>
 		<!-- {if $total.real_goods_count gt 0} -->
 		<tr>
 			<td bgcolor="#ffffff">{$lang.detailed_address}:</td>
 			<td bgcolor="#ffffff">{$consignee.address|escape} </td>
-			<td bgcolor="#ffffff">{$lang.postalcode}:</td>
-			<td bgcolor="#ffffff">{$consignee.zipcode|escape}</td>
+			<td bgcolor="#ffffff"></td>
+			<td bgcolor="#ffffff"></td>
 		</tr>
 		<!-- {/if} -->
 		<tr>

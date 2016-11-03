@@ -591,8 +591,8 @@
 					<td width="15%" align="right" bgcolor="#ffffff">{$lang.consignee_name}： </td>
 					<td width="35%" align="left" bgcolor="#ffffff"><input name="consignee" type="text"  class="InputBorder" value="{$order.consignee|escape}" size="25">
 					</td>
-					<td width="15%" align="right" bgcolor="#ffffff">{$lang.email_address}： </td>
-					<td width="35%" align="left" bgcolor="#ffffff"><input name="email" type="text"  class="InputBorder" value="{$order.email|escape}" size="25" />
+					<td width="15%" align="right" bgcolor="#ffffff">{$lang.postalcode}：</td>
+					<td width="35%" align="left" bgcolor="#ffffff"><input name="zipcode" type="text"  class="InputBorder" value="{$order.zipcode|escape}" size="25" />
 					</td>
 				</tr>
 				<!-- {if $order.exist_real_goods} -->
@@ -600,26 +600,18 @@
 				<tr>
 					<td align="right" bgcolor="#ffffff">{$lang.detailed_address}： </td>
 					<td align="left" bgcolor="#ffffff"><input name="address" type="text" class="InputBorder" value="{$order.address|escape} " size="25" /></td>
-					<td align="right" bgcolor="#ffffff">{$lang.postalcode}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="zipcode" type="text"  class="InputBorder" value="{$order.zipcode|escape}" size="25" /></td>
+					<td align="right" bgcolor="#ffffff"></td>
+					<td align="left" bgcolor="#ffffff"></td>
 				</tr>
 				<!--{/if}-->
 				<tr>
 					<td align="right" bgcolor="#ffffff">{$lang.phone}：</td>
 					<td align="left" bgcolor="#ffffff"><input name="tel" type="text" class="InputBorder" value="{$order.tel|escape}" size="25" /></td>
-					<td align="right" bgcolor="#ffffff">{$lang.backup_phone}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="mobile" type="text"  class="InputBorder" value="{$order.mobile|escape}" size="25" /></td>
+					<td align="right" bgcolor="#ffffff"></td>
+					<td align="left" bgcolor="#ffffff"></td>
 				</tr>
 				<!-- {if $order.exist_real_goods} -->
 				<!-- 只有虚拟商品处理-->
-				<tr>
-					<td align="right" bgcolor="#ffffff">{$lang.sign_building}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="sign_building" class="InputBorder" type="text" value="{$order.sign_building|escape}" size="25" />
-					</td>
-					<td align="right" bgcolor="#ffffff">{$lang.deliver_goods_time}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="best_time" type="text" class="InputBorder" value="{$order.best_time|escape}" size="25" />
-					</td>
-				</tr>
 				<!-- {/if}-->
 				<tr>
 					<td colspan="4" align="center" bgcolor="#ffffff"><input type="hidden" name="act" value="save_order_address" />
@@ -975,16 +967,15 @@
 					<td align="right" bgcolor="#ffffff">{$lang.consignee_name}：</td>
 					<td align="left" bgcolor="#ffffff"><input name="consignee" type="text" class="InputBorder" id="consignee_{$sn}" value="{$consignee.consignee|escape}" />
 					{$lang.require_field} </td>
-					<td align="right" bgcolor="#ffffff">{$lang.email_address}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="email" type="text" class="InputBorder" id="email_{$sn}" value="{$consignee.email|escape}" />
-					{$lang.require_field}</td>
+					<td align="right" bgcolor="#ffffff">{$lang.postalcode}：</td>
+					<td align="left" bgcolor="#ffffff"><input name="zipcode" type="text" class="InputBorder" id="zipcode_{$sn}" value="{$consignee.zipcode|escape}" /></td>
 				</tr>
 				<tr>
 					<td align="right" bgcolor="#ffffff">{$lang.detailed_address}：</td>
 					<td align="left" bgcolor="#ffffff"><input name="address" type="text" class="InputBorder" id="address_{$sn}" value="{$consignee.address|escape}" />
 					{$lang.require_field}</td>
-					<td align="right" bgcolor="#ffffff">{$lang.postalcode}：</td>
-					<td align="left" bgcolor="#ffffff"><input name="zipcode" type="text" class="InputBorder" id="zipcode_{$sn}" value="{$consignee.zipcode|escape}" /></td>
+					<td align="right" bgcolor="#ffffff"></td>
+					<td align="left" bgcolor="#ffffff"></td>
 				</tr>
 				<tr>
 					<td align="right" bgcolor="#ffffff">{$lang.phone}：</td>

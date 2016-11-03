@@ -4,10 +4,7 @@
 	<ul>
        <li>
     	<input type="text" placeholder="{$lang.consignee_name}" name="consignee" value="{$consignee.consignee|escape}" id="consignee_{$sn}"  maxlength="20"/>
-		</li>
-         <li>
-    	<input type="email" placeholder="{$lang.email_address}" name="email" value="{$consignee.email|escape}" id="consignee_{$sn}"  maxlength="20" id="email_{$sn}"/>
-			</li>     
+		</li>   
     		  <!-- {if $real_goods_count gt 0} -->
   <!-- 购物车中存在实体商品显示国家和地区 -->
             <li>
