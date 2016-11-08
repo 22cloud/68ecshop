@@ -1,0 +1,149 @@
+<!-- $Id: coupon_setting_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+
+<!-- start coupon_setting form -->
+<div class="tab-div">
+    <!-- tab bar -->
+    <div id="tabbar-div">
+      <p>
+        <span class="tab-front" id="general-tab">{$lang.tab_general}</span>
+        <span
+        class="tab-back" id="detail-tab">{$lang.tab_coupon_auto}</span>
+      </p>
+    </div>
+
+    <!-- tab body -->
+    <div id="tabbody-div">
+      <form action="" method="post" name="theForm" >
+        <!-- 最大文件限制 -->
+        <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+        <!-- 通用信息 -->
+        <table width="90%" id="general-table" align="center">
+            <tr>
+                <td class="label">是否发放首单购买优惠券</td>
+                <td>
+                    <input type="radio" name="is_frist_buy" value="1" {if $coupon_setting.is_frist_buy eq 1}checked{/if}> {$lang.open}
+                    <input type="radio" name="is_frist_buy" value="0" {if $coupon_setting.is_frist_buy eq 0}checked{/if}> {$lang.colse}{$lang.require_field}</td>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">选择首单购买发放的优惠券</td>
+                <td>
+                    <select name="first_buy_coupon">
+                        <option value="0">{$lang.select_default}</option>
+                        {$first_buy_coupons_list}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">是否启用回流客户优惠券</td>
+                <td>
+                    <input type="radio" name="is_return_back" value="1" {if $coupon_setting.is_return_back eq 1}checked{/if}> {$lang.open}
+                    <input type="radio" name="is_return_back" value="0" {if $coupon_setting.is_return_back eq 0}checked{/if}> {$lang.colse}{$lang.require_field}</td>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">回流时间设定</td>
+                <td>
+                    <input type="text" name="return_back_time" value="{$coupon_setting.return_back_time}" placeholder="天数" >
+                </td>
+            </tr>
+            <tr>
+                <td class="label">选择回流客户发放的优惠券</td>
+                <td>
+                    <select name="return_back_coupon">
+                        <option value="0">{$lang.select_default}</option>
+                        {$return_back_coupons_list}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">是否启用生日优惠券</td>
+                <td>
+                    <input type="radio" name="is_brith_send" value="1" {if $coupon_setting.is_brith_send eq 1}checked{/if}> {$lang.open}
+                    <input type="radio" name="is_brith_send" value="0" {if $coupon_setting.is_brith_send eq 0}checked{/if}> {$lang.colse}{$lang.require_field}</td>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">选择生日发放的优惠券</td>
+                <td>
+                    <select name="brith_send_coupon">
+                        <option value="0">{$lang.select_default}</option>
+                        {$brith_send_coupons_list}
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <!-- 详细描述 -->
+        <table width="90%" id="detail-table" style="display:none"><!-- 商品搜索 -->
+          <tr>
+            <td colspan="3">
+              <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+              <input type="text" name="keyword1" />
+              <input type="button" value="{$lang.button_search}"  class="button"
+                onclick="searchUsers(sz1 , 'keyword1');" />
+            </td>
+          </tr>
+          <!--  -->
+          <tr>
+            <th>{$lang.user_pool}</th>
+            <th>{$lang.coupon_list}</th>
+          </tr>
+          <tr>
+            <td width="42%">
+              <select name="source_select1[]" size="20" style="width:100%" multiple="true">
+              </select>
+            </td>
+            <td width="57" valign="top" style="text-align: center;">
+                <select name="auto_coupon">
+                    <option value="0">{$lang.select_default}</option>
+                    {$coupons_list}
+                </select>
+            </td>
+          </tr>
+        </table>
+
+
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_act}" />
+      </form>
+    </div>
+</div>
+<!-- end coupon_setting form -->
+{insert_scripts files="validator.js,tab.js"}
+
+<script language="JavaScript">
+  var goodsId = 1;
+  var elements = document.forms['theForm'].elements;
+  var sz1 = new SelectZone(1, elements['source_select1[]'], elements['target_select1']);
+
+  {literal}
+  onload = function()
+  {
+  }
+
+  /* 用户函数 */
+  function searchUsers(szObject, keyword)
+  {
+      var filters = new Object;
+
+      filters.keyword = Utils.trim(elements[keyword].value);
+
+      szObject.loadOptions('get_users_list', filters);
+  }
+  {/literal}
+</script>
+{include file="pagefooter.htm"}

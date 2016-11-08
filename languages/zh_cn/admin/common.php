@@ -151,6 +151,7 @@ $_LANG['13_backup'] = '数据库管理';
 $_LANG['15_sms'] = '短信管理';
 $_LANG['16_rec'] = '推荐管理';
 $_LANG['17_email_manage'] = '邮件群发管理';
+$_LANG['18_coupons'] = '优惠券管理';
 
 /* 商品管理 */
 $_LANG['01_goods_list'] = '商品列表';
@@ -315,6 +316,11 @@ $_LANG['magazine_list'] = '杂志管理';
 $_LANG['attention_list'] = '关注管理';
 $_LANG['view_sendlist'] = '邮件队列管理';
 
+$_LANG['coupons_list'] = '优惠券管理';
+$_LANG['coupon_setting'] = '优惠券发放设置';
+$_LANG['coupon_log'] = '优惠券日志';
+$_LANG['users_couponslist'] = '用户优惠券列表';
+
 /* 积分兑换管理 */
 $_LANG['15_exchange_goods'] = '积分商城商品';
 $_LANG['15_exchange_goods_list'] = '积分商城商品列表';
@@ -370,5 +376,8 @@ $_LANG['02_school_a'] = 'ECShop视频教程';
 $_LANG['03_school_b'] = 'ECShop安装使用';
 $_LANG['04_school_c'] = 'ECShop交流论坛';
 
+// 优惠券
+$_LANG['coupon_list'] = '优惠券列表';
+$_LANG['coupon_add'] = '添加优惠券';
 
 ?>

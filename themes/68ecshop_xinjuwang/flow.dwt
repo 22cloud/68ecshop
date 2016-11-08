@@ -679,6 +679,20 @@ var flow_no_shipping = "{$lang.flow_no_shipping}";
 			</td>
 		</tr>
 		<!-- {/if} 是否使用红包 -->
+		<!-- {if $allow_use_coupons} 是否使用优惠券 -->
+		<tr>
+			<td bgcolor="#ffffff"><strong>使用优惠券:</strong></td>
+			<td bgcolor="#ffffff">
+				{$lang.select_coupons}
+				<select name="coupons" onchange="changeCoupons(this.value)" id="ECS_COUPONS"  class="InputBorder">
+					<option value="0" {if $order.coupons_id eq 0}selected{/if}>{$lang.please_select}</option>
+					<!-- {foreach from=$coupons_list item=coupons} -->
+					<option value="{$coupons.id}" {if $order.coupons_id eq $coupons.id}selected{/if}>{$coupons.coupon_code}[{$coupons.coupons_money_formated}]</option>
+					<!-- {/foreach} -->
+				</select>
+			</td>
+		</tr>
+		<!-- {/if} 是否使用红包 -->
 		<!-- {if $inv_content_list} 能否开发票 -->
 		<tr>
 			<td bgcolor="#ffffff"><strong>{$lang.invoice}:</strong>

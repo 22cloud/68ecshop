@@ -1,0 +1,127 @@
+<!-- $Id: exchange_goods_info.htm 15544 2009-01-09 01:54:28Z zblikai $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,validator.js"}
+<!-- start goods form -->
+<div class="tab-div">
+<form  action="coupons.php" method="post" name="theForm" onsubmit="return validate();">
+  <table width="90%" id="general-table">
+    <tr>
+      <td class="label">{$lang.coupon_name}</td>
+      <td>
+        <input type="text" name="coupon_name" id="coupon_name" maxlength="60" size="20" value="{$coupon.coupon_name}" />
+        {$lang.require_field}
+      </td>
+    </tr>
+    <tr>
+      <td class="label">{$lang.coupon_type}</td>
+      <td>
+        <input type="radio" name="coupon_type" value="1" {if $coupon.coupon_type eq 1}checked{/if}> {$lang.coupon_type_1}
+        <input type="radio" name="coupon_type" value="2" {if $coupon.coupon_type eq 2}checked{/if}> {$lang.coupon_type_2}{$lang.require_field}</td>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">{$lang.use_condition}</td>
+      <td>
+        <input type="text" name="use_condition" maxlength="60" size="20" value="{$coupon.use_condition}" />
+      </td>
+    </tr>
+    <tr>
+      <td class="label">{$lang.deductible}</td>
+      <td>
+        <input type="text" name="deductible" id="deductible" maxlength="60" size="20" value="{$coupon.deductible}" />
+        {$lang.require_field}
+      </td>
+    </tr>
+    <tr>
+      <td class="label">{$lang.expiry_time}</td>
+      <td>
+        <input type="text" name="expiry_time" id="expiry_time" maxlength="60" size="20" value="{$coupon.expiry_time}" />
+        {$lang.require_field}
+      </td>
+    </tr>
+    <tr>
+      <td class="label">{$lang.coupon_remark}</td>
+      <td>
+        <textarea name="coupon_remark">{$coupon.coupon_remark}</textarea>
+      </td>
+    </tr>
+  </table>
+
+  <div class="button-div">
+    <input type="hidden" name="id" value="{$coupon.id}" />
+    <input type="hidden" name="act" value="{$form_action}" />
+    <input type="submit" value="{$lang.button_submit}" class="button"  />
+    <input type="reset" value="{$lang.button_reset}" class="button" />
+  </div>
+</form>
+</div>
+<!-- end goods form -->
+<script language="JavaScript">
+
+{literal}
+onload = function()
+{
+  // 开始检查订单
+  startCheckOrder();
+}
+
+function validate()
+{
+  var validator = new Validator('theForm');
+  validator.required("coupon_name", no_coupon_name);
+  validator.required("deductible", no_deductible);
+  validator.isNumber("deductible", no_number_deductible);
+  validator.required("expiry_time", no_expiry_time);
+  validator.isNumber("expiry_time", no_number_expiry_time);
+
+  return validator.passed();
+}
+
+function searchGoods()
+{
+    var filter = new Object;
+    filter.keyword = document.forms['theForm'].elements['keywords'].value;
+
+    Ajax.call('exchange_goods.php?is_ajax=1&act=search_goods', filter, searchGoodsResponse, 'GET', 'JSON')
+}
+
+function searchGoodsResponse(result)
+{
+  var frm = document.forms['theForm'];
+  var sel = frm.elements['goods_id'];
+
+  if (result.error == 0)
+  {
+    /* 清除 options */
+    sel.length = 0;
+
+    /* 创建 options */
+    var goods = result.content;
+    if (goods)
+    {
+        for (i = 0; i < goods.length; i++)
+        {
+            var opt = document.createElement("OPTION");
+            opt.value = goods[i].goods_id;
+            opt.text  = goods[i].goods_name;
+            sel.options.add(opt);
+        }
+    }
+    else
+    {
+        var opt = document.createElement("OPTION");
+        opt.value = 0;
+        opt.text  = search_is_null;
+        sel.options.add(opt);
+    }
+  }
+
+  if (result.message.length > 0)
+  {
+    alert(result.message);
+  }
+}
+
+{/literal}
+</script>
+{include file="pagefooter.htm"}

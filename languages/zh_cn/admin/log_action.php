@@ -91,4 +91,10 @@ $_LANG['log_action']['reg_fields'] = '会员注册项';
 
 $_LANG['log_action']['campaign'] = '自定义活动';
 $_LANG['log_action']['auto_form'] = '自定义表单';
+
+$_LANG['log_action']['coupons'] = '优惠券';
+$_LANG['log_action']['coupon_setting'] = '优惠券发放设置';
+$_LANG['log_action']['coupon_send'] = '发放优惠券';
+
+
 ?>

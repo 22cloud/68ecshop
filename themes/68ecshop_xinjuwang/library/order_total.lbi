@@ -3,7 +3,7 @@
 <div id="ECS_ORDERTOTAL">
 <table width="100%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#e3e3e3" class="floatTable">
   <!-- {if $smarty.session.user_id > 0 and ($config.use_integral or $config.use_bonus)} -->
-  <tr>
+  <!-- <tr>
     <td align="right" bgcolor="#ffffff">
       {$lang.complete_acquisition}
       <!-- {if $config.use_integral} 是否使用积分-->
@@ -13,7 +13,7 @@
       <!-- {if $config.use_bonus} 是否使用红包-->
        <font class="f1 f4_b">{$total.will_get_bonus}</font>{$lang.de}{$lang.bonus}。
       <!-- {/if} -->    </td>
-  </tr>
+  </tr> -->
   <!-- {/if} -->
   <tr>
     <td align="right" bgcolor="#ffffff">
@@ -40,7 +40,7 @@
       + {$lang.card_fee}: <font class="f1 f14b">{$total.card_fee_formated}</font>
       <!-- {/if} -->    </td>
   </tr>
-  <!-- {if $total.surplus > 0 or $total.integral > 0 or $total.bonus > 0} 使用余额或积分或红包 -->
+  <!-- {if $total.surplus > 0 or $total.integral > 0 or $total.bonus > 0 or $total.coupons > 0} 使用余额或积分或红包 -->
   <tr>
     <td align="right" bgcolor="#ffffff">
       <!-- {if $total.surplus > 0} 使用余额 -->
@@ -51,6 +51,9 @@
       <!-- {/if} -->
       <!-- {if $total.bonus > 0} 使用红包 -->
       - {$lang.use_bonus}: <font class="f1 f14b">{$total.bonus_formated}</font>
+      <!-- {/if} -->
+      <!-- {if $total.coupons > 0} 使用红包 -->
+      - {$lang.use_coupons}: <font class="f1 f14b">{$total.coupons_formated}</font>
       <!-- {/if} -->    </td>
   </tr>
   <!-- {/if} 使用余额或积分或红包 -->

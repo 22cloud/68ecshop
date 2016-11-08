@@ -140,7 +140,8 @@
 						{if $order.money_paid > 0} - {$lang.order_money_paid}{$lang.colon}<span class="price">{$order.formated_money_paid}</span>{/if}
 						{if $order.surplus > 0} - {$lang.use_surplus}{$lang.colon}<span class="price">{$order.formated_surplus}</span>{/if}
 						{if $order.integral_money > 0} - {$lang.use_integral}{$lang.colon}<span class="price">{$order.formated_integral_money}</span>{/if}
-						{if $order.bonus > 0} - {$lang.use_bonus}{$lang.colon}<span class="price">{$order.formated_bonus}</span>{/if}</p>
+						{if $order.bonus > 0} - {$lang.use_bonus}{$lang.colon}<span class="price">{$order.formated_bonus}</span>{/if}
+						{if $order.coupons > 0} - {$lang.use_coupons}{$lang.colon}<span class="price">{$order.formated_coupons}</span>{/if}</p>
 						<p>{$lang.order_amount}{$lang.colon}<span class="price">{$order.formated_order_amount}</span>{if $order.extension_code eq "group_buy"}{$lang.notice_gb_order_amount}{/if}</p>
 						{if $allow_edit_surplus}
 						

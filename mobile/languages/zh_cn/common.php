@@ -310,7 +310,9 @@ $_LANG['cod'] = '配送决定';
 
 $_LANG['curr_stauts'] = '当前状态';
 $_LANG['use_bonus'] = '使用红包';
+$_LANG['use_coupons'] = '使用优惠券';
 $_LANG['use_bonus_kill'] = '使用线下红包';
+$_LANG['use_coupons'] = '使用优惠券';
 $_LANG['invoice'] = '开发票';
 $_LANG['invoice_type'] = '发票类型';
 $_LANG['invoice_title'] = '发票抬头';
@@ -745,6 +747,7 @@ $_LANG['my_order']='我的订单';
 $_LANG['address_list']='地址管理';
 $_LANG['pay_manage']='资金管理';
 $_LANG['bonus']='我的红包';
+$_LANG['coupons']='我的优惠券';
 $_LANG['profile']='信息修改';
 $_LANG['order_refund']='退款申请';
 

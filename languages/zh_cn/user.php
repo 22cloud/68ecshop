@@ -29,6 +29,7 @@ $_LANG['label_message'] = '我的留言';
 $_LANG['label_tag'] = '我的标签';
 $_LANG['label_collection'] = '我的收藏';
 $_LANG['label_bonus'] = '我的红包';
+$_LANG['label_coupons'] = '我的优惠券';
 $_LANG['label_comment'] = '我的评论';
 $_LANG['label_affiliate'] = '我的推荐';
 $_LANG['label_group_buy'] = '我的团购';

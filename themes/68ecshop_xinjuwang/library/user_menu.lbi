@@ -11,7 +11,8 @@
 		<li><a href="user.php?act=order_list"{if $action eq 'order_list'|| $action eq 'order_detail'}class="curs"{/if}> {$lang.label_order}</a></li>
 		<li><a href="user.php?act=address_list"{if $action eq 'address_list'}class="curs"{/if}> {$lang.label_address}</a></li>
 		<li><a href="user.php?act=collection_list"{if $action eq 'collection_list'}class="curs"{/if}> {$lang.label_collection}</a></li>
-		<li><a href="user.php?act=bonus"{if $action eq 'bonus'}class="curs"{/if}> {$lang.label_bonus}</a></li>
+		<!-- <li><a href="user.php?act=bonus"{if $action eq 'bonus'}class="curs"{/if}> {$lang.label_bonus}</a></li> -->
+		<li><a href="user.php?act=coupons"{if $action eq 'coupons'}class="curs"{/if}> {$lang.label_coupons}</a></li>
 		<!--<li><a href="user.php?act=group_buy">{$lang.label_group_buy}</a></li>-->
 		<!--{if $show_transform_points}-->
 		<li><a href="user.php?act=transform_points"{if $action eq 'transform_points'}class="curs"{/if}> {$lang.label_transform_points}</a></li>

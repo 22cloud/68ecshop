@@ -159,6 +159,11 @@ if (!defined('IN_ECS'))
     $purview['magazine_list']        = 'magazine_list';
     $purview['view_sendlist']        = 'view_sendlist';
 	
+// 优惠券管理
+    $purview['coupons_list']            = 'coupons_list';
+    $purview['coupon_setting']          = 'coupon_setting';
+    $purview['coupon_log']              = 'coupon_log';
+    $purview['users_couponslist']       = 'users_couponslist';
 
 
 ?>

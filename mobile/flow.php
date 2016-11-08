@@ -924,6 +924,26 @@ $total = order_fee($order, $cart_goods, $consignee,$shopping,$d_discount);
         $smarty->assign('allow_use_bonus', 1);
     }
 
+    /* 如果使用优惠券，取得用户可以使用的优惠券及用户选择的优惠券 */
+    if ((!isset($_CFG['use_coupons']) || $_CFG['use_coupons'] == '1')
+        && ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS))
+    {
+        // 取得用户可用红包
+        $user_coupons = user_coupons($_SESSION['user_id'], $total['goods_price']);
+        if (!empty($user_coupons))
+        {
+            foreach ($user_coupons AS $key => $val)
+            {
+                $user_coupons[$key]['coupons_money_formated'] = price_format($val['deductible'], false);
+            }
+            $smarty->assign('coupons_list', $user_coupons);
+        }
+
+        // 能使用红包
+        $smarty->assign('allow_use_coupons', 1);
+    }
+
+
     /* 如果使用缺货处理，取得缺货处理列表 */
     if (!isset($_CFG['use_how_oos']) || $_CFG['use_how_oos'] == '1')
     {
@@ -1419,6 +1439,63 @@ elseif ($_REQUEST['step'] == 'change_bonus')
     $json = new JSON();
     die($json->encode($result));
 }
+elseif ($_REQUEST['step'] == 'change_coupons')
+{
+    /*------------------------------------------------------ */
+    //-- 改变红包
+    /*------------------------------------------------------ */
+    include_once('includes/cls_json.php');
+    $result = array('error' => '', 'content' => '');
+
+    /* 取得购物类型 */
+    $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
+
+    /* 获得收货人信息 */
+    $consignee = get_consignee($_SESSION['user_id']);
+
+    /* 对商品信息赋值 */
+    $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    {
+        $result['error'] = $_LANG['no_goods_in_cart'];
+    }
+    else
+    {
+        /* 取得购物流程设置 */
+        $smarty->assign('config', $_CFG);
+
+        /* 取得订单信息 */
+        $order = flow_order_info();
+
+        $coupons = coupons_info(intval($_GET['coupons']));
+
+        if ((!empty($coupons) && $coupons['user_id'] == $_SESSION['user_id']) || $_GET['coupons'] == 0)
+        {
+            $order['coupons_id'] = intval($_GET['coupons']);
+        }
+        else
+        {
+            $order['coupons_id'] = 0;
+            $result['error'] = $_LANG['invalid_coupons'];
+        }
+
+        /* 计算订单的费用 */
+        $total = order_fee($order, $cart_goods, $consignee);
+        $smarty->assign('total', $total);
+
+        /* 团购标志 */
+        if ($flow_type == CART_GROUP_BUY_GOODS)
+        {
+            $smarty->assign('is_group_buy', 1);
+        }
+        $result['type_money'] = $total['coupons_formated'];
+        $result['content'] = $smarty->fetch('library/order_total.lbi');
+    }
+
+    $json = new JSON();
+    die($json->encode($result));
+}
 elseif ($_REQUEST['step'] == 'change_needinv')
 {
     /*------------------------------------------------------ */
@@ -1604,6 +1681,7 @@ elseif ($_REQUEST['step'] == 'done')
         'surplus'         => isset($_POST['surplus']) ? floatval($_POST['surplus']) : 0.00,
         'integral'        => isset($_POST['integral']) ? intval($_POST['integral']) : 0,
         'bonus_id'        => isset($_POST['bonus']) ? intval($_POST['bonus']) : 0,
+        'coupons_id'        => isset($_POST['coupons']) ? intval($_POST['coupons']) : 0,
         'need_inv'        => empty($_POST['need_inv']) ? 0 : 1,
         'inv_type'        => $_POST['inv_type'],
         'inv_payee'       => trim($_POST['inv_payee']),
@@ -1688,6 +1766,15 @@ elseif ($_REQUEST['step'] == 'done')
             $order['bonus_sn'] = $bonus_sn;
         }
     }
+    // 检查优惠券是否存在
+    if ($order['coupons_id'] > 0) {
+        $coupons = coupons_info($order['coupons_id']);
+
+        if (empty($coupons) || $coupons['user_id'] != $user_id)
+        {
+            $order['coupons_id'] = 0;
+        }
+    }
 
     /* 订单中的商品 */
     $cart_goods = cart_goods($flow_type);
@@ -1729,6 +1816,7 @@ elseif ($_REQUEST['step'] == 'done')
     /* 订单中的总额 */
     $total = order_fee($order, $cart_goods, $consignee);
     $order['bonus']        = $total['bonus'];
+    $order['coupons']        = $total['coupons'];
     $order['goods_amount'] = $total['goods_price'];
     $order['discount']     = $total['discount'];
     $order['surplus']      = $total['surplus'];
@@ -1741,6 +1829,7 @@ elseif ($_REQUEST['step'] == 'done')
     if ($temp_amout <= 0)
     {
         $order['bonus_id'] = 0;
+        $order['coupons_id'] = 0;
     }
 
     /* 配送方式 */
@@ -1900,6 +1989,11 @@ elseif ($_REQUEST['step'] == 'done')
     {
         use_bonus($order['bonus_id'], $new_order_id);
     }
+    if ($order['coupons_id'] > 0 && $temp_amout > 0)
+    {
+        use_coupons($order['coupons_id'], $new_order_id);
+    }
+
 
     /* 如果使用库存，且下订单时减库存，则减少库存 */
     if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE)

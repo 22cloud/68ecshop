@@ -892,6 +892,64 @@ if (obj.error)
 
 }
 
+/* *
+ * 改变优惠券
+ */
+function changeCoupons(val)
+{
+  if (selectedBonus == val)
+  {
+    return;
+  }
+  else
+  {
+    selectedBonus = val;
+  }
+
+  Ajax.call('flow.php?step=change_coupons', 'coupons=' + val, changeCouponsResponse, 'GET', 'JSON');
+}
+
+/* *
+ * 改变优惠券的回调函数
+ */
+function changeCouponsResponse(obj)
+{
+
+  if (obj.error)
+
+  {
+
+    alert(obj.error);
+
+
+
+    try
+
+    {
+
+      document.getElementById('ECS_COUPONS').value = '0';
+
+    }
+
+    catch (ex) { }
+
+  }
+
+  else
+
+  {
+console.log(obj);
+  document.getElementById('emcoupons').innerHTML = obj.type_money; 
+
+  document.getElementById('coupons68').style.display="none";
+
+  document.getElementById('couponsip').className = 'i-icon-arrow-down'; 
+
+    orderSelectedResponse(obj.content);
+
+  }
+}
+
 
 
 /* *

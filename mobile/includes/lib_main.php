@@ -2082,4 +2082,170 @@ function url_domain()
     return $root;
 }
 
+/**
+ * 检查当前用户是否还未购买过商品
+ */
+function check_user_first_buy()
+{
+    if (!$_SESSION['user_id'])
+    {
+        return false;
+    }
+
+    // 需要同时验证是否已发放过首单券
+    $sql = 'SELECT count(order_id) '.
+            'FROM '.$GLOBALS['ecs']->table('order_info'). ' '.
+            'WHERE user_id = '.$_SESSION['user_id'].' AND pay_status = 2 limit 1';
+    $buy_count = $GLOBALS['db']->getOne($sql);
+    $sql = 'SELECT count(id) '.
+            'FROM '.$GLOBALS['ecs']->table('coupons_log'). ' '.
+            'WHERE user_id = '.$_SESSION['user_id'].' AND log_type = 2 limit 1';
+    $has_coupon = $GLOBALS['db']->getOne($sql);
+    
+    return (!$buy_count && !$has_coupon) ? true : false;
+}
+
+/**
+ * 检查当前用户是否为回流用户
+ * 回流客户定义：有购买记录，指定时长内未登录 的用户
+ */
+function check_user_return_back($back_time)
+{
+    if (!$_SESSION['user_id'])
+    {
+        return false;
+    }
+
+    // 验证是否为回流用户
+    $sql = 'SELECT count(order_id) '.
+            'FROM '.$GLOBALS['ecs']->table('order_info'). ' '.
+            'WHERE user_id = '.$_SESSION['user_id'].' AND pay_status = 2 limit 1';
+    $buy_count = $GLOBALS['db']->getOne($sql);
+    $nowTime = gmtime();
+
+    return ( $buy_count && (30 <= ($nowTime - $_SESSION['last_time'])/86400) ) ? true : false;
+}
+
+/**
+ * 检查用户是否已发送生日券
+ */
+function check_user_birth_coupon()
+{
+    if (!$_SESSION['user_id'])
+    {
+        return false;
+    }
+    
+    $sql  = "SELECT birthday ".
+           "FROM " .$GLOBALS['ecs']->table('users') . " WHERE user_id = '".$_SESSION['user_id']."'";
+    $birthday = $GLOBALS['db']->getOne($sql);
+
+    $year_before = strtotime(date('Y',gmtime()).'-1-1');
+    $year_after = strtotime((date('Y',gmtime())+1).'-1-1');
+
+    $sql = 'SELECT count(id) '.
+            'FROM '.$GLOBALS['ecs']->table('coupons_log'). ' '.
+            'WHERE user_id = '.$_SESSION['user_id'].' AND log_type = 4 AND create_time BETWEEN '.$year_before.' AND '.$year_after.' limit 1';
+    $has_coupon = $GLOBALS['db']->getOne($sql);
+
+    return ($birthday && $birthday != '0000-00-00' && !$has_coupon ) ? true : false;
+}
+
+function uuid() {
+    if (function_exists ( 'com_create_guid' )) {
+        return com_create_guid ();
+    } else {
+        mt_srand ( ( double ) microtime () * 10000 ); //optional for php 4.2.0 and up.随便数播种，4.2.0以后不需要了。
+        $charid = strtoupper ( md5 ( uniqid ( rand (), true ) ) ); //根据当前时间（微秒计）生成唯一id.
+        $hyphen = chr ( 45 ); // "-"
+        $uuid = '' . //chr(123)// "{"
+substr ( $charid, 0, 8 ) . $hyphen . substr ( $charid, 8, 4 ) . $hyphen . substr ( $charid, 12, 4 ) . $hyphen . substr ( $charid, 16, 4 ) . $hyphen . substr ( $charid, 20, 12 );
+        //.chr(125);// "}"
+        return $uuid;
+    }
+}
+
+/**
+ * 发放优惠券给用户
+ */
+function send_coupon($coupon, $user_id, $type)
+{
+    // 发放优惠券 给用户 同时记录 优惠券发放记录
+    if ($coupon && $user_id && $type) {
+        
+        // 获取 优惠券的信息
+        $sql = 'SELECT * '.
+               'FROM ' . $GLOBALS['ecs']->table('coupons') . 
+               ' WHERE id = ' . $coupon .' ';
+        $coupon_info = $GLOBALS['db']->getRow($sql);
+
+        $add_time = gmtime();
+
+        $coupon_code = uuid();
+        $expiration_date = $add_time+($coupon_info['expiry_time'] * 86400);
+
+        // 发送
+        $sql = "INSERT INTO " . $GLOBALS['ecs']->table('users_coupons') . " (user_id, coupon_id, coupons_type, " .
+                "use_condition, deductible, coupon_code, expiration_date, create_time) " .
+            "VALUES ('$user_id', '$coupon', '".$coupon_info['coupon_type']."', " .
+                "'".$coupon_info['use_condition']."', '".$coupon_info['deductible']."', '$coupon_code', '$expiration_date', '$add_time')";
+        $GLOBALS['db']->query($sql);
+        // 记录发放记录
+        $log_type = $type;
+        $sql = "INSERT INTO " . $GLOBALS['ecs']->table('coupons_log') . " ( coupon_code, log_type, user_id, create_time) " .
+                "VALUES ( '$coupon_code', '$log_type', '$user_id', $add_time )";
+        $GLOBALS['db']->query($sql);
+
+    }
+
+}
+
+/**
+ * 检查当前用户优惠券情况
+ */
+function check_user_coupon()
+{
+
+    if (!$_SESSION['user_id'])
+    {
+        return false;
+    }
+
+    /* 获取当前优惠券设置 */
+
+    $sql = 'SELECT * '.
+            'FROM '.$GLOBALS['ecs']->table('coupon_rules'). ' '.
+            'WHERE 1 limit 1';
+    $rules = $GLOBALS['db']->getRow($sql);
+    
+    // 首单购买优惠设置
+    if ($rules['is_frist_buy'] && $rules['first_buy_coupon']) {
+        // 验证用户是否为首单购买
+        $coupon = $rules['first_buy_coupon'];
+        if (check_user_first_buy()) {
+            send_coupon($coupon,$_SESSION['user_id'],2);
+        }
+    }
+
+    // 回流客户设置
+    if ($rules['is_return_back'] && $rules['return_back_coupon'] && $rules['return_back_time']) {
+        // 验证用户是否为回流客户
+        $coupon = $rules['return_back_coupon'];
+        $back_time = $rules['return_back_time'];
+        if (check_user_return_back($back_time)) {
+            send_coupon($coupon,$_SESSION['user_id'],3);
+        }
+    }
+
+    // 生日发放设置
+    if ($rules['is_brith_send'] && $rules['brith_send_coupon']) {
+        // 验证用户生日是否填写
+        // 验证用户生日优惠券是否已发放
+        if (check_user_birth_coupon()) {
+            send_coupon($coupon,$_SESSION['user_id'],4);   
+        }
+    }
+    
+}
+
 ?>

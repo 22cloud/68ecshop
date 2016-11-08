@@ -29,8 +29,11 @@
           <li class="items"><a class="lnk" href="user.php?act=profile" >
               <div class="un un_05">个人信息</div>
               </a></li>
-            <li class="items"><a class="lnk" href="user.php?act=bonus">
+            <!-- <li class="items"><a class="lnk" href="user.php?act=bonus">
               <div class="un un_04">我的红包</div>
+              </a></li> -->
+            <li class="items"><a class="lnk" href="user.php?act=coupons">
+              <div class="un un_04">我的优惠券</div>
               </a></li>
             <li class="items"><a class="lnk" href="user.php?act=address_list">
               <div class="un un_08">地址管理</div>

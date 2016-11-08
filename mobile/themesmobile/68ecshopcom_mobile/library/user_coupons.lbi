@@ -1,0 +1,48 @@
+<div class="has_tab_box">
+          
+<div class="box">
+	<div class="bd">
+		{if $coupons}{foreach from=$coupons item=item name=coupons}
+		<table class="data_table1">
+			
+			<tbody>
+
+				<tr class="{cycle values="odd,even"}{if $smarty.foreach.coupon.last} last{/if}">
+					<td>优惠券编号</td><td>{$item.coupon_code|default:N/A}</td>
+                </tr>
+                    <tr>
+                <td>优惠券类型</td>
+					<td>{$item.coupons_type_str}</td>
+                    </tr>
+                     <tr>
+                     <td>优惠券使用金额</td>
+					<td class="price">{$item.use_condition}</td>
+                    </tr>
+                     <tr><td>优惠券抵扣金额</td>
+					<td>{$item.deductible}</td>
+                    </tr>
+                     <tr>
+                     <td>优惠券失效日期</td>
+					<td>{$item.expiration_date_str}</td>
+                    </tr>
+                     <tr>
+                     <td class="last">状态</td>
+					<td class="last">{$item.is_invalid_str}</td>
+                    </tr>
+				</tr>
+			
+			</tbody>
+		</table>	{/foreach}
+		{else}
+		<p class="empty">{$lang.user_coupons_empty}</p>
+		{/if}
+		{if $bonus}{include file='library/pages.lbi'}{/if}
+	
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+{foreach from=$lang.profile_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+</script>

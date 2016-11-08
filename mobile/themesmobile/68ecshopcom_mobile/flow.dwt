@@ -761,6 +761,37 @@ var {$key} = "{$item}";
   
 
    {/if}
+   <!--优惠券-->
+{if $allow_use_coupons}
+    <div class="panel-body">
+    
+      <div class="title" id="couponstitle" style="border-bottom:1px solid #eeeeee;">
+        <span class="i-icon-arrow-down" id="couponsip"></span>
+                <span class="text">使用优惠券</span><em class="qxz" id="emcoupons">请选择优惠券</em>
+              </div>
+      <ul class="nav-list-sidenav" id="coupons68" style="display:none;">
+          <li>
+      {if $coupons_list}
+                {$lang.select_coupons}
+                <select name="coupons" onchange="changeCoupons(this.value)" id="ECS_COUPONS" class="newselect">
+                <option value="0"{if $order.coupons_id eq 0} selected="selected"{/if}>{$lang.please_select}</option>
+                {foreach from=$coupons_list item=coupons}
+                <option value="{$coupons.id}"{if $order.coupons_id eq $coupons.id} selected="selected"{/if}>{$coupons.coupon_code}[{$coupons.coupons_money_formated}]</option>
+
+                {/foreach}
+                </select>
+            <div style="height:5px; width:200px; line-height:5px;"></div>
+              {/if}
+            </li>
+    </ul>
+      
+      
+              
+    </div>
+
+  
+
+   {/if}
    
    
    

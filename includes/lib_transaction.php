@@ -327,7 +327,7 @@ function get_user_orders($user_id, $num = 10, $start = 0, $other_where = '')
             if ($row['pay_status'] == 3) {
                 @$row['handler'] = "<a href=\"user.php?act=order_refund_cancel&order_id=" .$row['order_id']. '">' .取消退款. '</a>';
             }elseif ($row['pay_status'] == 4) {
-            }else{
+            }elseif ($row['pay_status'] == 1){
                 @$row['handler'] = "<a href=\"user.php?act=order_refund&order_id=" .$row['order_id']. '">' .退款. '</a>';
             }
             // $row['handler'] = '<span style="color:red">'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>';
@@ -359,7 +359,7 @@ function get_user_orders($user_id, $num = 10, $start = 0, $other_where = '')
 function cancel_order($order_id, $user_id = 0)
 {
     /* 查询订单信息，检查状态 */
-    $sql = "SELECT user_id, order_id, order_sn , surplus , integral , bonus_id, order_status, shipping_status, pay_status FROM " .$GLOBALS['ecs']->table('order_info') ." WHERE order_id = '$order_id'";
+    $sql = "SELECT user_id, order_id, order_sn , surplus , integral , bonus_id, coupons_id, order_status, shipping_status, pay_status FROM " .$GLOBALS['ecs']->table('order_info') ." WHERE order_id = '$order_id'";
     $order = $GLOBALS['db']->GetRow($sql);
 
     if (empty($order))
@@ -429,6 +429,10 @@ function cancel_order($order_id, $user_id = 0)
         {
             change_user_bonus($order['bonus_id'], $order['order_id'], false);
         }
+        if ($order['user_id'] > 0 && $order['coupons_id'] > 0)
+        {
+            change_user_coupons($order['coupons_id'], $order['order_id'], false);
+        }
 
         /* 如果使用库存，且下订单时减库存，则增加库存 */
         if ($GLOBALS['_CFG']['use_storage'] == '1' && $GLOBALS['_CFG']['stock_dec_time'] == SDT_PLACE)
@@ -440,6 +444,8 @@ function cancel_order($order_id, $user_id = 0)
         $arr = array(
             'bonus_id'  => 0,
             'bonus'     => 0,
+            'coupons_id'  => 0,
+            'coupons'     => 0,
             'integral'  => 0,
             'integral_money'    => 0,
             'surplus'   => 0
@@ -1118,6 +1124,70 @@ function get_user_bouns_list($user_id, $num = 10, $start = 0)
 
         $row['use_startdate']   = local_date($GLOBALS['_CFG']['date_format'], $row['use_start_date']);
         $row['use_enddate']     = local_date($GLOBALS['_CFG']['date_format'], $row['use_end_date']);
+
+        $arr[] = $row;
+    }
+    return $arr;
+
+}
+
+/**
+ *
+ * @access  public
+ * @param   int         $user_id         用户ID
+ * @param   int         $num             列表显示条数
+ * @param   int         $start           显示起始位置
+ *
+ * @return  array       $arr             优惠券列表
+ */
+function get_user_coupons_list($user_id, $num = 10, $start = 0)
+{
+    $sql = "SELECT u.* ".
+           " FROM " .$GLOBALS['ecs']->table('users_coupons'). " AS u ,".
+           $GLOBALS['ecs']->table('coupons'). " AS c".
+           " WHERE u.coupon_id = c.id AND u.user_id = '" .$user_id. "'";
+    $res = $GLOBALS['db']->selectLimit($sql, $num, $start);
+    $arr = array();
+
+    $day = getdate();
+    $cur_date = local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
+
+    while ($row = $GLOBALS['db']->fetchRow($res))
+    {
+        /* 先判断是否被使用，然后判断是否开始或过期 */
+        if (empty($row['order_id']))
+        {
+            /* 没有被使用 */
+            if ($row['use_start_date'] > $cur_date)
+            {
+                $row['status'] = $GLOBALS['_LANG']['not_start'];
+            }
+            else if ($row['use_end_date'] < $cur_date)
+            {
+                $row['status'] = $GLOBALS['_LANG']['overdue'];
+            }
+            else
+            {
+                $row['status'] = $GLOBALS['_LANG']['not_use'];
+            }
+        }
+        else
+        {
+            $row['status'] = '<a href="user.php?act=order_detail&order_id=' .$row['order_id']. '" >' .$GLOBALS['_LANG']['had_use']. '</a>';
+        }
+
+        $row['use_startdate']   = local_date($GLOBALS['_CFG']['date_format'], $row['use_start_date']);
+        $row['use_enddate']     = local_date($GLOBALS['_CFG']['date_format'], $row['use_end_date']);
+        $row['expiration_date_str'] = date('Y-m-d', $row['expiration_date']);
+        switch ($row['coupons_type']) {
+            case '1':
+                $row['coupons_type_str'] = '抵扣优惠券';
+                break;
+            case '2':
+                $row['coupons_type_str'] = '第三方商家优惠券';
+                break;
+        }
+        $row['is_invalid_str'] = $row['is_invalid'] ? '已失效' : '可使用';
 
         $arr[] = $row;
     }

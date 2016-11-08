@@ -409,6 +409,44 @@ if (obj.error)
 }
 
 /* *
+ * 改变优惠券
+ */
+function changeCoupons(val)
+{
+  if (selectedBonus == val)
+  {
+    return;
+  }
+  else
+  {
+    selectedBonus = val;
+  }
+
+  Ajax.call('flow.php?step=change_coupons', 'coupons=' + val, changeCouponsResponse, 'GET', 'JSON');
+}
+
+/* *
+ * 改变优惠券的回调函数
+ */
+function changeCouponsResponse(obj)
+{
+  if (obj.error)
+  {
+    alert(obj.error);
+
+    try
+    {
+      document.getElementById('ECS_COUPONS').value = '0';
+    }
+    catch (ex) { }
+  }
+  else
+  {
+    orderSelectedResponse(obj.content);
+  }
+}
+
+/* *
  * 改变发票的方式
  */
 function changeNeedInv()

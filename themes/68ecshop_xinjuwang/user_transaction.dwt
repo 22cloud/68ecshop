@@ -199,6 +199,46 @@
 		</div>	
     <!-- {/if} -->
    <!--用户红包结束-->
+
+   <!-- {if $action eq 'coupons'} 用户的优惠券列表 start-->
+    <script type="text/javascript">
+      {foreach from=$lang.profile_js item=item key=key}
+        var {$key} = "{$item}";
+      {/foreach}
+    </script>
+    <div class="us_contentBox mod1 mod2">
+    
+    <h6>{$lang.label_coupons}</h6>
+     <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+      <tr>
+        <th align="center" bgcolor="#FFFFFF">优惠券编号</th>
+        <th align="center" bgcolor="#FFFFFF">优惠券类型</th>
+        <th align="center" bgcolor="#FFFFFF">优惠券使用金额</th>
+        <th align="center" bgcolor="#FFFFFF">优惠券抵扣金额</th>
+        <th align="center" bgcolor="#FFFFFF">优惠券失效日期</th>
+        <th align="center" bgcolor="#FFFFFF">状态</th>
+      </tr>
+      <!-- {if $coupons} -->
+      <!--{foreach from=$coupons item=item}-->
+      <tr>
+        <td align="center" bgcolor="#FFFFFF">{$item.coupon_code|default:N/A}</td>
+        <td align="center" bgcolor="#FFFFFF">{$item.coupons_type_str}</td>
+        <td align="center" bgcolor="#FFFFFF">{$item.use_condition}</td>
+        <td align="center" bgcolor="#FFFFFF">{$item.deductible}</td>
+        <td align="center" bgcolor="#FFFFFF">{$item.expiration_date_str}</td>
+        <td align="center" bgcolor="#FFFFFF">{$item.is_invalid_str}</td>
+      </tr>
+      <!--{/foreach}-->
+      <!-- {else} -->
+      <tr>
+        <td colspan="6" bgcolor="#FFFFFF">无优惠券</td>
+      </tr>
+      <!-- {/if} -->
+    </table>
+    </div>
+      <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 
+    <!-- {/if} -->
+   <!--用户优惠券结束-->
 	 
   <!--#订单列表界面 start-->
   <!-- {if $action eq 'order_list'} -->
@@ -557,6 +597,9 @@
               <!-- {/if} -->
               <!-- {if $order.bonus > 0} -->
               - {$lang.use_bonus}: <font class="f1 f14b">{$order.formated_bonus}</font>
+              <!-- {/if} -->
+              <!-- {if $order.coupons > 0} -->
+              - {$lang.use_coupons}: <font class="f1 f14b">{$order.formated_coupons}</font>
               <!-- {/if} -->
 							</td>
           </tr>

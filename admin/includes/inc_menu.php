@@ -154,6 +154,10 @@ $modules['17_email_manage']['magazine_list']        = 'magazine_list.php?act=lis
 $modules['17_email_manage']['attention_list']       = 'attention_list.php?act=list';
 $modules['17_email_manage']['view_sendlist']        = 'view_sendlist.php?act=list';
 
+$modules['18_coupons']['coupons_list']        = 'coupons.php?act=coupon_list';
+$modules['18_coupons']['coupon_setting']        = 'coupons.php?act=coupon_setting';
+$modules['18_coupons']['coupon_log']        = 'coupons.php?act=coupon_log';
+$modules['18_coupons']['users_couponslist']        = 'coupons.php?act=users_couponslist';
 
 
 ?>

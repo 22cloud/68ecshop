@@ -439,6 +439,7 @@ function order_info($order_id, $order_sn = '')
         $order['formated_total_fee']      = price_format($order['total_fee'], false);
         $order['formated_money_paid']     = price_format($order['money_paid'], false);
         $order['formated_bonus']          = price_format($order['bonus'], false);
+        $order['formated_coupons']        = price_format($order['coupons'], false);
         $order['formated_integral_money'] = price_format($order['integral_money'], false);
         $order['formated_surplus']        = price_format($order['surplus'], false);
         $order['formated_order_amount']   = price_format(abs($order['order_amount']), false);
@@ -567,6 +568,7 @@ function order_fee($order, $goods, $consignee)
                     'shipping_insure'  => 0,
                     'integral_money'   => 0,
                     'bonus'            => 0,
+                    'coupons'          => 0,
                     'surplus'          => 0,
                     'cod_fee'          => 0,
                     'pay_fee'          => 0,
@@ -655,7 +657,14 @@ function order_fee($order, $goods, $consignee)
         $total['bonus_kill'] = $order['bonus_kill'];
         $total['bonus_kill_formated'] = price_format($total['bonus_kill'], false);
     }
+    /* 优惠券 */
 
+    if (!empty($order['coupons_id']))
+    {
+        $coupons          = coupons_info($order['coupons_id']);
+        $total['coupons'] = intval($coupons['deductible']);
+    }
+    $total['coupons_formated'] = price_format($total['coupons'], false);
 
 
     /* 配送费用 */
@@ -732,8 +741,14 @@ function order_fee($order, $goods, $consignee)
         $total['bonus']   = $use_bonus;
         $total['bonus_formated'] = price_format($total['bonus'], false);
 
-        $total['amount'] -= $use_bonus; // 还需要支付的订单金额
-        $max_amount      -= $use_bonus; // 积分最多还能支付的金额
+        // 减去优惠券金额
+        $use_coupons        = min($total['coupons'], $max_amount); // 实际减去的优惠券金额
+
+        $total['coupons']   = $use_coupons;
+        $total['coupons_formated'] = price_format($total['coupons'], false);
+
+        $total['amount'] -= $use_bonus + $use_coupons; // 还需要支付的订单金额
+        $max_amount      -= $use_bonus + $use_coupons; // 积分最多还能支付的金额
 
     }
 
@@ -1409,6 +1424,50 @@ function user_bonus($user_id, $goods_amount = 0)
 }
 
 /**
+ * 取得用户当前可用优惠券
+ * @param   int     $user_id        用户id
+ * @param   float   $goods_amount   订单商品金额
+ * @return  array   红包数组
+ */
+function user_coupons($user_id, $goods_amount = 0)
+{
+    $day    = getdate();
+    $today  = local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
+
+    $sql = "SELECT u.* " .
+            "FROM " . $GLOBALS['ecs']->table('users_coupons') . " AS u " .
+            "WHERE u.is_invalid = 0 " .
+            "AND u.expiration_date >= '$today' " .
+            "AND u.use_condition <= '$goods_amount' " .
+            "AND u.user_id<>0 " .
+            "AND u.user_id = '$user_id' ";
+    return $GLOBALS['db']->getAll($sql);
+}
+
+/**
+ * 取得优惠券信息
+ * @param   int     $coupons_id   优惠券id
+ * @param   string  $coupon_code   优惠券序列号
+ * @param   array   红包信息
+ */
+function coupons_info($coupons_id, $coupon_code = '')
+{
+    $sql = "SELECT u.* " .
+            "FROM " . $GLOBALS['ecs']->table('users_coupons') . " AS u " .
+            "WHERE 1 ";
+    if ($coupons_id > 0)
+    {
+        $sql .= "AND u.id = '$coupons_id'";
+    }
+    else
+    {
+        $sql .= "AND u.coupon_code = '$coupon_code'";
+    }
+
+    return $GLOBALS['db']->getRow($sql);
+}
+
+/**
  * 取得红包信息
  * @param   int     $bonus_id   红包id
  * @param   string  $bonus_sn   红包序列号
@@ -1430,6 +1489,31 @@ function bonus_info($bonus_id, $bonus_sn = '')
     }
 
     return $GLOBALS['db']->getRow($sql);
+}
+
+/**
+ * 设置优惠券为已使用
+ * @param   int     $coupons_id   优惠券id
+ * @param   int     $order_id   订单id
+ * @return  bool
+ */
+function use_coupons($coupons_id, $order_id)
+{
+    $sql = "UPDATE " . $GLOBALS['ecs']->table('users_coupons') .
+            " SET is_invalid = 1, order_id = '$order_id', used_time = '" . gmtime() . "' " .
+            "WHERE id = '$coupons_id' LIMIT 1";
+    $GLOBALS['db']->query($sql);
+    
+    // 添加日志
+    // 记录发放记录
+    $log_type = 5;
+    $sql = "select coupon_code,user_id from ".$GLOBALS['ecs']->table('users_coupons')." where id = ".$coupons_id."";
+    $coupons = $GLOBALS['db']->getRow($sql);
+    $sql = "INSERT INTO " . $GLOBALS['ecs']->table('coupons_log') . " ( coupon_code, log_type, user_id, create_time) " .
+            "VALUES ( '".$coupons['coupon_code']."', '$log_type', '".$coupons['user_id']."', ".gmtime()." )";
+    $GLOBALS['db']->query($sql);
+
+    return  $GLOBALS['db']->query($sql);
 }
 
 /**
@@ -1871,6 +1955,41 @@ function change_user_bonus($bonus_id, $order_id, $is_used = true)
 }
 
 /**
+ * 处理优惠券（下订单时设为使用，取消（无效，退货）订单时设为未使用
+ * @param   int     $bonus_id   红包编号
+ * @param   int     $order_id   订单号
+ * @param   int     $is_used    是否使用了
+ */
+function change_user_coupons($coupons_id, $order_id, $is_used = true)
+{
+    if ($is_used)
+    {
+        $sql = 'UPDATE ' . $GLOBALS['ecs']->table('users_coupons') . ' SET ' .
+                'used_time = ' . gmtime() . ', ' .
+                "order_id = '$order_id' ," .
+                'is_invalid = 1 ' .
+                "WHERE id = '$coupons_id'";
+    }
+    else
+    {
+        $sql = 'UPDATE ' . $GLOBALS['ecs']->table('users_coupons') . ' SET ' .
+                'used_time = 0, ' .
+                'order_id = 0 ,' .
+                'is_invalid = 0 ' .
+                "WHERE id = '$coupons_id'";
+    }
+    $GLOBALS['db']->query($sql);
+    // 添加日志
+    // 记录发放记录
+    $log_type = $is_used ? 5 : 6;
+    $sql = "select coupon_code,user_id from ".$GLOBALS['ecs']->table('users_coupons')." where id = ".$coupons_id."";
+    $coupons = $GLOBALS['db']->getRow($sql);
+    $sql = "INSERT INTO " . $GLOBALS['ecs']->table('coupons_log') . " ( coupon_code, log_type, user_id, create_time) " .
+            "VALUES ( '".$coupons['coupon_code']."', '$log_type', '".$coupons['user_id']."', ".gmtime()." )";
+    $GLOBALS['db']->query($sql);
+}
+
+/**
  * 获得订单信息
  *
  * @access  private
@@ -1922,6 +2041,10 @@ function flow_order_info()
     if (!isset($order['bonus']))
     {
         $order['bonus'] = 0;    // 初始化红包
+    }
+    if (!isset($order['coupons']))
+    {
+        $order['coupons'] = 0;    // 初始化优惠券
     }
     if (!isset($order['integral']))
     {

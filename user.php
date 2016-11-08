@@ -34,7 +34,7 @@ array('login','act_login','register','act_register','act_edit_password','get_pas
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
-'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code','order_refund');
+'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code','order_refund','coupons');
 
 /* 未登录处理 */
 if (empty($_SESSION['user_id']))
@@ -101,6 +101,7 @@ if ($action == 'default')
             $smarty->assign('next_rank_name', sprintf($_LANG['next_level'], $rank['next_rank'] ,$rank['next_rank_name']));
         }
     }
+
     $smarty->assign('info',        get_user_default($user_id));
     $smarty->assign('user_notice', $_CFG['user_notice']);
     $smarty->assign('prompt',      get_user_prompt($user_id));
@@ -237,6 +238,7 @@ elseif ($action == 'act_register')
                 send_regiter_hash($_SESSION['user_id']);
             }
             $ucdata = empty($user->ucdata)? "" : $user->ucdata;
+            check_user_coupon();
             show_message(sprintf($_LANG['register_success'], $username . $ucdata), array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act, 'user.php'), 'info');
         }
         else
@@ -356,6 +358,7 @@ elseif ($action == 'act_login')
     {
         update_user_info();
         recalculate_price();
+        check_user_coupon();
 
         $ucdata = isset($user->ucdata)? $user->ucdata : '';
         show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act,'user.php'), 'info');
@@ -2318,6 +2321,22 @@ elseif ($action == 'bonus')
 
     $smarty->assign('pager', $pager);
     $smarty->assign('bonus', $bonus);
+    $smarty->display('user_transaction.dwt');
+}
+
+/* 我的优惠券列表 */
+elseif ($action == 'coupons')
+{
+    include_once(ROOT_PATH .'includes/lib_transaction.php');
+
+    $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('users_coupons'). " WHERE user_id = '$user_id'");
+
+    $pager = get_pager('user.php', array('act' => $action), $record_count, $page);
+    $coupons = get_user_coupons_list($user_id, $pager['size'], $pager['start']);
+
+    $smarty->assign('pager', $pager);
+    $smarty->assign('coupons', $coupons);
     $smarty->display('user_transaction.dwt');
 }
 
