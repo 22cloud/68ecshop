@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="blank"></div>
+<!--主体内容 start-->
+<div class="block1 clearfix">
+ <div id="" class="" style="overflow:hidden;">
+
+   <!-- 用户信息界面 start-->
+	  <!--{if $action eq 'default'}-->
+		<div class="us_contentBox mod1 mod2">
+        
+    <h6>商户优惠券-商户验证</h6>
+     <form name="formEdit" action="merchant.php" method="post">
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+				<tr>
+					<td width="28%" align="right" bgcolor="#FFFFFF">优惠券代码： </td>
+					<td width="72%" align="left" bgcolor="#FFFFFF"> 
+						<input name="coupons_code" type="text" value="" size="55" class="InputBorder" />
+					</td>
+				</tr>
+				<tr>
+					<td width="28%" align="right" bgcolor="#FFFFFF">商户代码： </td>
+					<td width="72%" align="left" bgcolor="#FFFFFF"> 
+						<input name="merchant_code" type="text" value="" size="55" class="InputBorder" />
+					</td>
+				</tr>
+				<tr>
+					<td width="28%" align="right" bgcolor="#FFFFFF">消费额度： </td>
+					<td width="72%" align="left" bgcolor="#FFFFFF"> 
+						<input name="goods_amount" type="text" value="" size="55" class="InputBorder" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center" bgcolor="#FFFFFF"><input name="act" type="hidden" value="check" />
+						<input name="submit" type="submit" value="校验并使用" class="bnt_number4" />
+					</td>
+				</tr>
+       </table>
+    </form>
+		</div>
+    <!--{/if}-->
+   <!--#用户信息界面 end-->
+	 
+			
+ 
+ </div>
+
+</div>
+<!--主体内容 end-->
+
+</body>
+</html>

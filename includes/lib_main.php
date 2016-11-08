@@ -2180,9 +2180,9 @@ function send_coupon($coupon, $user_id, $type)
         $expiration_date = $add_time+($coupon_info['expiry_time'] * 86400);
 
         // 发送
-        $sql = "INSERT INTO " . $GLOBALS['ecs']->table('users_coupons') . " (user_id, coupon_id, coupons_type, " .
+        $sql = "INSERT INTO " . $GLOBALS['ecs']->table('users_coupons') . " (user_id, coupon_id, coupons_type, merchant_code, " .
                 "use_condition, deductible, coupon_code, expiration_date, create_time) " .
-            "VALUES ('$user_id', '$coupon', '".$coupon_info['coupon_type']."', " .
+            "VALUES ('$user_id', '$coupon', '".$coupon_info['coupon_type']."', '".$coupon_info['merchant_code']."', " .
                 "'".$coupon_info['use_condition']."', '".$coupon_info['deductible']."', '$coupon_code', '$expiration_date', '$add_time')";
         $GLOBALS['db']->query($sql);
         // 记录发放记录

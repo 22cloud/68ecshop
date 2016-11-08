@@ -111,8 +111,8 @@ if ($_REQUEST['act'] == 'coupon_insert')
     /*插入数据*/
     $add_time = gmtime();
 
-    $sql = "INSERT INTO ".$ecs->table('coupons')."(coupon_name, coupon_type, use_condition, deductible, expiry_time, coupon_remark, create_time, update_time) ".
-            "VALUES ('$_POST[coupon_name]', '$_POST[coupon_type]', '$_POST[use_condition]', '$_POST[deductible]', '$_POST[expiry_time]', '$_POST[coupon_remark]', '$add_time', '$add_time')";
+    $sql = "INSERT INTO ".$ecs->table('coupons')."(coupon_name, coupon_type, merchant_code, use_condition, deductible, expiry_time, coupon_remark, create_time, update_time) ".
+            "VALUES ('$_POST[coupon_name]', '$_POST[coupon_type]', '$_POST[merchant_code]', '$_POST[use_condition]', '$_POST[deductible]', '$_POST[expiry_time]', '$_POST[coupon_remark]', '$add_time', '$add_time')";
     $db->query($sql);
 
     $link[0]['text'] = $_LANG['continue_add'];
@@ -135,7 +135,7 @@ if ($_REQUEST['act'] == 'coupon_edit')
 {
 
     /* 取商品数据 */
-    $sql = "SELECT c.id, c.coupon_name, c.coupon_type,c.use_condition, c.deductible, c.expiry_time , c.coupon_remark".
+    $sql = "SELECT c.id, c.coupon_name, c.coupon_type, c.merchant_code,c.use_condition, c.deductible, c.expiry_time , c.coupon_remark".
            " FROM " . $ecs->table('coupons') . " AS c ".
            " WHERE c.id='$_REQUEST[id]'";
     $coupon = $db->GetRow($sql);
@@ -155,7 +155,7 @@ if ($_REQUEST['act'] == 'coupon_edit')
 if ($_REQUEST['act'] =='coupon_update')
 {
 	$update_time = gmtime();
-    if ($cou->edit("coupon_name='$_POST[coupon_name]', coupon_type='$_POST[coupon_type]', use_condition='$_POST[use_condition]', deductible='$_POST[deductible]', expiry_time='$_POST[expiry_time]', coupon_remark='$_POST[coupon_remark]', update_time='$update_time' ", $_POST['id']))
+    if ($cou->edit("coupon_name='$_POST[coupon_name]', coupon_type='$_POST[coupon_type]', merchant_code='$_POST[merchant_code]', use_condition='$_POST[use_condition]', deductible='$_POST[deductible]', expiry_time='$_POST[expiry_time]', coupon_remark='$_POST[coupon_remark]', update_time='$update_time' ", $_POST['id']))
     {
         $link[0]['text'] = $_LANG['back_list'];
         $link[0]['href'] = 'coupons.php?act=coupon_list&' . list_link_postfix();
@@ -350,9 +350,9 @@ if ($_REQUEST['act'] == 'coupon_setting_post')
 				$expiration_date = $add_time+($coupon_info['expiry_time'] * 86400);
 
 				// 发送
-				$sql = "INSERT INTO " . $ecs->table('users_coupons') . " (user_id, coupon_id, coupons_type, " .
+				$sql = "INSERT INTO " . $ecs->table('users_coupons') . " (user_id, coupon_id, coupons_type, merchant_code, " .
 	                    "use_condition, deductible, coupon_code, expiration_date, create_time) " .
-	                "VALUES ('$value', '$auto_coupon', '".$coupon_info['coupon_type']."', " .
+	                "VALUES ('$value', '$auto_coupon', '".$coupon_info['coupon_type']."', '".$coupon_info['merchant_code']."', " .
 	                    "'".$coupon_info['use_condition']."', '".$coupon_info['deductible']."', '$coupon_code', '$expiration_date', '$add_time')";
 	            $GLOBALS['db']->query($sql);
 	            // 记录发放记录

@@ -13,6 +13,7 @@ $_LANG['title'] ='关键字';
 $_LANG['id'] ='编号';
 $_LANG['coupon_name'] ='优惠券名称';
 $_LANG['coupon_type'] ='优惠券类型';
+$_LANG['merchant_code'] ='商户代码';
 $_LANG['use_condition'] = '使用条件';
 $_LANG['deductible'] ='抵扣金额';
 $_LANG['expiry_time'] ='有效期';
@@ -39,6 +40,7 @@ $_LANG['button_remove'] ='批量删除';
 $_LANG['coupon_type_1'] ='抵扣优惠券';
 $_LANG['coupon_type_2'] ='第三方商家优惠券';
 
+$_LANG['merchant_code_notice'] = '第三方商家的代码标示';
 
 /* 提示信息 */
 $_LANG['back_list'] ='返回优惠券列表';
