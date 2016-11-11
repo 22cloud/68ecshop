@@ -206,7 +206,11 @@ if ($_REQUEST['step'] == 'add_to_cart')
         }
     }
 $rows = $GLOBALS['db']->getRow("select goods_brief,shop_price,goods_name,goods_thumb from ".$GLOBALS['ecs']->table('goods')." where goods_id=".$goods->goods_id);
-$result['shop_price'] = price_format($rows['shop_price']);
+// 检查商品是否为天天特价商品
+$check_special_sql = "SELECT special_price,goods_saled_number FROM " . $GLOBALS['ecs']->table('special_goods') . 
+                    " WHERE is_special = 1 AND goods_id = ".$goods->goods_id;
+$special_goods = $GLOBALS['db']->getRow($check_special_sql, 'SILENT');
+$result['shop_price'] = (!empty($special_goods)) ? price_format($special_goods['special_price']) : price_format($rows['shop_price']);
 $result['goods_name'] = $rows['goods_name'];
 $result['goods_thumb'] = $rows['goods_thumb'];
 $result['goods_brief'] = $rows['goods_brief'];

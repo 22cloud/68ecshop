@@ -51,6 +51,7 @@ if (!defined('IN_ECS'))
 //  $purview['02_snatch_list']       = 'gift_manage';  //赠品管理
     $purview['15_exchange_goods']    = 'exchange_goods';  //赠品管理
     $purview['16_auto_campaign']    = 'auto_campaign';  //赠品管理
+    $purview['special_goods']    = 'special_goods';  //天天特价
 
 //文章管理权限
     $purview['02_articlecat_list']   = 'article_cat';

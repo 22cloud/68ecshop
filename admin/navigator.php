@@ -372,6 +372,7 @@ function get_sysnav()
         array($_LANG['myship'], 'myship.php'),
         array($_LANG['message_board'], 'message.php'),
         array($_LANG['quotation'], 'quotation.php'),
+        array($_LANG['special'], 'special.php'),
         );
 
     $sysmain[] = array('-','-');

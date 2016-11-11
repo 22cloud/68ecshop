@@ -124,6 +124,7 @@ $_LANG['whole_sale'] = '批发管理';
 $_LANG['package_manage'] = '超值礼包';
 $_LANG['exchange_goods'] = '积分商城商品';
 $_LANG['auto_campaign'] = '首页自定义活动管理';
+$_LANG['special_goods'] = '天天特价';
 
 //邮件管理
 $_LANG['attention_list'] = '关注管理';

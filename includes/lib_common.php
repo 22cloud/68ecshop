@@ -1795,6 +1795,17 @@ function build_uri($app, $params, $append = '', $page = 0, $keywords = '', $size
             }
 
             break;
+        case 'special_goods':
+            if (empty($gid))
+            {
+                return false;
+            }
+            else
+            {
+                $uri = $rewrite ? 'special-id' . $gid : 'special.php?id=' . $gid . '&amp;act=view';
+            }
+
+            break;
         default:
             return false;
             break;
@@ -2295,6 +2306,22 @@ function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $s
            " AND g.is_delete = 0";
     $goods = $GLOBALS['db']->getRow($sql);
 
+    // 查询产品是否为天天特价商品
+    $sql = "SELECT sg.special_price ".
+           " FROM " .$GLOBALS['ecs']->table('special_goods'). " AS sg ".
+           " LEFT JOIN " .$GLOBALS['ecs']->table('goods'). " AS g ON sg.goods_id = g.goods_id".
+           " WHERE sg.goods_id = '" . $goods_id . "'" .
+           " AND g.is_delete = 0 AND sg.is_special = 1";
+    $special_goods = $GLOBALS['db']->getRow($sql);
+
+    if (!empty($special_goods)) {
+        $user_price    = $special_goods['special_price'];
+    }else{
+
+        //取得商品会员价格列表
+        $user_price    = $goods['shop_price'];
+    }
+
     /* 计算商品的促销价格 */
     if ($goods['promote_price'] > 0)
     {
@@ -2304,9 +2331,6 @@ function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $s
     {
         $promote_price = 0;
     }
-
-    //取得商品会员价格列表
-    $user_price    = $goods['shop_price'];
 
     //比较商品的促销价格，会员价格，优惠价格
     if (empty($volume_price) && empty($promote_price))

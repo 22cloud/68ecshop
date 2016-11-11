@@ -332,6 +332,11 @@ $_LANG['16_auto_campaign_list'] = '首页自定义活动列表';
 $_LANG['auto_campaign_add'] = '添加活动';
 $_LANG['auto_campaign_post_list'] = '-活动报名情况';
 
+/* 首页自定义管理 */
+$_LANG['special_goods'] = '天天特价';
+$_LANG['special_goods_list'] = '天天特价列表';
+$_LANG['special_goods_add'] = '添加天天特价商品';
+
 /* cls_image类的语言项 */
 $_LANG['directory_readonly'] = '目录 % 不存在或不可写';
 $_LANG['invalid_upload_image_type'] = '不是允许的图片格式';

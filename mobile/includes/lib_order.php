@@ -1103,6 +1103,18 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
             return false;
         }
 
+        // 检查商品是否为天天特价商品
+        $check_special_sql = "SELECT goods_total_number,goods_saled_number FROM " . $GLOBALS['ecs']->table('special_goods') . 
+                            " WHERE is_special = 1 AND goods_id = ".$goods_id;
+        $special_goods = $GLOBALS['db']->getRow($check_special_sql, 'SILENT');
+        if (!empty($special_goods)) {
+            if ($num > ($special_goods['goods_total_number'] - $special_goods['goods_saled_number'])) {
+                $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['shortage'], $goods['goods_number']), ERR_OUT_OF_STOCK);
+
+                return false;
+            }
+        }
+
         //商品存在规格 是货品 检查该货品库存
         if (is_spec($spec) && !empty($prod))
         {
@@ -2419,6 +2431,18 @@ function change_goods_storage($good_id, $product_id, $number = 0)
                 AND product_id = '$product_id'
                 LIMIT 1";
         $products_query = $GLOBALS['db']->query($sql);
+    }
+
+    // 查询商品是否为天天特价商品
+    $check_special_sql = "SELECT * FROM " . $GLOBALS['ecs']->table('special_goods') . 
+                        " WHERE is_special = 1 AND goods_id = ".$good_id;
+    $special_goods = $GLOBALS['db']->getRow($check_special_sql, 'SILENT');
+    $special_number = ($number > 0) ? '- ' . $number : '+ '.abs($number);
+    if (!empty($special_goods)) {
+        $minus_stock_sql = "UPDATE " . $GLOBALS['ecs']->table('special_goods') . "
+                            SET goods_saled_number = goods_saled_number $special_number " . "
+                            WHERE is_special = 1 AND goods_id = " . $good_id;
+        $GLOBALS['db']->query($minus_stock_sql, 'SILENT');
     }
 
     /* 处理商品库存 */

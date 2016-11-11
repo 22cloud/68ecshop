@@ -816,6 +816,18 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
                     $GLOBALS['db']->query($minus_stock_sql, 'SILENT');
                 }
 
+                // 查询商品是否为天天特价商品
+                $check_special_sql = "SELECT * FROM " . $GLOBALS['ecs']->table('special_goods') . 
+                                    " WHERE is_special = 1 AND goods_id = ".$value['goods_id'];
+                $special_goods = $GLOBALS['db']->getRow($check_special_sql, 'SILENT');
+                if (!empty($special_goods)) {
+                    $minus_stock_sql = "UPDATE " . $GLOBALS['ecs']->table('special_goods') . "
+                                        SET goods_saled_number = goods_saled_number + " . $value['sums'] . "
+                                        WHERE is_special = 1 AND goods_id = " . $value['goods_id'];
+
+                    $GLOBALS['db']->query($minus_stock_sql, 'SILENT');
+                }
+
                 $minus_stock_sql = "UPDATE " . $GLOBALS['ecs']->table('goods') . "
                                     SET goods_number = goods_number - " . $value['sums'] . "
                                     WHERE goods_id = " . $value['goods_id'];
@@ -1002,6 +1014,18 @@ elseif ($_REQUEST['act'] == 'delivery_cancel_ship')
                 $minus_stock_sql = "UPDATE " . $GLOBALS['ecs']->table('products') . "
                                     SET product_number = product_number + " . $value['sums'] . "
                                     WHERE product_id = " . $value['product_id'];
+                $GLOBALS['db']->query($minus_stock_sql, 'SILENT');
+            }
+
+            // 查询商品是否为天天特价商品
+            $check_special_sql = "SELECT * FROM " . $GLOBALS['ecs']->table('special_goods') . 
+                                " WHERE is_special = 1 AND goods_id = ".$value['goods_id'];
+            $special_goods = $GLOBALS['db']->getRow($check_special_sql, 'SILENT');
+            if (!empty($special_goods)) {
+                $minus_stock_sql = "UPDATE " . $GLOBALS['ecs']->table('special_goods') . "
+                                    SET goods_saled_number = goods_saled_number - " . $value['sums'] . "
+                                    WHERE is_special = 1 AND goods_id = " . $value['goods_id'];
+
                 $GLOBALS['db']->query($minus_stock_sql, 'SILENT');
             }
 
@@ -1430,6 +1454,17 @@ elseif ($_REQUEST['act'] == 'step_post')
                 $db->query($sql);
             }
 
+            // 查询商品是否为天天特价商品
+            $check_special_sql = "SELECT * FROM " . $GLOBALS['ecs']->table('special_goods') . 
+                                " WHERE is_special = 1 AND goods_id = ".$goods_id;
+            $special_goods = $GLOBALS['db']->getRow($check_special_sql, 'SILENT');
+            if (!empty($special_goods)) {
+                $minus_stock_sql = "UPDATE " . $GLOBALS['ecs']->table('special_goods') . "
+                                    SET goods_saled_number = goods_saled_number + " . $goods_number . "
+                                    WHERE is_special = 1 AND goods_id = " . $goods_id;
+
+                $GLOBALS['db']->query($minus_stock_sql, 'SILENT');
+            }
 
             $sql = "UPDATE " . $ecs->table('goods') .
                     " SET `goods_number` = goods_number - '" . $goods_number . "' " .
@@ -2341,6 +2376,17 @@ elseif ($_REQUEST['act'] == 'process')
                     " SET `goods_number` = goods_number + '" . $goods['goods_number'] . "' " .
                     " WHERE `goods_id` = '" . $goods['goods_id'] . "' LIMIT 1";
              $db->query($sql);
+             // 查询商品是否为天天特价商品
+            $check_special_sql = "SELECT * FROM " . $GLOBALS['ecs']->table('special_goods') . 
+                                " WHERE is_special = 1 AND goods_id = ".$goods['goods_id'];
+            $special_goods = $GLOBALS['db']->getRow($check_special_sql, 'SILENT');
+            if (!empty($special_goods)) {
+                $minus_stock_sql = "UPDATE " . $GLOBALS['ecs']->table('special_goods') . "
+                                    SET goods_saled_number = goods_saled_number - " . $goods['goods_number'] . "
+                                    WHERE is_special = 1 AND goods_id = " . $goods['goods_id'];
+
+                $GLOBALS['db']->query($minus_stock_sql, 'SILENT');
+            }
         }
 
         /* 删除 */

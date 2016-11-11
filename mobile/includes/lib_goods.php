@@ -530,7 +530,20 @@ function get_goods_info($goods_id)
 
         /* 获得商品的销售价格 */
         $row['market_price']        = price_format($row['market_price']);
-        $row['shop_price_formated'] = price_format($row['shop_price']);
+
+        // 查询产品是否为天天特价商品
+        $sql = "SELECT sg.special_price, sg.goods_total_number, sg.goods_saled_number ".
+               " FROM " .$GLOBALS['ecs']->table('special_goods'). " AS sg ".
+               " LEFT JOIN " .$GLOBALS['ecs']->table('goods'). " AS g ON sg.goods_id = g.goods_id".
+               " WHERE sg.goods_id = '" . $goods_id . "'" .
+               " AND g.is_delete = 0 AND sg.is_special = 1";
+        $special_goods = $GLOBALS['db']->getRow($sql);
+        if (!empty($special_goods)) {
+            $row['shop_price_formated'] = price_format($special_goods['special_price']);
+            $row['is_special'] = 1;
+        }else{
+            $row['shop_price_formated'] = price_format($row['shop_price']);
+        }
 
         /* 修正促销价格 */
         if ($row['promote_price'] > 0)
@@ -590,7 +603,7 @@ function get_goods_info($goods_id)
         }
 
         /* 是否显示商品库存数量 */
-        $row['goods_number']  = ($GLOBALS['_CFG']['use_storage'] == 1) ? $row['goods_number'] : '';
+        $row['goods_number']  = ($GLOBALS['_CFG']['use_storage'] == 1) ? ($row['is_special'] ? "'".($special_goods['goods_total_number']-$special_goods['goods_saled_number'])."'" : $row['goods_number']) : '';
 
         /* 修正积分：转换为可使用多少积分（原来是可以使用多少钱的积分） */
         $row['integral']      = $GLOBALS['_CFG']['integral_scale'] ? round($row['integral'] * 100 / $GLOBALS['_CFG']['integral_scale']) : 0;

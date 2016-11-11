@@ -148,6 +148,33 @@ if (isset($_REQUEST['type']))
             $rss->outputRSS($ver);
         }
     }
+    elseif($_REQUEST['type'] == 'special')
+    {
+        $sql = 'SELECT g.goods_id, g.goods_name, g.goods_brief, g.last_update ' .
+        "FROM " . $GLOBALS['ecs']->table('special_goods') . " AS cg, " .
+        $GLOBALS['ecs']->table('goods') . " AS g " .
+        "WHERE cg.goods_id = g.goods_id";
+        $res = $db->query($sql);
+
+        if ($res !== false)
+        {
+            while ($row = $db->fetchRow($res))
+            {
+                $item_url = build_uri('special_goods', array('gid' => $row['goods_id']), $row['goods_name']);
+                $separator = (strpos($item_url, '?') === false)? '?' : '&amp;';
+                $about    = $uri . $item_url;
+                $title    = htmlspecialchars($row['goods_name']);
+                $link     = $uri . $item_url . $separator . 'from=rss';
+                $desc     = htmlspecialchars($row['goods_brief']);
+                $subject  = $_LANG['special'];
+                $date     = local_date('r', $row['last_update']);
+
+                $rss->addItem($about, $title, $link, $desc, $subject, $date);
+            }
+
+            $rss->outputRSS($ver);
+        }
+    }
     elseif($_REQUEST['type'] == 'activity')
     {
         $now = gmtime();

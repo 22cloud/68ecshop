@@ -746,4 +746,8 @@ $_LANG['campaign_remark'] = '备注';
 $_LANG['campaign_age'] = '年龄';
 $_LANG['campaign_position'] = '职业';
 
+/* 天天特价 语言项 */
+$_LANG['special'] = '天天特价';
+$_LANG['special_price'] = '特价价格: ';
+
 ?>

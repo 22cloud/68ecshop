@@ -88,6 +88,7 @@ require(ROOT_PATH . 'includes/lib_common.php');
 require(ROOT_PATH . ADMIN_PATH . '/includes/lib_main.php');
 require(ROOT_PATH . ADMIN_PATH . '/includes/cls_exchange.php');
 require(ROOT_PATH . ADMIN_PATH . '/includes/cls_coupon.php');
+require(ROOT_PATH . ADMIN_PATH . '/includes/cls_special.php');
 
 /* 对用户传入的变量进行转义操作。*/
 if (!get_magic_quotes_gpc())

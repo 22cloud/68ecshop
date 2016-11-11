@@ -40,6 +40,7 @@ $_LANG['activity'] = '优惠活动';
 $_LANG['myship'] = '配送方式';
 $_LANG['message_board'] = '留言板';
 $_LANG['quotation'] = '报价单';
+$_LANG['special'] = '天天特价';
 
 $_LANG['namecannotnull'] = '请输入导航栏名称！';
 $_LANG['linkcannotnull'] = '请输入链接地址！';

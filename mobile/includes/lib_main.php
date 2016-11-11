@@ -265,6 +265,22 @@ function assign_ur_here($cat = 0, $str = '')
                 $ur_here   .= ' <code>&gt;</code> <a href="favourable.php">' .
                                 $GLOBALS['_LANG']['favourable'] . '</a>';
             }
+            /* 自定义活动 */
+            elseif ('campaign' == $filename)
+            {
+                $page_title = $GLOBALS['_LANG']['campaign'] . '_' . $page_title;
+                $args       = array('wsid' => '0');
+                $ur_here   .= ' <code>&gt;</code> ' .
+                                $GLOBALS['_LANG']['campaign'] . '';
+            }
+            /* 天天特价 */
+            elseif ('special' == $filename)
+            {
+                $page_title = $GLOBALS['_LANG']['special'] . '_' . $page_title;
+                $args       = array('wsid' => '0');
+                $ur_here   .= ' <code>&gt;</code> ' .
+                                $GLOBALS['_LANG']['special'] . '';
+            }
         }
     }
 
