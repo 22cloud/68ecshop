@@ -165,6 +165,9 @@ if (!defined('IN_ECS'))
     $purview['coupon_setting']          = 'coupon_setting';
     $purview['coupon_log']              = 'coupon_log';
     $purview['users_couponslist']       = 'users_couponslist';
+// 消息管理
+    $purview['notice_list']            = 'notice_list';
+    $purview['notice_setting']          = 'notice_setting';
 
 
 ?>

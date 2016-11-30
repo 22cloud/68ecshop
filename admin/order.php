@@ -3442,6 +3442,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 确认 */
     if ('confirm' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['os'][OS_CONFIRMED];
         /* 标记订单为已确认 */
         update_order($order_id, array('order_status' => OS_CONFIRMED, 'confirm_time' => gmtime()));
         update_order_amount($order_id);
@@ -3474,6 +3475,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 付款 */
     elseif ('pay' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['ps'][PS_PAYED];
         /* 检查权限 */
         admin_priv('order_ps_edit');
 
@@ -3501,6 +3503,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 设为未付款 */
     elseif ('unpay' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['ps'][PS_UNPAYED];
         /* 检查权限 */
         admin_priv('order_ps_edit');
 
@@ -3524,6 +3527,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 配货 */
     elseif ('prepare' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['os'][OS_CONFIRMED];
         /* 标记订单为已确认，配货中 */
         if ($order['order_status'] != OS_CONFIRMED)
         {
@@ -3904,6 +3908,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 设为未发货 */
     elseif ('unship' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['ss'][SS_UNSHIPPED];
         /* 检查权限 */
         admin_priv('order_ss_edit');
 
@@ -3948,6 +3953,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 收货确认 */
     elseif ('receive' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['ss'][SS_RECEIVED];
         /* 标记订单为“收货确认”，如果是货到付款，同时修改订单为已付款 */
         $arr = array('shipping_status' => SS_RECEIVED);
         $payment = payment_info($order['pay_id']);
@@ -3964,6 +3970,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 取消 */
     elseif ('cancel' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['os'][OS_CANCELED];
         /* 标记订单为“取消”，记录取消原因 */
         $cancel_note = isset($_REQUEST['cancel_note']) ? trim($_REQUEST['cancel_note']) : '';
         $arr = array(
@@ -4015,6 +4022,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 设为无效 */
     elseif ('invalid' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['os'][OS_INVALID];
         /* 标记订单为“无效”、“未付款” */
         update_order($order_id, array('order_status' => OS_INVALID));
 
@@ -4049,6 +4057,7 @@ elseif ($_REQUEST['act'] == 'operate_post')
     /* 退货 */
     elseif ('return' == $operation)
     {
+        $status_name = $GLOBALS['_LANG']['os'][OS_RETURNED];
         /* 定义当前时间 */
         define('GMTIME_UTC', gmtime()); // 获取 UTC 时间戳
 
@@ -4178,6 +4187,13 @@ elseif ($_REQUEST['act'] == 'operate_post')
     else
     {
         die('invalid params');
+    }
+
+    if ($status_name) {
+        $model_id = 1;// 订单
+        $other_param = array('order_sn'=>$order['order_sn'],'order_id'=>$order['order_id'],'status_name'=>$status_name);
+        $user_ids = array($order['user_id']);
+        send_notice($user_ids,$model_id,$other_param);
     }
 
     /* 操作成功 */

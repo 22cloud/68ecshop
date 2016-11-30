@@ -22,6 +22,7 @@ $_LANG['sys_msg'] = '系统提示';
 $_LANG['catalog'] = '目录';
 $_LANG['please_view_order_detail'] = '商品已发货，详情请到用户中心订单详情查看';
 $_LANG['user_center'] = '用户中心';
+$_LANG['label_notice'] = '我的消息';
 $_LANG['shop_closed'] = '本店盘点中，请您稍后再来...';
 $_LANG['shop_register_closed'] = '该网店暂停注册';
 $_LANG['shop_upgrade'] = "本店升级中，管理员从 <a href=\"admin/\">管理中心</a> 登录后，系统会自动完成升级";

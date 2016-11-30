@@ -1467,7 +1467,7 @@ function upload_file($upload, $type)
  * @param   string  $auto_redirect      是否自动跳转
  * @return  void
  */
-function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_redirect = true)
+function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_redirect = true, $is_run_js=0)
 {
     assign_template();
 
@@ -1499,6 +1499,10 @@ function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_
     if (is_null($GLOBALS['smarty']->get_template_vars('helps')))
     {
         $GLOBALS['smarty']->assign('helps', get_shop_help()); // 网店帮助
+    }
+
+    if ($is_run_js) {
+        // $GLOBALS['smarty']->assign('run_js', "<script>run_ios_js(".$_SESSION['user_id'].");</script>");
     }
 
     $GLOBALS['smarty']->assign('auto_redirect', $auto_redirect);
@@ -2199,6 +2203,10 @@ function send_coupon($coupon, $user_id, $type)
                 "VALUES ( '$coupon_code', '$log_type', '$user_id', $add_time )";
         $GLOBALS['db']->query($sql);
 
+        $model_id = 2;// 优惠券
+        $other_param = array();
+        $user_ids = array($user_id);
+        send_notice($user_ids,$model_id,$other_param);
     }
 
 }
@@ -2244,6 +2252,7 @@ function check_user_coupon()
     if ($rules['is_brith_send'] && $rules['brith_send_coupon']) {
         // 验证用户生日是否填写
         // 验证用户生日优惠券是否已发放
+        $coupon = $rules['brith_send_coupon'];
         if (check_user_birth_coupon()) {
             send_coupon($coupon,$_SESSION['user_id'],4);   
         }

@@ -93,11 +93,12 @@ class transport
      * @param   string      $url            远程服务器的URL
      * @param   mix         $params         查询参数，形如bar=foo&foo=bar；或者是一维关联数组，形如array('a'=>'aa',...)
      * @param   string      $method         请求方式，是POST还是GET
+     * @param   int         $ct             传输内容类型 1 为 json
      * @param   array       $my_header      用户要发送的头部信息，为一维关联数组，形如array('a'=>'aa',...)
      * @return  array                       成功返回一维关联数组，形如array('header'=>'bar', 'body'=>'foo')，
      *                                      重大错误程序直接停止运行，否则返回false。
      */
-    function request($url, $params = '', $method = 'POST', $my_header = '')
+    function request($url, $params = '', $method = 'POST', $my_header = '', $ct = 0)
     {
         $fsock_exists = function_exists('fsockopen');
         $curl_exists = function_exists('curl_init');
@@ -134,12 +135,12 @@ class transport
         /* 如果fsockopen存在，且用户不指定使用curl，则调用use_socket函数 */
         if ($fsock_exists && !$this->use_curl)
         {
-            $response = $this->use_socket($url, $params, $method, $my_header);
+            $response = $this->use_socket($url, $params, $method, $my_header, $ct);
         }
         /* 只要上述条件中的任一个不成立，流程就转向这里，这时如果curl模块可用，就调用use_curl函数 */
         elseif ($curl_exists)
         {
-            $response = $this->use_curl($url, $params, $method, $my_header);
+            $response = $this->use_curl($url, $params, $method, $my_header, $ct);
         }
 
         /* 空响应或者传输过程中发生错误，程序将返回false */
@@ -158,11 +159,12 @@ class transport
      * @param   string      $url            远程服务器的URL
      * @param   string      $params         查询参数，形如bar=foo&foo=bar
      * @param   string      $method         请求方式，是POST还是GET
+     * @param   int         $ct             传输内容类型 1 为 json
      * @param   array       $my_header      用户要发送的头部信息，为一维关联数组，形如array('a'=>'aa',...)
      * @return  array                       成功返回一维关联数组，形如array('header'=>'bar', 'body'=>'foo')，
      *                                      否则返回false。
      */
-    function use_socket($url, $params, $method, $my_header)
+    function use_socket($url, $params, $method, $my_header, $ct = 0)
     {
         $query = '';
         $auth = '';
@@ -183,7 +185,11 @@ class transport
         else
         {
             $request_body  = $params;
-            $content_type = 'Content-Type: application/x-www-form-urlencoded' . $crlf;
+            if ($ct) {
+                $content_type = 'Content-Type: application/json' . $crlf;
+            }else{
+                $content_type = 'Content-Type: application/x-www-form-urlencoded' . $crlf;
+            }
             $content_length = 'Content-Length: ' . strlen($request_body) . $crlf . $crlf;
         }
 
@@ -214,7 +220,6 @@ class transport
                 . $content_type
                 . $content_length
                 . $request_body;
-
         if ($this->connect_timeout > -1)
         {
             $fp = @fsockopen($url_parts['host'], $url_parts['port'], $error, $errstr, $this->connect_timeout);
@@ -261,11 +266,12 @@ class transport
      * @param   string      $url            远程服务器的URL
      * @param   string      $params         查询参数，形如bar=foo&foo=bar
      * @param   string      $method         请求方式，是POST还是GET
+     * @param   int         $ct             传输内容类型 1 为 json
      * @param   array       $my_header      用户要发送的头部信息，为一维关联数组，形如array('a'=>'aa',...)
      * @return  array                       成功返回一维关联数组，形如array('header'=>'bar', 'body'=>'foo')，
      *                                      失败返回false。
      */
-    function use_curl($url, $params, $method, $my_header)
+    function use_curl($url, $params, $method, $my_header, $ct = 0)
     {
         /* 开始一个新会话 */
         $curl_session = curl_init();
@@ -308,7 +314,11 @@ class transport
         else
         {
             curl_setopt($curl_session, CURLOPT_POST, true);
-            $header[] = 'Content-Type: application/x-www-form-urlencoded';
+            if ($ct) {
+                $header[] = 'Content-Type: application/json';
+            }else{
+                $header[] = 'Content-Type: application/x-www-form-urlencoded';
+            }
             $header[] = 'Content-Length: ' . strlen($params);
             curl_setopt($curl_session, CURLOPT_POSTFIELDS, $params);
         }

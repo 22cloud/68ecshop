@@ -362,6 +362,9 @@ if ($_REQUEST['act'] == 'coupon_setting_post')
 	            $GLOBALS['db']->query($sql);
 	        	admin_log($value.'#'.$auto_coupon, 'send', 'coupon_setting');
 			}
+            $model_id = 2;// 优惠券
+            $other_param = array();
+            send_notice($source_select1,$model_id,$other_param);
 			$sendFlag2 = true;
     	}else{
 			$sendFlag2 = false;

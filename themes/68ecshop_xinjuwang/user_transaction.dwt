@@ -200,6 +200,44 @@
     <!-- {/if} -->
    <!--用户红包结束-->
 
+   <!-- {if $action eq 'notices'} 我的消息 start-->
+    <script type="text/javascript">
+      {foreach from=$lang.profile_js item=item key=key}
+        var {$key} = "{$item}";
+      {/foreach}
+    </script>
+    <div class="us_contentBox mod1 mod2">
+    
+    <h6>{$lang.label_notices}</h6>
+     <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+      <tr>
+        <th align="center" bgcolor="#FFFFFF">消息类型</th>
+        <th align="center" bgcolor="#FFFFFF">消息版块</th>
+        <th align="center" bgcolor="#FFFFFF">消息内容</th>
+        <th align="center" bgcolor="#FFFFFF">发送者</th>
+        <th align="center" bgcolor="#FFFFFF">发送时间</th>
+      </tr>
+      <!-- {if $notices} -->
+      <!--{foreach from=$notices item=item}-->
+      <tr>
+        <td align="center" bgcolor="#FFFFFF">{$item.n_type_name|default:N/A}</td>
+        <td align="center" bgcolor="#FFFFFF">{$item.model_id_name}</td>
+        <td align="center" bgcolor="#FFFFFF">{$item.n_content}</td>
+        <td align="center" bgcolor="#FFFFFF">系统</td>
+        <td align="center" bgcolor="#FFFFFF">{$item.send_time_str}</td>
+      </tr>
+      <!--{/foreach}-->
+      <!-- {else} -->
+      <tr>
+        <td colspan="6" bgcolor="#FFFFFF">无消息</td>
+      </tr>
+      <!-- {/if} -->
+    </table>
+    </div>
+      <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 
+    <!-- {/if} -->
+   <!--我的消息结束-->
+
    <!-- {if $action eq 'coupons'} 用户的优惠券列表 start-->
     <script type="text/javascript">
       {foreach from=$lang.profile_js item=item key=key}

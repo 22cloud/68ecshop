@@ -1,0 +1,1 @@
+Send POST https://api.jpush.cn/v3/push, body:{"platform":"all","audience":{"registration_id":["4"]},"notification":{"alert":"\u60a8\u7684\u8ba2\u53552016111190522\u72b6\u6001\u66f4\u6539\u4e3a\u5df2\u53d6\u6d88"},"options":{"apns_production":false}}, times:1

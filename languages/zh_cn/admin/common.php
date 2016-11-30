@@ -152,6 +152,7 @@ $_LANG['15_sms'] = '短信管理';
 $_LANG['16_rec'] = '推荐管理';
 $_LANG['17_email_manage'] = '邮件群发管理';
 $_LANG['18_coupons'] = '优惠券管理';
+$_LANG['19_notice'] = '消息管理';
 
 /* 商品管理 */
 $_LANG['01_goods_list'] = '商品列表';
@@ -320,6 +321,10 @@ $_LANG['coupons_list'] = '优惠券管理';
 $_LANG['coupon_setting'] = '优惠券发放设置';
 $_LANG['coupon_log'] = '优惠券日志';
 $_LANG['users_couponslist'] = '用户优惠券列表';
+
+// 消息管理
+$_LANG['notice_list'] = '消息管理';
+$_LANG['notice_setting'] = '消息发送设置';
 
 /* 积分兑换管理 */
 $_LANG['15_exchange_goods'] = '积分商城商品';

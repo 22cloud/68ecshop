@@ -1888,6 +1888,13 @@ function log_account_change($user_id, $user_money = 0, $frozen_money = 0, $rank_
             " pay_points = pay_points + ('$pay_points')" .
             " WHERE user_id = '$user_id' LIMIT 1";
     $GLOBALS['db']->query($sql);
+
+    if ($user_id && $pay_points > 0) {
+        $model_id = 3;// 积分
+        $other_param = array('score'=>$pay_points);
+        $user_ids = array($user_id);
+        send_notice($user_ids,$model_id,$other_param);
+    }
 }
 
 

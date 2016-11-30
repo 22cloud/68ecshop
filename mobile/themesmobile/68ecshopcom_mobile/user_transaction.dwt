@@ -21,7 +21,7 @@
 <div id="header" class="header_03">
 	 <a href="javascript:history.back(-1)" class="top_home">首页</a>
     <div class="tit" style="">
-      <h3><h1>{if $action eq 'profile'}{$lang.profile}{elseif  $action eq 'bonus'}{$lang.bonus}{elseif  $action eq 'coupons'}{$lang.coupons}{elseif $action eq 'order_list' or $action eq 'order_detail'}{$lang.my_order}{elseif $action eq 'account_log' or $action eq 'account_deposit' or $action eq 'account_raply' or $action eq 'account_detail' or $action eq 'act_account' or $action eq 'pay'}{$lang.pay_manage}{elseif $action eq 'address_list'}{$lang.address_list}{/if}</h1></h3>
+      <h3><h1>{if $action eq 'profile'}{$lang.profile}{elseif  $action eq 'bonus'}{$lang.bonus}{elseif  $action eq 'coupons'}{$lang.coupons}{elseif  $action eq 'notices'}{$lang.notices}{elseif $action eq 'order_list' or $action eq 'order_detail'}{$lang.my_order}{elseif $action eq 'account_log' or $action eq 'account_deposit' or $action eq 'account_raply' or $action eq 'account_detail' or $action eq 'act_account' or $action eq 'pay'}{$lang.pay_manage}{elseif $action eq 'address_list'}{$lang.address_list}{/if}</h1></h3>
     </div>
     <div class="nav">
       <ul>
@@ -33,6 +33,7 @@
 {if $action eq 'order_list'}  {include file='library/user_order_list.lbi'}{/if}
 {if $action eq 'bonus'}  {include file='library/user_bonus.lbi'}{/if}
 {if $action eq 'coupons'}  {include file='library/user_coupons.lbi'}{/if}
+{if $action eq 'notices'}  {include file='library/user_notices.lbi'}{/if}
 {if $action eq 'address_list'}  {include file='library/user_address_list.lbi'}{/if}
 {if $action eq 'order_detail'}{include file='library/user_order_detail.lbi'}{/if}
 {if $action eq 'order_refund'}{include file='library/user_order_refund.lbi'}{/if}

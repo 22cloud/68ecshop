@@ -160,5 +160,8 @@ $modules['18_coupons']['coupon_setting']        = 'coupons.php?act=coupon_settin
 $modules['18_coupons']['coupon_log']        = 'coupons.php?act=coupon_log';
 $modules['18_coupons']['users_couponslist']        = 'coupons.php?act=users_couponslist';
 
+$modules['19_notice']['notice_list']        = 'notices.php?act=list';
+$modules['19_notice']['notice_setting']        = 'notices.php?act=notice_setting';
+
 
 ?>

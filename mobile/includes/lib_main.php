@@ -1481,7 +1481,7 @@ function upload_file($upload, $type)
  * @param   string  $auto_redirect      是否自动跳转
  * @return  void
  */
-function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_redirect = true)
+function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_redirect = true, $is_run_js=0)
 {
     assign_template();
 
@@ -1513,6 +1513,10 @@ function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_
     if (is_null($GLOBALS['smarty']->get_template_vars('helps')))
     {
         $GLOBALS['smarty']->assign('helps', get_shop_help()); // 网店帮助
+    }
+    
+    if ($is_run_js) {
+        $GLOBALS['smarty']->assign('run_js', "<script>run_ios_js(".$_SESSION['user_id'].");</script>");
     }
 
     $GLOBALS['smarty']->assign('auto_redirect', $auto_redirect);
@@ -2211,6 +2215,11 @@ function send_coupon($coupon, $user_id, $type)
         $sql = "INSERT INTO " . $GLOBALS['ecs']->table('coupons_log') . " ( coupon_code, log_type, user_id, create_time) " .
                 "VALUES ( '$coupon_code', '$log_type', '$user_id', $add_time )";
         $GLOBALS['db']->query($sql);
+
+        $model_id = 2;// 优惠券
+        $other_param = array();
+        $user_ids = array($user_id);
+        send_notice($user_ids,$model_id,$other_param);
 
     }
 

@@ -41,6 +41,15 @@
     </div>
   </div>
 </div>
+<script>
+  function run_ios_js(a){
+        var url= "myapp:" + "&func=test";
+        url = url + "&a="+ a;
+        // alert(url);
+        document.location = url;
+  }
+</script>
+{$run_js}
 <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
 </body>
 </html>

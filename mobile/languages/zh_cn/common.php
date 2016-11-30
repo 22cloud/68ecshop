@@ -748,6 +748,7 @@ $_LANG['address_list']='地址管理';
 $_LANG['pay_manage']='资金管理';
 $_LANG['bonus']='我的红包';
 $_LANG['coupons']='我的优惠券';
+$_LANG['notices']='我的消息';
 $_LANG['profile']='信息修改';
 $_LANG['order_refund']='退款申请';
 

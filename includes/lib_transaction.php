@@ -452,6 +452,11 @@ function cancel_order($order_id, $user_id = 0)
         );
         update_order($order['order_id'], $arr);
 
+        $model_id = 1;// 订单
+        $other_param = array('order_sn'=>$order['order_sn'],'order_id'=>$order['order_id'],'status_name'=>$GLOBALS['_LANG']['os'][OS_CANCELED]);
+        $user_ids = array($user_id);
+        send_notice($user_ids,$model_id,$other_param);
+
         return true;
     }
     else
@@ -506,6 +511,11 @@ function affirm_received($order_id, $user_id = 0)
             /* 记录日志 */
             order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], '', $GLOBALS['_LANG']['buyer']);
 
+            $model_id = 1;// 订单
+            $other_param = array('order_sn'=>$order['order_sn'],'order_id'=>$order_id,'status_name'=>$GLOBALS['_LANG']['ss'][SS_RECEIVED]);
+            $user_ids = array($user_id);
+            send_notice($user_ids,$model_id,$other_param);
+            
             return true;
         }
         else
@@ -1192,6 +1202,86 @@ function get_user_coupons_list($user_id, $num = 10, $start = 0)
         $arr[] = $row;
     }
     return $arr;
+
+}
+
+/**
+ *
+ * @access  public
+ * @param   int         $user_id         用户ID
+ * @param   int         $num             列表显示条数
+ * @param   int         $start           显示起始位置
+ *
+ * @return  array       $arr             通知列表
+ */
+function get_user_notice_list($user_id, $num = 10, $start = 0)
+{
+    $sql = "SELECT n.* ".
+           " FROM " .$GLOBALS['ecs']->table('notice'). " AS n ,".
+           $GLOBALS['ecs']->table('users'). " AS u".
+           " WHERE n.n_receiver = u.user_id AND n.n_receiver = '" .$user_id. "'";
+    $res = $GLOBALS['db']->selectLimit($sql, $num, $start);
+    $arr = array();
+
+    $day = getdate();
+    $cur_date = local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
+
+    while ($row = $GLOBALS['db']->fetchRow($res))
+    {
+
+        $row['send_time_str'] = date('Y-m-d H:i:s', $row['send_time']);
+        switch ($row['model_id']) {
+            case '1':
+                $model_name = '订单';
+                break;
+            case '2':
+                $model_name = '优惠券';
+                break;
+            case '3':
+                $model_name = '积分';
+                break;
+            case '4':
+                $model_name = '生日';
+                break;
+            default:
+                $model_name = '自定义';
+                break;
+        }
+        $row['model_id_name'] = $model_name;
+
+        $row['n_type_name'] = ($row['n_type'] == 1) ? '自定义消息' : '系统消息';
+        
+        $arr[] = $row;
+        $update_ids[] = $row['id'];
+    }
+    // 更改为已读
+    $read_time = gmtime();
+    $update_ids_str = implode(',',$update_ids);
+    if ($update_ids_str) {
+        $sql = "UPDATE " .$GLOBALS['ecs']->table('notice'). " set read_time = $read_time ".
+               " WHERE read_time = 0 AND id in (".$update_ids_str.")";
+        $GLOBALS['db']->query($sql);
+    }
+    return $arr;
+
+}
+
+/**
+ *
+ * @access  public
+ * @param   int         $user_id         用户ID
+ *
+ * @return  int       $count             未读消息条数
+ */
+function get_unread_notices_count($user_id)
+{
+    $sql = "SELECT count(*) as c ".
+           " FROM " .$GLOBALS['ecs']->table('notice'). " AS n ,".
+           $GLOBALS['ecs']->table('users'). " AS u".
+           " WHERE n.n_receiver = u.user_id AND read_time = 0 AND n.n_receiver = '" .$user_id. "'";
+    $count = $GLOBALS['db']->getOne($sql);
+
+    return $count;
 
 }
 

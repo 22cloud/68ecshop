@@ -998,3 +998,23 @@ function cancel_div()
     i++;
   }
 }
+
+// 获取未读通知消息条数
+function check_my_notice() 
+{
+  Ajax.call('user.php?act=check_notice', '', unReadResponse, 'GET', 'JSON');
+}
+
+
+/* *
+ * 处理未读消息条数
+ */
+function unReadResponse(result)
+{
+  if (result.n > 0)
+  {
+    var noticeNum = document.getElementById('ECS_NOTICE_NUM');
+    noticeNum.innerHTML = result.n;
+  }
+
+}

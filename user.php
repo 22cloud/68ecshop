@@ -34,7 +34,7 @@ array('login','act_login','register','act_register','act_edit_password','get_pas
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
-'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code','order_refund','coupons');
+'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','mobile_password_code','order_refund','coupons','notices');
 
 /* 未登录处理 */
 if (empty($_SESSION['user_id']))
@@ -239,7 +239,8 @@ elseif ($action == 'act_register')
             }
             $ucdata = empty($user->ucdata)? "" : $user->ucdata;
             check_user_coupon();
-            show_message(sprintf($_LANG['register_success'], $username . $ucdata), array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act, 'user.php'), 'info');
+            create_schedule_user_birth();
+            show_message(sprintf($_LANG['register_success'], $username . $ucdata), array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act, 'user.php'), 'info',true,1);
         }
         else
         {
@@ -359,9 +360,10 @@ elseif ($action == 'act_login')
         update_user_info();
         recalculate_price();
         check_user_coupon();
+        create_schedule_user_birth();
 
         $ucdata = isset($user->ucdata)? $user->ucdata : '';
-        show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act,'user.php'), 'info');
+        show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act,'user.php'), 'info',true,1);
     }
     else
     {
@@ -556,18 +558,19 @@ elseif ($action == 'act_edit_profile')
         show_message($_LANG['passport_js']['mobile_phone_invalid']);
     }
 
-
     $profile  = array(
         'user_id'  => $user_id,
         'email'    => isset($_POST['email']) ? trim($_POST['email']) : '',
         'sex'      => isset($_POST['sex'])   ? intval($_POST['sex']) : 0,
-        'birthday' => $birthday,
         'other'    => isset($other) ? $other : array()
         );
-
+    if (strtotime($birthday)) {
+        $profile['birthday'] = $birthday;
+    }
 
     if (edit_profile($profile))
     {
+        create_schedule_user_birth();
         show_message($_LANG['edit_profile_success'], $_LANG['profile_lnk'], 'user.php?act=profile', 'info');
     }
     else
@@ -2338,6 +2341,37 @@ elseif ($action == 'coupons')
     $smarty->assign('pager', $pager);
     $smarty->assign('coupons', $coupons);
     $smarty->display('user_transaction.dwt');
+}
+/* 我的消息 */
+elseif ($action == 'notices')
+{
+    include_once(ROOT_PATH .'includes/lib_transaction.php');
+
+    $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    $count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('notice'). " WHERE n_receiver = '$user_id'");
+
+    $pager = get_pager('user.php', array('act' => $action), $count, $page);
+    $notices = get_user_notice_list($user_id, $pager['size'], $pager['start']);
+
+    $smarty->assign('pager', $pager);
+    $smarty->assign('notices', $notices);
+    $smarty->display('user_transaction.dwt');
+}
+/* 未读消息条数 */
+elseif ($action == 'check_notice')
+{
+
+    include_once('includes/cls_json.php');
+    include_once(ROOT_PATH .'includes/lib_transaction.php');
+
+    $result = array('n' => 0);
+    $json  = new JSON;
+
+    $count = get_unread_notices_count($user_id);
+
+    $result['n'] = $count;
+
+    die($json->encode($result));
 }
 
 /* 我的团购列表 */
