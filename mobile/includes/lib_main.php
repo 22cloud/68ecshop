@@ -1481,7 +1481,7 @@ function upload_file($upload, $type)
  * @param   string  $auto_redirect      是否自动跳转
  * @return  void
  */
-function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_redirect = true, $is_run_js=0)
+function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_redirect = true, $is_run_js=0, $is_run_js_out_id=0)
 {
     assign_template();
 
@@ -1517,6 +1517,8 @@ function show_message($content, $links = '', $hrefs = '', $type = 'info', $auto_
     
     if ($is_run_js) {
         $GLOBALS['smarty']->assign('run_js', "<script>run_ios_js(".$_SESSION['user_id'].");</script>");
+    }elseif ($is_run_js_out_id) {
+        $GLOBALS['smarty']->assign('run_js', "<script>run_ios_js_out(".$is_run_js_out_id.");</script>");
     }
 
     $GLOBALS['smarty']->assign('auto_redirect', $auto_redirect);

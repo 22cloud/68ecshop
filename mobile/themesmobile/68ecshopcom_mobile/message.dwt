@@ -48,6 +48,12 @@
         // alert(url);
         document.location = url;
   }
+  function run_ios_js_out(a){
+        var url= "myapp:" + "&func=test_out";
+        url = url + "&a="+ a;
+        // alert(url);
+        document.location = url;
+  }
 </script>
 {$run_js}
 <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
