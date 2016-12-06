@@ -77,7 +77,7 @@ function send_notice($user_ids= array() ,$model_id=0, $other_param= array())
     // $pusher->setNotificationAlert($notice_content);
     $pusher->iosNotification($notice_content,$ios_extra);
     $pusher->options(array(
-            'apns_production' => true,
+            'apns_production' => false,
         ));
     try {
         $pusher->send();
