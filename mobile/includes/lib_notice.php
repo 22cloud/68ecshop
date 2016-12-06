@@ -189,7 +189,7 @@ $payload = $client->push()
     ->iosNotification($birthday_show_info,$ios_extra)
     ->options(array(
             'apns_production' => true,
-        ));
+        ))
     ->build();
 
         $response = $client->schedule()->createSingleSchedule($schedulename, $payload, array("time"=>$trigger_time));
