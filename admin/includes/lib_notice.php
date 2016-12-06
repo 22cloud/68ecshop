@@ -76,6 +76,9 @@ function send_notice($user_ids= array() ,$model_id=0, $other_param= array())
     $pusher->addAlias($user_ids);
     // $pusher->setNotificationAlert($notice_content);
     $pusher->iosNotification($notice_content,$ios_extra);
+    $pusher->options(array(
+            'apns_production' => true,
+        ));
     try {
         $pusher->send();
     } catch (\JPush\Exceptions\JPushException $e) {

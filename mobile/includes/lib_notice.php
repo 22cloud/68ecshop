@@ -76,6 +76,9 @@ function send_notice($user_ids= array() ,$model_id=0, $other_param= array())
     $pusher->addAlias($user_ids);
     // $pusher->setNotificationAlert($notice_content);
     $pusher->iosNotification($notice_content,$ios_extra);
+    $pusher->options(array(
+            'apns_production' => true,
+        ));
     try {
         $pusher->send();
     } catch (\JPush\Exceptions\JPushException $e) {
@@ -184,6 +187,9 @@ $payload = $client->push()
     ->setPlatform("all")
     ->addAlias(array($user_id))
     ->iosNotification($birthday_show_info,$ios_extra)
+    ->options(array(
+            'apns_production' => true,
+        ));
     ->build();
 
         $response = $client->schedule()->createSingleSchedule($schedulename, $payload, array("time"=>$trigger_time));
